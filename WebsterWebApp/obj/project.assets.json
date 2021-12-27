@@ -7594,19 +7594,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jthie\\.nuget\\packages\\": {}
+    "C:\\Users\\backs\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Hot mess\\Project HK3\\Webster\\WebsterWebApp\\WebsterWebApp.csproj",
+      "projectUniqueName": "D:\\Aptech\\semester3\\eProject\\eProject3\\Webster\\WebsterWebApp\\WebsterWebApp.csproj",
       "projectName": "WebsterWebApp",
-      "projectPath": "E:\\Hot mess\\Project HK3\\Webster\\WebsterWebApp\\WebsterWebApp.csproj",
-      "packagesPath": "C:\\Users\\jthie\\.nuget\\packages\\",
-      "outputPath": "E:\\Hot mess\\Project HK3\\Webster\\WebsterWebApp\\obj\\",
+      "projectPath": "D:\\Aptech\\semester3\\eProject\\eProject3\\Webster\\WebsterWebApp\\WebsterWebApp.csproj",
+      "packagesPath": "C:\\Users\\backs\\.nuget\\packages\\",
+      "outputPath": "D:\\Aptech\\semester3\\eProject\\eProject3\\Webster\\WebsterWebApp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\jthie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\backs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7614,7 +7619,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "net5.0": {
@@ -7685,7 +7690,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
