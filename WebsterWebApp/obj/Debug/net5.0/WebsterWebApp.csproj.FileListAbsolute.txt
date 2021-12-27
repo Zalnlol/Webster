@@ -851,7 +851,6 @@ D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\bin\Debug\net5.0\ru
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.csproj.AssemblyReference.cache
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.GeneratedMSBuildEditorConfig.editorconfig
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.AssemblyInfoInputs.cache
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.AssemblyInfo.cs
@@ -892,3 +891,4 @@ D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\We
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\ref\WebsterWebApp.dll
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.pdb
 D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\WebsterWebApp.genruntimeconfig.cache
+D:\Aptech\semester3\eProject\eProject3\Webster\WebsterWebApp\obj\Debug\net5.0\Razor\Areas\Admin\Views\Admin\Index.cshtml.g.cs
