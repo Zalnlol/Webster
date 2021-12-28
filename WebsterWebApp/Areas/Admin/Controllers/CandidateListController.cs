@@ -35,7 +35,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             }
 
             var candidateList = await _context.CandidateLists
-                .FirstOrDefaultAsync(m => m.CandidateListId == id);
+                .FirstOrDefaultAsync(m => m.CandidateId == id);
             if (candidateList == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CandidateListId,Exam,Email")] CandidateList candidateList)
+        public async Task<IActionResult> Create([Bind("CandidateId,Exam,Email")] CandidateList candidateList)
         {
             if (ModelState.IsValid)
             {
@@ -87,9 +87,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CandidateListId,Exam,Email")] CandidateList candidateList)
+        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,Exam,Email")] CandidateList candidateList)
         {
-            if (id != candidateList.CandidateListId)
+            if (id != candidateList.CandidateId)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CandidateListExists(candidateList.CandidateListId))
+                    if (!CandidateListExists(candidateList.CandidateId))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             }
 
             var candidateList = await _context.CandidateLists
-                .FirstOrDefaultAsync(m => m.CandidateListId == id);
+                .FirstOrDefaultAsync(m => m.CandidateId == id);
             if (candidateList == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         private bool CandidateListExists(int id)
         {
-            return _context.CandidateLists.Any(e => e.CandidateListId == id);
+            return _context.CandidateLists.Any(e => e.CandidateId == id);
         }
     }
 }

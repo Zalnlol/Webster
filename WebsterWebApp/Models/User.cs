@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebsterWebApp.Models
 {
-    [Table("Account")]
+    [Table("tb_User")]
     public class User
     {
         [Key]
@@ -18,7 +18,7 @@ namespace WebsterWebApp.Models
         public string Password { get; set; }
         [StringLength(50)]
         public string Phone { get; set; }
-        public DateTime BirthDay { get; set; }
+        public DateTime Birthday { get; set; }
         public string Avatar { get; set; }
         [StringLength(50)]
         public string Role { get; set; }

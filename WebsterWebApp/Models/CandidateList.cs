@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace WebsterWebApp.Models
 {
-    [Table("CandidateList")]
+    [Table("tb_Candidate_List")]
     public class CandidateList
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CandidateListId { get; set; }
+        public int CandidateId { get; set; }
         [Required]
-        public string Exam { get; set; }
+        public int ExamId { get; set; }
 
         public string Email { get; set; }
     }
