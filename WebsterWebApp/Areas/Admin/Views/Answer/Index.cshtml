@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebsterWebApp.Areas.Admin.Models.Answer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnswerContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCorrectAnswer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCorrectAnswer)
+            </td>
+            <td>
+                <img src="~/@item.Photo" width="120"/>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AnswerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AnswerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AnswerId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
