@@ -9,7 +9,7 @@ namespace WebsterWebApp.Data
     public class DatabaseContext:DbContext
     {
         public DatabaseContext(DbContextOptions options) : base(options) { }
-        public virtual DbSet<Models.User> Users{ get; set; }
-        public virtual DbSet<Models.CandidateList> CandidateLists { get; set; }
+        public virtual DbSet<Areas.Admin.Models.User> Users{ get; set; }
+        public virtual DbSet<Areas.Admin.Models.CandidateList> CandidateLists { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebsterWebApp.Data;
-using WebsterWebApp.Models;
+using WebsterWebApp.Areas.Admin.Models;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
