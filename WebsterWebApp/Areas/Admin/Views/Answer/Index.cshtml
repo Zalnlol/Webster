@@ -27,6 +27,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    String isCorrectAnswer = item.IsCorrectAnswer ? "True" : "False";
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.QuestionId)
@@ -35,10 +36,17 @@
                 @Html.DisplayFor(modelItem => item.AnswerContent)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsCorrectAnswer)
+                @isCorrectAnswer
             </td>
             <td>
-                <img src="~/@item.Photo" width="120"/>
+                @if (item.Photo == null)
+                {
+                    <img src="~/images/QA/260525402_1006620596585810_8289601711119089916_n.jpg" width="120" />
+                }
+                else
+                {
+                    <img src="~/@item.Photo" width="120" />
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AnswerId">Edit</a> |

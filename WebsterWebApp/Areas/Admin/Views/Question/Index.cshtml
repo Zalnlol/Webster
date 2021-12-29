@@ -29,6 +29,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    String questionType = item.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
@@ -37,10 +38,17 @@
                 @Html.DisplayFor(modelItem => item.QuestionTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionType)
+                @questionType
             </td>
             <td>
-                <img src="~/@item.Photo" width="120"/>
+                @if (item.Photo == null)
+                {
+                    <img src="~/images/QA/260525402_1006620596585810_8289601711119089916_n.jpg" width="120" />
+                }
+                else
+                {
+                    <img src="~/@item.Photo" width="120" />
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> &nbsp;

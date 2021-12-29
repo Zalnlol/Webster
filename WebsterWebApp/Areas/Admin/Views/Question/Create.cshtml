@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Subject" class="control-label"></label>
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">FirstAnswerContent</label>
-                <input name="FirstAnswerContent" class="form-control" />
+                <input name="firstAnswerContent" class="form-control" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">SecondAnswerContent</label>
-                <input name="SecondAnswerContent" class="form-control" />
+                <input name="secondAnswerContent" class="form-control" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">ThirdAnswerContent</label>
-                <input name="ThirdAnswerContent" class="form-control" />
+                <input name="thirdAnswerContent" class="form-control" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -84,7 +84,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">FourthAnswerContent</label>
-                <input name="FourthAnswerContent" class="form-control" />
+                <input name="fourthAnswerContent" class="form-control" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -100,10 +100,10 @@
             </div>
             <div class="form-group">
                 <label class="control-label">QuestionHasOneAnswer</label>
-                <input type="radio" name="QuestionType" id="QuestionHasOneAnswer" value="true" checked/>
+                <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" checked/>
                 <br />
                 <label class="control-label">QuestionHasManyAnswer</label>
-                <input type="radio" name="QuestionType" id="QuestionHasManyAnswer" value="false" />
+                <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" />
             </div>
             <div id="divQuestionHasOneAnswer">
                 <div class="form-group">
@@ -117,13 +117,13 @@
             </div>
             <div id="divQuestionHasManyAnswer">
                 <div class="form-group">
-                    FirstAnswerContent<input type="checkbox" name="AnswerCorrect1" />
+                    FirstAnswerContent<input type="checkbox" name="CorrectAnswer1" value="true"/>
                     <br />
-                    SecondAnswerContent<input type="checkbox" name="AnswerCorrect2" />
+                    SecondAnswerContent<input type="checkbox" name="CorrectAnswer2" value="true"/>
                     <br />
-                    ThirdAnswerContent<input type="checkbox" name="AnswerCorrect3" />
+                    ThirdAnswerContent<input type="checkbox" name="CorrectAnswer3" value="true"/>
                     <br />
-                    FourthAnswerContent<input type="checkbox" name="AnswerCorrect4" />
+                    FourthAnswerContent<input type="checkbox" name="CorrectAnswer4" value="true"/>
                     <br />
                 </div>
             </div>
