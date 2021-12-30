@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,17 @@ using WebsterWebApp.Models;
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles="Admin")]
     public class AdminController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly ApplicationDbContext _context;
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public AdminController(DatabaseContext context)
+        public AdminController(ApplicationDbContext context)
         {
             _context = context;
         }
