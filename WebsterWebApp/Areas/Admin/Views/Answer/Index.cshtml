@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebsterWebApp.Areas.Admin.Models.Question>
+﻿@model IEnumerable<WebsterWebApp.Areas.Admin.Models.Answer>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,20 +6,18 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                @Html.DisplayNameFor(model => model.QuestionId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionTitle)
+                @Html.DisplayNameFor(model => model.AnswerContent)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionType)
+                @Html.DisplayNameFor(model => model.IsCorrectAnswer)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Photo)
@@ -29,16 +27,16 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-    String questionType = item.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";
+    String isCorrectAnswer = item.IsCorrectAnswer ? "True" : "False";
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject)
+                @Html.DisplayFor(modelItem => item.QuestionId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionTitle)
+                @Html.DisplayFor(modelItem => item.AnswerContent)
             </td>
             <td>
-                @questionType
+                @isCorrectAnswer
             </td>
             <td>
                 @if (item.Photo == null)
@@ -51,9 +49,9 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> &nbsp;
-                <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> &nbsp;
-                <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.AnswerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AnswerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AnswerId">Delete</a>
             </td>
         </tr>
 }

@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Subject" class="control-label"></label>
@@ -22,15 +22,110 @@
                 <input asp-for="QuestionTitle" class="form-control" />
                 <span asp-validation-for="QuestionTitle" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="QuestionType" /> @Html.DisplayNameFor(model => model.QuestionType)
-                </label>
+
+            <div class="form-group">
+                <label class="control-label">Do you want to upload image?</label>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="checkbox" id="uploadPhotoQuestion" class="form-check-input" />
+            </div>
+            <div id="divPhotoQuestion">
+                <div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" name="photoQuestion" class="form-control" />
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
+                <label class="control-label">FirstAnswerContent</label>
+                <input name="firstAnswerContent" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Do you want to upload image?</label>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="checkbox" id="uploadPhotoFirstAnswerContent" class="form-check-input" />
+            </div>
+            <div id="photoFirstAnswerContent">
+                <div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" name="photoFirstAnswerContent" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">SecondAnswerContent</label>
+                <input name="secondAnswerContent" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Do you want to upload image?</label>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="checkbox" id="uploadPhotoSecondAnswerContent" class="form-check-input" />
+            </div>
+            <div id="photoSecondAnswerContent">
+                <div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" name="photoSecondAnswerContent" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">ThirdAnswerContent</label>
+                <input name="thirdAnswerContent" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Do you want to upload image?</label>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="checkbox" id="uploadPhotoThirdAnswerContent" class="form-check-input" />
+            </div>
+            <div id="photoThirdAnswerContent">
+                <div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" name="photoThirdAnswerContent" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">FourthAnswerContent</label>
+                <input name="fourthAnswerContent" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Do you want to upload image?</label>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="checkbox" id="uploadPhotoFourthAnswerContent" class="form-check-input" />
+            </div>
+            <div id="photoFourthAnswerContent">
+                <div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" name="photoFourthAnswerContent" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">QuestionHasOneAnswer</label>
+                <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" checked/>
+                <br />
+                <label class="control-label">QuestionHasManyAnswer</label>
+                <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" />
+            </div>
+            <div id="divQuestionHasOneAnswer">
+                <div class="form-group">
+                    <select name="IsCorrectAnswer">
+                        @foreach (var item in ViewBag.selectAnswer)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div id="divQuestionHasManyAnswer">
+                <div class="form-group">
+                    FirstAnswerContent<input type="checkbox" name="CorrectAnswer1" value="true"/>
+                    <br />
+                    SecondAnswerContent<input type="checkbox" name="CorrectAnswer2" value="true"/>
+                    <br />
+                    ThirdAnswerContent<input type="checkbox" name="CorrectAnswer3" value="true"/>
+                    <br />
+                    FourthAnswerContent<input type="checkbox" name="CorrectAnswer4" value="true"/>
+                    <br />
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -43,6 +138,86 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script>
+    var uploadPhotoQuestion = document.getElementById("uploadPhotoQuestion");
+    var a = document.getElementById("divPhotoQuestion");
+    a.style.display = "none";
+    uploadPhotoQuestion.onclick = function () {
+       
+        if (a.style.display === "none") {
+            a.style.display = "block";
+        } else {
+            a.style.display = "none";
+        }
+    }
+
+    var uploadPhotoFirstAnswerContent = document.getElementById("uploadPhotoFirstAnswerContent");
+    var b = document.getElementById("photoFirstAnswerContent");
+    b.style.display = "none";
+    uploadPhotoFirstAnswerContent.onclick = function () {
+
+        if (b.style.display === "none") {
+            b.style.display = "block";
+        } else {
+            b.style.display = "none";
+        }
+    }
+
+    var uploadPhotoSecondAnswerContent = document.getElementById("uploadPhotoSecondAnswerContent");
+    var c = document.getElementById("photoSecondAnswerContent");
+    c.style.display = "none";
+    uploadPhotoSecondAnswerContent.onclick = function () {
+
+        if (c.style.display === "none") {
+            c.style.display = "block";
+        } else {
+            c.style.display = "none";
+        }
+    }
+
+    var uploadPhotoThirdAnswerContent = document.getElementById("uploadPhotoThirdAnswerContent");
+    var d = document.getElementById("photoThirdAnswerContent");
+    d.style.display = "none";
+    uploadPhotoThirdAnswerContent.onclick = function () {
+
+        if (d.style.display === "none") {
+            d.style.display = "block";
+        } else {
+            d.style.display = "none";
+        }
+    }
+
+    var uploadPhotoFourthAnswerContent = document.getElementById("uploadPhotoFourthAnswerContent");
+    var e = document.getElementById("photoFourthAnswerContent");
+    e.style.display = "none";
+    uploadPhotoFourthAnswerContent.onclick = function () {
+
+        if (e.style.display === "none") {
+            e.style.display = "block";
+        } else {
+            e.style.display = "none";
+        }
+    }
+
+    var QuestionHasOneAnswer = document.getElementById("QuestionHasOneAnswer");
+    var f = document.getElementById("divQuestionHasOneAnswer");
+    var g = document.getElementById("divQuestionHasManyAnswer");
+    QuestionHasOneAnswer.onclick = function () {
+
+        if (f.style.display === "none") {
+            f.style.display = "block";
+            g.style.display = "none";
+        }
+    }
+
+    var QuestionHasManyAnswer = document.getElementById("QuestionHasManyAnswer");
+    g.style.display = "none";
+    QuestionHasManyAnswer.onclick = function () {
+
+        if (g.style.display === "none") {
+            g.style.display = "block";
+            f.style.display = "none";
+        } 
+    }
+</script>
+
