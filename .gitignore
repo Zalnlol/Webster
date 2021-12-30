@@ -445,3 +445,8 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 WebsterWebApp/.vs/WebsterWebApp/config/applicationhost.config
+*.v2
+*.v2
+WebsterWebApp/.vs/WebsterWebApp/DesignTimeBuild/.dtbcache.v2
+WebsterWebApp/.vs/WebsterWebApp/DesignTimeBuild/.dtbcache.v2
+WebsterWebApp/.vs/WebsterWebApp/DesignTimeBuild/.dtbcache.v2
