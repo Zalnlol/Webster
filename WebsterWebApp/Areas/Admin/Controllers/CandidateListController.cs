@@ -7,15 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebsterWebApp.Data;
 using WebsterWebApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CandidateListController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CandidateListController(DatabaseContext context)
+        public CandidateListController(ApplicationDbContext context)
         {
             _context = context;
         }
