@@ -42,6 +42,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         IFormFile photoSecondAnswerContent, IFormFile photoThirdAnswerContent, IFormFile photoFourthAnswerContent, String IsCorrectAnswer,
         String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3, String CorrectAnswer4)
         {
+            int count = 1;
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String>
             {
@@ -76,7 +77,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer firstAnswer = new Answer();
                 firstAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                firstAnswer.AnswerContent = firstAnswerContent;
+                if(firstAnswerContent != null)
+                {
+                    firstAnswer.AnswerContent = firstAnswerContent;
+                }
+                else
+                {
+                    ViewBag.firstAnswerMsg = "First Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
@@ -97,7 +106,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer secondAnswer = new Answer();
                 secondAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                secondAnswer.AnswerContent = secondAnswerContent;
+                if (secondAnswerContent != null)
+                {
+                    secondAnswer.AnswerContent = secondAnswerContent;
+                }
+                else
+                {
+                    ViewBag.secondAnswerMsg = "Second Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
@@ -118,7 +135,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer thirdAnswer = new Answer();
                 thirdAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                thirdAnswer.AnswerContent = thirdAnswerContent;
+                if (thirdAnswerContent != null)
+                {
+                    thirdAnswer.AnswerContent = thirdAnswerContent;
+                }
+                else
+                {
+                    ViewBag.thirdAnswerMsg = "Third Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
@@ -139,7 +164,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer fourthAnswer = new Answer();
                 fourthAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                fourthAnswer.AnswerContent = fourthAnswerContent;
+                if (fourthAnswerContent != null)
+                {
+                    fourthAnswer.AnswerContent = fourthAnswerContent;
+                }
+                else
+                {
+                    ViewBag.fourthAnswerMsg = "Fourth Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
@@ -155,9 +188,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 {
                     fourthAnswer.IsCorrectAnswer = false;
                 }
-                _db.Answers.Add(fourthAnswer);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                if(count == 1)
+                {
+                    _db.Answers.Add(fourthAnswer);
+                    await _db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _db.Answers.Remove(firstAnswer);
+                    _db.Answers.Remove(secondAnswer);
+                    _db.Answers.Remove(thirdAnswer);
+                    _db.Questions.Remove(question);
+                    await _db.SaveChangesAsync();
+                    return View();
+                }
+               
             }
             return View();
         }
