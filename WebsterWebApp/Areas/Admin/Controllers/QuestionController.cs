@@ -29,7 +29,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             return View();
         }
@@ -43,7 +43,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String>
             {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoFirstAnswerContent.CopyToAsync(stream);
                     firstAnswer.Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "FirstAnswerContent" || CorrectAnswer1 == "true")
+                if (IsCorrectAnswer == "FirstAnswer" || CorrectAnswer1 == "true")
                 {
                     firstAnswer.IsCorrectAnswer = true;
                 }
@@ -103,7 +103,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoSecondAnswerContent.CopyToAsync(stream);
                     secondAnswer.Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "SecondAnswerContent" || CorrectAnswer2 == "true")
+                if (IsCorrectAnswer == "SecondAnswer" || CorrectAnswer2 == "true")
                 {
                     secondAnswer.IsCorrectAnswer = true;
                 }
@@ -124,7 +124,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoThirdAnswerContent.CopyToAsync(stream);
                     thirdAnswer.Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "ThirdAnswerContent" || CorrectAnswer3 == "true")
+                if (IsCorrectAnswer == "ThirdAnswer" || CorrectAnswer3 == "true")
                 {
                     thirdAnswer.IsCorrectAnswer = true;
                 }
@@ -145,7 +145,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoFourthAnswerContent.CopyToAsync(stream);
                     fourthAnswer.Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "FourthAnswerContent" || CorrectAnswer4 == "true")
+                if (IsCorrectAnswer == "FourthAnswer" || CorrectAnswer4 == "true")
                 {
                     fourthAnswer.IsCorrectAnswer = true;
                 }
@@ -160,9 +160,28 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
+            List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
+            ViewBag.selectAnswer = new List<String> {
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
+            };
+            for (int i = 0; i < answers.Capacity; i++)
+            {
+                ViewBag.firstAnswerContent = answers[0].AnswerContent;
+                ViewBag.photoFirstAns = answers[0].Photo;
+                ViewBag.CorrectAnswer1 = answers[0].IsCorrectAnswer;
+                ViewBag.secondAnswerContent = answers[1].AnswerContent;
+                ViewBag.photoSecondAns = answers[1].Photo;
+                ViewBag.CorrectAnswer2 = answers[1].IsCorrectAnswer;
+                ViewBag.thirdAnswerContent = answers[2].AnswerContent;
+                ViewBag.photoThirdAns = answers[2].Photo;
+                ViewBag.CorrectAnswer3 = answers[2].IsCorrectAnswer;
+                ViewBag.fourthAnswerContent = answers[3].AnswerContent;
+                ViewBag.photoFourthAns = answers[3].Photo;
+                ViewBag.CorrectAnswer4 = answers[3].IsCorrectAnswer;
+            }
             return View(question);
         }
 
@@ -170,7 +189,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
             ViewBag.subject = question.Subject;
@@ -204,7 +223,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> 
             {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
             for (int i = 0; i < answers.Capacity; i++)
@@ -255,10 +274,13 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         answers[0].AnswerContent = firstAnswerContent;
                         if(photoFirstAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoFirstAnswerContent.CopyToAsync(stream);
-                            answers[0].Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
+                            if(i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.CreateNew);
+                                await photoFirstAnswerContent.CopyToAsync(stream);
+                                answers[0].Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
+                            }                         
                         }
                         else
                         {
@@ -266,7 +288,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if(isCorrectAnswer == "FirstAnswerContent")
+                            if(isCorrectAnswer == "FirstAnswer")
                             {
                                 answers[0].IsCorrectAnswer = true;
                                 answers[1].IsCorrectAnswer = false;
@@ -288,16 +310,18 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             {
                                 answers[0].IsCorrectAnswer = false;
                             }
-                        }
-                        
+                        }                       
 
                         answers[1].AnswerContent = secondAnswerContent;
                         if (photoSecondAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoSecondAnswerContent.CopyToAsync(stream);
-                            answers[1].Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoSecondAnswerContent.CopyToAsync(stream);
+                                answers[1].Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -305,7 +329,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "SecondAnswerContent")
+                            if (isCorrectAnswer == "SecondAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = true;
@@ -332,10 +356,13 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         answers[2].AnswerContent = thirdAnswerContent;
                         if (photoThirdAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoThirdAnswerContent.CopyToAsync(stream);
-                            answers[2].Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoThirdAnswerContent.CopyToAsync(stream);
+                                answers[2].Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -343,7 +370,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "ThirdAnswerContent")
+                            if (isCorrectAnswer == "ThirdAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = false;
@@ -370,10 +397,13 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         answers[3].AnswerContent = fourthAnswerContent;
                         if (photoFourthAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoFourthAnswerContent.CopyToAsync(stream);
-                            answers[3].Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoFourthAnswerContent.CopyToAsync(stream);
+                                answers[3].Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -381,7 +411,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "FourthAnswerContent")
+                            if (isCorrectAnswer == "FourthAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = false;
