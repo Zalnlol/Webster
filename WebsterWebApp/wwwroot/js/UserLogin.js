@@ -29,6 +29,7 @@
 
                 var hasErrors = $(parsed).find("input[name='LoginInValid']").val() == "true";
 
+                //Display login modal box to user again in case there was failed attempt
                 if (hasErrors == true) {
                     $("#UserLoginModal").html(data);
 
