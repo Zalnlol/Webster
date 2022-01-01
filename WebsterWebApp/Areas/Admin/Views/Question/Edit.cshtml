@@ -149,19 +149,19 @@
                     <select name="isCorrectAnswer">
                         @foreach (var item in ViewBag.selectAnswer)
                         {
-                            if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswerContent")
+                            if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswerContent")
+                            else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswerContent")
+                            else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswerContent")
+                            else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
@@ -178,45 +178,45 @@
                 <div class="form-group">
                     @if (ViewBag.CorrectAnswer1 == true)
                     {
-                        <label>FirstAnswerContent</label>
+                        <label>FirstAnswer</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" checked />
                     }
                     else
                     {
-                        <label>FirstAnswerContent</label>
+                        <label>FirstAnswer</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer2 == true)
                     {
-                        <label>SecondAnswerContent</label>
+                        <label>SecondAnswer</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" checked />
                     }
                     else
                     {
-                        <label>SecondAnswerContent</label>
+                        <label>SecondAnswer</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer3 == true)
                     {
-                        <label>ThirdAnswerContent</label>
+                        <label>ThirdAnswer</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" checked />
                     }
                     else
                     {
-                        <label>ThirdAnswerContent</label>
+                        <label>ThirdAnswer</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer4 == true)
                     {
-                        <label>FourthAnswerContent</label>
+                        <label>FourthAnswer</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" checked />
                     }
                     else
                     {
-                        <label>FourthAnswerContent</label>
+                        <label>FourthAnswer</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" />
                     }
                     <br />
