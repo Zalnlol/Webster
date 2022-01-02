@@ -10,6 +10,38 @@
     <a asp-action="Create"><b style="color:dodgerblue">Create New Question</b></a>
 </p>
 
+<form asp-action="Index" method="post">
+    <select name="subject">
+        @if (ViewBag.optionSubject == null)
+        {
+            <option value="">All</option>
+            @foreach (var item in TempData["optionSubject"] as List<String>)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+        else
+        {
+            <option value="">All</option>
+            foreach (var item in TempData["optionSubject"] as List<String>)
+            {
+                if (item == ViewBag.optionSubject)
+                {
+                    <option value="@item" selected>@item</option>
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        }
+    </select>
+    &nbsp;
+    <input type="text" name="questionTitle" placeholder="Enter question title"/>
+    <input type="submit" value="Filter" class="btn-primary"/>
+</form>
+<hr />
+
 
 <table class="table">
     <thead>
