@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Exam Room";
+
+}
+<style>
+    .box-note {
+        min-height: 100px;
+        min-width: 70%;
+        max-width: 70%;
+        margin: 2% auto;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px rgb(209, 207, 207);
+        padding: 0px 50px 50px 50px;
+    }
+
+    .box-exam {
+        padding: 2px;
+        text-align: center;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px rgb(209, 207, 207);
+        background-color: rgb(255, 255, 255);
+        width: 80%;
+        color: rgb(45, 108, 243);
+    }
+
+        .box-exam:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+</style>
+
+<h3 class="text-center">Aptitude Exam</h3>
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="box-note">
+            <h4 class="text-center" style="margin-top: 2%;">Exam Regulations</h4>
+            <div>
+                <div style="text-indent:2rem">
+                    The Aptitude competition consists of 3 tests: General Knowledge, Math
+                    and Tech. It helps us to evaluate you in the most objective way about your thinking ability
+                </div>
+                <div style="text-indent:2rem">
+                    Each test consists of 5 multiple-choice questions with an amount of
+                    time corresponding to the difficulty of each question. There are two types of questions:
+                    single-choice or multiple-choice questions. Candidates should carefully read the requirements of
+                    the question
+                </div>
+                <div style="text-indent:2rem">
+                    The test may be monitored by the system and will be terminated if the
+                    candidate cheats during the test. Behaviors such as switching tabs, opening other tabs,
+                    minimizing tabs, etc. during the exam are considered violations. The system will end your test
+                    if this behavior is exceeded 3 times
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-1" style="margin-left:5%;"></div>
+        <div class="col-sm-3">
+            <div class="box-exam" style="margin:0px auto;">
+                General Knowledge Exam
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="box-exam" style="margin:0px auto;">
+                Math
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="box-exam" style="margin:0px auto;">
+                Tech
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
