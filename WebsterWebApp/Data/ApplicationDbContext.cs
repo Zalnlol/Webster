@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WebsterWebApp.Areas.Admin.Models;
+using WebsterWebApp.Models;
 
 namespace WebsterWebApp.Data
 {
@@ -33,5 +34,7 @@ namespace WebsterWebApp.Data
         public virtual DbSet<Question> Questions { get; set; }
 
         public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Exam> Exams { get; set; }
+
     }
 }
