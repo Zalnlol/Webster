@@ -96,7 +96,8 @@ namespace WebsterWebApp.Controllers
                 }
                 else 
                 {
-                    ModelState.AddModelError("", "Registration attempt failed");
+                    //code unreachable
+                    AddErrorsToModelState(result);
                 }
             }
             return PartialView("_UserRegistrationPartial", registrationModel);
@@ -111,6 +112,14 @@ namespace WebsterWebApp.Controllers
                 return true;
             }
             else { return false; }
+        }
+
+        private void AddErrorsToModelState(IdentityResult result) 
+        {
+            foreach (var error in result.Errors) 
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
     }
 }

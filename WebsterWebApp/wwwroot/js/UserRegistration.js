@@ -24,25 +24,18 @@
             type: "GET",
             url: url,
             success: function (data) {
-                if (data == true) {
-                    var alertHtml = '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                        '<strong>Invalid Email</strong>' +
-                        '<br>This email address has already been registered<br />' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true" >&times;</span>' +
-                        '</button>' +
-                        '</div>';
-                    $("#alert_placeholder_register").html(alertHtml);
-                            
-                    //PresentClosableBootstrapAlert("#alert_placeholder_register", "warning", "Invalid Email", "This email address has already been registered");
+                if (data == true) {   
+                    PresentClosableBootstrapAlert("#alert_placeholder_register", "warning", "Invalid Email", "This email address has already been registered");
                 }
                 else {
-                    $("#alert_placeholder_register").html("");
+                    //$("#alert_placeholder_register").html("");
+
+                    CloseAlert();
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                //var errorText = "Status:" + xhr.status + "-" + xhr.statusText;
-                //PresentClosableBootstrapAlert("#alert_placeholder", "danger", "Error!", errorText);
+                var errorText = "Status: " + xhr.status + " - " + xhr.statusText;
+                PresentClosableBootstrapAlert("#alert_placeholder_register", "danger", "Error!", errorText);
                 console.error(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
             }
         });
@@ -52,7 +45,7 @@
     var registerUserButton = $("#UserRegistrationModal button[name='register']").click(onUserRegisterClick);
 
     function onUserRegisterClick() {
-        var url = "/UserAuth/RegisterUser";
+        var url = "UserAuth/RegisterUser";
         var antiForgeryToken = $("#UserRegistrationModal input[name='__RequestVerificationToken']").val();
         var email = $("#UserRegistrationModal input[name='Email']").val();
         var password = $("#UserRegistrationModal input[name='Password']").val();
@@ -61,7 +54,7 @@
         var lastName = $("#UserRegistrationModal input[name='LastName']").val();
         var phoneNumber = $("#UserRegistrationModal input[name='PhoneNumber']").val();
 
-        var userInput = {
+        var user = {
             __RequestVerificationToken: antiForgeryToken,
             Email: email,
             Password: password,
@@ -69,13 +62,13 @@
             FirstName: firstName,
             LastName: lastName,
             PhoneNumber: phoneNumber,
-            AcceptUserAgreement: true
+            AcceptUserAgreement: true,
         };
 
         $.ajax({
             type: "POST",
             url: url,
-            data: userInput,
+            data: user,
             success: function (data)
             {
                 var parsed = $.parseHTML(data);
@@ -99,6 +92,8 @@
             },
             error: function (xhr, ajaxOptions, thrownError)
             {
+                var errorText = "Status:" + xhr.status + "-" + xhr.statusText;
+                PresentClosableBootstrapAlert("#alert_placeholder_register", "danger", "Error!", errorText);
                 console.error(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
             }
         });
