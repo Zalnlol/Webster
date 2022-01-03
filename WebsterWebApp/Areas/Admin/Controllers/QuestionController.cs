@@ -22,9 +22,32 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             this._db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(String subject, String questionTitle)
         {
-            return View(_db.Questions.ToList());
+            var model = _db.Questions.ToList();
+            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            if (String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
+            {
+                return View(model);
+            }
+            else if (!String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
+            {
+                ViewBag.optionSubject = subject;
+                model = model.ToList().FindAll(m => m.Subject.ToUpper().Contains(subject.ToUpper()));
+                return View(model);
+            }
+            else if(String.IsNullOrEmpty(subject) && !String.IsNullOrEmpty(questionTitle))
+            {
+                model = model.ToList().FindAll(m => m.QuestionTitle.ToUpper().Contains(questionTitle.ToUpper()));
+                return View(model);
+            }
+            else
+            {
+                ViewBag.optionSubject = subject;
+                model = model.ToList().FindAll(m => m.Subject.ToUpper().Contains(subject.ToUpper()) 
+                && m.QuestionTitle.ToUpper().Contains(questionTitle.ToUpper()));
+                return View(model);
+            }
         }
 
         public IActionResult Create()
