@@ -1,105 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+﻿@{
+    ViewData["Title"] = "Start Exam";
+    var ques = ViewBag.Question;
+    var ans = ViewBag.Anwser;
+    int tmp = 0;
+    string[,] arr = new string[4, 2];
+    
+}
 
 
-    <style>
-        .background {
-            margin-top: 2%;
-            min-height: 400px;
-            border-radius: 40px;
-            background-color: rgb(241, 241, 241);
-        }
+<style>
+    .background {
+        margin-top: 2%;
+        min-height: 400px;
+        border-radius: 40px;
+        background-color: rgb(241, 241, 241);
+    }
 
-        .ans-background {
-            width: 75%;
-            margin: 0 auto;
-            min-height: 100px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgb(129, 142, 155);
-            padding: 6% 0% 6% 6%;
-
-
-        }
+    .ans-background {
+        width: 75%;
+        margin: 0 auto;
+        min-height: 100px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgb(129, 142, 155);
+        padding: 6% 0% 6% 6%;
+    }
 
         .ans-background:hover {
             cursor: pointer;
         }
-        .outside-time{
-          
-            width: 4rem;
-            height: 4rem;
-            font-weight: bold;
-            font-size: 20pt;
-         ;
 
-        }
-        #div-time{
-            padding-top: 0.7rem;
-            text-align: center;
-            width: 6rem;
-            height: 6rem;
-            border-radius: 50px;
-            background-color: rgb(192, 18, 41);
-            color: white;
-        }
-    </style>
+    .outside-time {
+        width: 4rem;
+        height: 4rem;
+        font-weight: bold;
+        font-size: 20pt;
+        ;
+    }
 
-</head>
-
-<body>
+    #div-time {
+        padding-top: 0.7rem;
+        text-align: center;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50px;
+        background-color: rgb(192, 18, 41);
+        color: white;
+    }
+</style>
 
 
-    <div class="container background ">
-        <div style="padding-top: 1%; padding-left: 4%;">
-            <div id="div-time">
-                Time <br>
-                <span id="time" class="outside-time"> </span>
-            </div>
-               
-     
-    
+
+<div class="container background ">
+    <div style="padding-top: 1%; padding-left: 4%;">
+        <div id="div-time">
+            Time <br>
+            <span id="time" class="outside-time"> </span>
         </div>
-        <div id="question-1">
+    </div>
+
+    @for (int i = 0; i < 5; i++)
+    {
+        tmp = 0;
+
+        for (int j = 0; j < ans.Length; j++)
+        {
+            if (ans[j].QuestionId == ques[i].QuestionId)
+            {
+                arr[tmp, 0] = ans[j].AnswerContent;
+                arr[tmp, 1] = ans[j].Photo;
+                tmp += 1;
+            }
+               
+
+            }
+
+
+        <div id="question-@i" hidden>
             <div class="row" id="div-question">
                 <div class="col text-center" style="margin-top: 2%;">
-                    <h3>Cau 1 : aahjkdkdllddifjn</h3>
+                    <h3>
 
-                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                        @ques[i].QuestionTitle
+                    </h3>
+
+                    @if (@ques[i].Photo != null)
+                    {
+                        <img src="~/@Url.Content(@ques[i].Photo)" width="200px" />
+                    }
+
+
                 </div>
             </div>
 
-            <div id="div-ans" style="margin-top: 5%; padding-bottom: 5%; ">
+            <div id="div-ans" style="margin-top: 5%; padding-bottom: 2%; ">
                 <div class="row">
-                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans1')"
-                        onmouseout="changecollor('ans1')" onclick="check('-ans1-1')">
-                        <div style=" background-color: #e21b3c;" id="ans1" class="ans-background">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans1-@i')"
+                         onmouseout="changecollor('ans1-@i')" onclick="check('-ans1-@i')">
+                        <div style=" background-color: #e21b3c;" id="ans1-@i" class="ans-background">
                             <div class="row ans">
                                 <div class="col-sm-2">
                                     <i class="fas fa-heart fa-2x" style="color: snow;"></i>
                                 </div>
                                 <div class="col-sm-7" style="color: snow; margin-top: 1%;">
-                                    <h5>nhan le nguyen thanh </h5>
-                                    <input type="checkbox" id="checkbox-ans1-1" hidden>
+                                    <h5> @arr[0,0] </h5>
+                                    <input type="checkbox" id="checkbox-ans1-@i" hidden>
                                     <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
                                 </div>
                                 <div class="col-sm-2 align-middle">
 
-                                    <i class="far fa-circle fa-2x " id="icon-ans1-1" style="color: snow;"></i>
+                                    <i class="far fa-circle fa-2x " id="icon-ans1-@i" style="color: snow;"></i>
                                 </div>
                             </div>
                         </div>
@@ -108,20 +117,22 @@
 
 
                     <div class="col-sm-6 text-center;" onmouseover="changecollor('ans2')"
-                        onmouseout="changecollor('ans2')" onclick="check('-ans2-1')">
-                        <div style=" background-color: #1368ce;" id="ans2" class="ans-background">
+                         onmouseout="changecollor('ans2-@i')" onclick="check('-ans2-@i')">
+                        <div style=" background-color: #1368ce;" id="ans2-@i" class="ans-background">
                             <div class="row ans">
                                 <div class="col-sm-2">
                                     <i class="fas fa-square fa-2x" style="color: snow;"></i>
                                 </div>
                                 <div class="col-sm-7" style="color: snow; margin-top: 1%;">
-                                    <h5>nhan le nguyen thanh </h5>
-                                    <input type="checkbox" id="checkbox-ans2-1" hidden>
+                                    <h5> @arr[1,0] </h5>
+
+
+                                    <input type="checkbox" id="checkbox-ans2-@i" hidden>
                                     <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
                                 </div>
                                 <div class="col-sm-2 align-middle">
 
-                                    <i class="far fa-circle fa-2x " id="icon-ans2-1" style="color: snow;"></i>
+                                    <i class="far fa-circle fa-2x " id="icon-ans2-@i" style="color: snow;"></i>
                                 </div>
                             </div>
                         </div>
@@ -129,21 +140,22 @@
                 </div>
 
                 <div class="row" style="margin-top: 4%;">
-                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans3')"
-                        onmouseout="changecollor('ans3')" onclick="check('-ans3-1')">
-                        <div style=" background-color: #d89e00;" id="ans3" class="ans-background">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans3-@i')"
+                         onmouseout="changecollor('ans3-@i')" onclick="check('-ans3-@i')">
+                        <div style=" background-color: #d89e00;" id="ans3-@i" class="ans-background">
                             <div class="row ans">
                                 <div class="col-sm-2">
                                     <i class="fas fa-circle fa-2x" style="color: snow;"></i>
                                 </div>
                                 <div class="col-sm-7" style="color: snow; margin-top: 1%;">
-                                    <h5>nhan le nguyen thanh </h5>
-                                    <input type="checkbox" id="checkbox-ans3-1" hidden>
+                                    <h5> @arr[2,0] </h5>
+
+                                    <input type="checkbox" id="checkbox-ans3-@i" hidden>
                                     <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
                                 </div>
                                 <div class="col-sm-2 align-middle">
 
-                                    <i class="far fa-circle fa-2x " id="icon-ans3-1" style="color: snow;"></i>
+                                    <i class="far fa-circle fa-2x " id="icon-ans3-@i" style="color: snow;"></i>
                                 </div>
                             </div>
                         </div>
@@ -151,21 +163,22 @@
 
 
 
-                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans4')"
-                        onmouseout="changecollor('ans4')" onclick="check('-ans4-1')">
-                        <div style=" background-color: #26890c;" id="ans4" class="ans-background">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans4-@i')"
+                         onmouseout="changecollor('ans4-@i')" onclick="check('-ans4-@i')">
+                        <div style=" background-color: #26890c;" id="ans4-@i" class="ans-background">
                             <div class="row ans">
                                 <div class="col-sm-2">
                                     <i class="fas fa-star fa-2x" style="color: snow;"></i>
                                 </div>
                                 <div class="col-sm-7" style="color: snow; margin-top: 1%;">
-                                    <h5>nhan le nguyen thanh </h5>
-                                    <input type="checkbox" id="checkbox-ans4-1" hidden>
+                                    <h5> @arr[3,0] </h5>
+
+                                    <input type="checkbox" id="checkbox-ans4-@i" hidden>
                                     <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
                                 </div>
                                 <div class="col-sm-2 align-middle">
 
-                                    <i class="far fa-circle fa-2x " id="icon-ans4-1" style="color: snow;"></i>
+                                    <i class="far fa-circle fa-2x " id="icon-ans4-@i" style="color: snow;"></i>
                                 </div>
                             </div>
                         </div>
@@ -177,12 +190,24 @@
 
             </div>
         </div>
+    }
 
+
+    <div class="row" style="padding-bottom: 3%;">
+        <div class="col text-center">
+            <input type="button" id="Prevous" class="btn btn-info" onclick="transfer('3')" value="Prevous" />
+            <input type="button" id="Next" class="btn btn-info" onclick="transfer('2')" value="Next" />
+            <input type="button" id="Submit" class="btn btn-danger" value="Submit" />
+
+
+        </div>
 
     </div>
 
+</div>
 
-    <script>
+
+<script>
         function changecollor(s) {
 
             if (document.getElementById(s).style.backgroundColor == "rgb(226, 27, 60)") {
@@ -227,23 +252,69 @@
 
             }
         }
-    </script>
+</script>
 
-    <script>
-        var time=parseInt(120);
+<script>
+        var time=parseInt(300);
         var timeInterval = setInterval(timer,1000);
-        
+
         function timer(){
-            time-=1; 
+            time-=1;
                 document.getElementById("time").innerText=time;
                if(time ==0){
                    clearInterval(timeInterval);
                }
         }
 
-    </script>
+</script>
 
 
-</body>
+<script>
+    var no = 0
+    transfer("1");
+    function transfer(s) {
+        if (s == "1") {
+            document.getElementById("Prevous").hidden = true;
+            document.getElementById("question-" + no).hidden = false;
+            document.getElementById("Submit").hidden = true;
+        }
 
-</html>
+        if (s == "2") {
+            document.getElementById("question-" + no).hidden = true;
+            no += 1;
+            document.getElementById("question-" + no).hidden = false;
+
+        }
+
+        if (s == "3") {
+            document.getElementById("question-" + no).hidden = true;
+            no -= 1;
+            document.getElementById("question-" + no).hidden = false;
+
+        }
+
+        if (no > 0) {
+            document.getElementById("Prevous").hidden = false;
+
+        }
+        if (no < 4) {
+            document.getElementById("Prevous").hidden = false;
+            document.getElementById("Next").hidden = false;
+            document.getElementById("Submit").hidden = true;
+
+
+        }
+        if (no == 0) {
+            document.getElementById("Prevous").hidden = true;
+
+        }
+        if (no == 4) {
+            document.getElementById("Submit").hidden = false;
+            document.getElementById("Next").hidden = true;
+
+
+        }
+
+    }
+
+</script>
