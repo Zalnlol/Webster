@@ -27,7 +27,7 @@ namespace WebsterWebApp.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){}
 
-        public virtual DbSet<Areas.Admin.Models.User> User { get; set; }
+        //public virtual DbSet<Areas.Admin.Models.User> User { get; set; }
 
         public virtual DbSet<Areas.Admin.Models.CandidateList> CandidateLists { get; set; }
 

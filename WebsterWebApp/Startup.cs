@@ -32,10 +32,22 @@ namespace WebsterWebApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ConnectDB")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddAuthentication().AddGoogle(googleOptions => 
+            {
+                // Get Authentication:Google from appsettings.json
+                IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+                // Establish ClientID và ClientSecret to access API google
+                googleOptions.ClientId = googleAuthNSection["ClientId"];
+                googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                // Set Url callback from Google (default: /signin-google)
+                googleOptions.CallbackPath = "/signin-google";
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
 
             services.Configure<IdentityOptions>(options =>
