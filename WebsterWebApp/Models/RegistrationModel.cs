@@ -15,6 +15,7 @@ namespace WebsterWebApp.Models
         public string Email { get; set; }
 
         [Required]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*[\d])(?=.*[\W])(?=.*[A-Z]).*$", ErrorMessage = "Min 8 chars, min 1 capital letter, min 1 digit, min 1 special char")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WebsterWebApp.Areas.Admin.Models;
+using WebsterWebApp.Models;
 
 namespace WebsterWebApp.Data
 {
@@ -26,12 +27,17 @@ namespace WebsterWebApp.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){}
 
-        public virtual DbSet<Areas.Admin.Models.User> User { get; set; }
+        //public virtual DbSet<Areas.Admin.Models.User> User { get; set; }
 
         public virtual DbSet<Areas.Admin.Models.CandidateList> CandidateLists { get; set; }
 
         public virtual DbSet<Question> Questions { get; set; }
 
         public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<ExamType> ExamTypes { get; set; }
+
+        public virtual DbSet<MailContact> Mails { get; set; }
+
     }
 }

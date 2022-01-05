@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebsterWebApp.Areas.Admin.Models;
 using WebsterWebApp.Data;
 
 namespace WebsterWebApp
@@ -27,36 +29,31 @@ namespace WebsterWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ConnectDB")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddAuthentication().AddGoogle(googleOptions => 
+            {
+                // Get Authentication:Google from appsettings.json
+                IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+                // Establish ClientID và ClientSecret to access API google
+                googleOptions.ClientId = googleAuthNSection["ClientId"];
+                googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                // Set Url callback from Google (default: /signin-google)
+                googleOptions.CallbackPath = "/signin-google";
+            });
+
+            services.AddTransient<Repository.IMailService, Services.MailServiceImp>();
+            services.Configure<Settings.MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
-
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
-
-                // User settings.
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-            });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -84,6 +81,7 @@ namespace WebsterWebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -105,6 +103,8 @@ namespace WebsterWebApp
                 );
 
                 endpoints.MapRazorPages();
+
+
             });
         }
     }

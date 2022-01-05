@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,15 @@ namespace WebsterWebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly Repository.IMailService mailServices;
 
-        public UserAuthController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _context) 
+
+        public UserAuthController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _context, Repository.IMailService mailServices) 
         {
             this._context = _context;
             this._signInManager = _signInManager;
             this._userManager = _userManager;
+            this.mailServices = mailServices;
         }
 
         [AllowAnonymous]
@@ -28,6 +32,11 @@ namespace WebsterWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
+            Services.Mail mail = new Services.Mail();
+            //await mail.SendMail(toMail, subject, body);
+
+            //-------------------------------------------------------------
+
             //Set default login valid message to 'true', if it match, then the msg
             //is changed to empty, else it display Invalid login attempt.
             loginModel.LoginInValid = "true";
@@ -70,9 +79,9 @@ namespace WebsterWebApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel) 
+        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel)
+        //public async Task<RegistrationModel> RegisterUser(RegistrationModel registrationModel)
         {
-            
             registrationModel.RegistrationInValid = "true";
             if (ModelState.IsValid) 
             {
@@ -95,10 +104,30 @@ namespace WebsterWebApp.Controllers
                 }
                 else 
                 {
-                    ModelState.AddModelError("", "Registration attempt failed");
+                    //code unreachable
+                    AddErrorsToModelState(result);
                 }
             }
             return PartialView("_UserRegistrationPartial", registrationModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<bool> UserNameExists(string userName) 
+        {
+            bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
+            if (userNameExists == true) 
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        private void AddErrorsToModelState(IdentityResult result) 
+        {
+            foreach (var error in result.Errors) 
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
     }
 }

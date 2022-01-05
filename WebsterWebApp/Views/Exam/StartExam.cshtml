@@ -1,0 +1,458 @@
+﻿@{
+    ViewData["Title"] = "Start Exam";
+    var ques = ViewBag.Question;
+    var ans = ViewBag.Anwser;
+    int tmp = 0;
+    string[,] arr = new string[4, 2];
+}
+@using Newtonsoft.Json;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+
+
+<style>
+    .background {
+        margin-top: 2%;
+        min-height: 400px;
+        border-radius: 40px;
+        background-color: rgb(241, 241, 241);
+    }
+
+    .ans-background {
+        width: 75%;
+        margin: 0 auto;
+        min-height: 100px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgb(129, 142, 155);
+        padding: 6% 0% 6% 6%;
+    }
+
+        .ans-background:hover {
+            cursor: pointer;
+        }
+
+    .outside-time {
+        width: 4rem;
+        height: 4rem;
+        font-weight: bold;
+        font-size: 20pt;
+        ;
+    }
+
+    #div-time {
+        padding-top: 0.7rem;
+        text-align: center;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50px;
+        background-color: rgb(192, 18, 41);
+        color: white;
+    }
+</style>
+
+
+
+<div class="container background ">
+    <div style="padding-top: 1%; padding-left: 4%;">
+        <div id="div-time">
+            Time <br>
+            <span id="time" class="outside-time"> </span>
+        </div>
+    </div>
+
+    @for (int i = 0; i < 5; i++)
+    {
+        tmp = 0;
+
+        for (int j = 0; j < ans.Length; j++)
+        {
+            if (ans[j].QuestionId == ques[i].QuestionId)
+            {
+                arr[tmp, 0] = ans[j].AnswerContent;
+                arr[tmp, 1] = ans[j].Photo;
+                tmp += 1;
+            }
+
+
+        }
+
+
+        <div id="question-@i" hidden>
+            <div class="row" id="div-question">
+                <div class="col text-center" style="margin-top: 2%;">
+                    <h3>
+
+                        @ques[i].QuestionTitle
+                    </h3>
+
+                    @if (@ques[i].Photo != null)
+                    {
+                        <img src="~/@Url.Content(@ques[i].Photo)" width="200px" />
+                    }
+
+
+                </div>
+            </div>
+
+            <div id="div-ans" style="margin-top: 5%; padding-bottom: 2%; ">
+                <div class="row">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans1-@i')"
+                         onmouseout="changecollor('ans1-@i')" onclick="check('-ans1-@i')">
+                        <div style=" background-color: #e21b3c;" id="ans1-@i" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-heart fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5> @arr[0, 0] </h5>
+                                    <input type="checkbox" id="checkbox-ans1-@i" hidden>
+
+                                    @if (arr[0, 1] != null)
+                                    {
+                                        <img src="~/@Url.Content(@arr[0, 1])" width="200px" />
+                                    }
+
+                                  
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans1-@i" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans2')"
+                         onmouseout="changecollor('ans2-@i')" onclick="check('-ans2-@i')">
+                        <div style=" background-color: #1368ce;" id="ans2-@i" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-square fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5> @arr[1, 0] </h5>
+                                    @if (arr[1, 1] != null)
+                                    {
+                                        <img src="~/@Url.Content(@arr[1, 1])" width="200px" />
+                                    }
+
+                                    <input type="checkbox" id="checkbox-ans2-@i" hidden>
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans2-@i" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 4%;">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans3-@i')"
+                         onmouseout="changecollor('ans3-@i')" onclick="check('-ans3-@i')">
+                        <div style=" background-color: #d89e00;" id="ans3-@i" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-circle fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5> @arr[2, 0] </h5>
+                                    @if (arr[2, 1] != null)
+                                    {
+                                        <img src="~/@Url.Content(@arr[2, 1])" width="200px" />
+                                    }
+                                    <input type="checkbox" id="checkbox-ans3-@i" hidden>
+
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans3-@i" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans4-@i')"
+                         onmouseout="changecollor('ans4-@i')" onclick="check('-ans4-@i')">
+                        <div style=" background-color: #26890c;" id="ans4-@i" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-star fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5> @arr[3, 0] </h5>
+                                    @if (arr[3, 1] != null)
+                                    {
+                                        <img src="~/@Url.Content(@arr[3, 1])" width="200px" />
+                                    }
+                                    <input type="checkbox" id="checkbox-ans4-@i" hidden>
+
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans4-@i" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    }
+
+
+    <div class="row" style="padding-bottom: 3%;">
+        <div class="col text-center">
+            <input type="button" id="Prevous" class="btn btn-info" onclick="transfer('3')" value="Prevous" />
+            <input type="button" id="Next" class="btn btn-info" onclick="transfer('2')" value="Next" />
+            <input type="button" id="Submit" class="btn btn-danger" value="Submit" />
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <pre id="ansconvert" hidden> @JsonConvert.SerializeObject(ans)</pre>
+    <pre id="quesconvert" hidden>@JsonConvert.SerializeObject(ques)</pre>
+    <pre id="timeconvert" hidden>@JsonConvert.SerializeObject(ViewBag.Time)</pre>
+
+
+    <script>
+    function changecollor(s) {
+
+        if (document.getElementById(s).style.backgroundColor == "rgb(226, 27, 60)") {
+            document.getElementById(s).style.backgroundColor = "#d01937";
+        } else if (document.getElementById(s).style.backgroundColor == "rgb(208, 25, 55)") {
+            document.getElementById(s).style.backgroundColor = "rgb(226, 27, 60)"
+        }
+
+        if (document.getElementById(s).style.backgroundColor == "rgb(19, 104, 206)") {
+            document.getElementById(s).style.backgroundColor = "#1260be";
+        } else if (document.getElementById(s).style.backgroundColor == "rgb(18, 96, 190)") {
+            document.getElementById(s).style.backgroundColor = "rgb(19, 104, 206)"
+        }
+
+        if (document.getElementById(s).style.backgroundColor == "rgb(216, 158, 0)") {
+            document.getElementById(s).style.backgroundColor = "#c79200";
+        } else if (document.getElementById(s).style.backgroundColor == "rgb(199, 146, 0)") {
+            document.getElementById(s).style.backgroundColor = "rgb(216, 158, 0)"
+        }
+
+        if (document.getElementById(s).style.backgroundColor == "rgb(38, 137, 12)") {
+            document.getElementById(s).style.backgroundColor = "#237e0b";
+        } else if (document.getElementById(s).style.backgroundColor == "rgb(35, 126, 11)") {
+            document.getElementById(s).style.backgroundColor = "rgb(38, 137, 12)"
+        }
+
+    }
+
+        function check(s) {
+      
+        if (Data[no]["QuestionType"] == true) {
+            Onechoose(s)
+         
+        }
+        else {
+            multiplechoose(s)
+        }
+
+            console.log(DataQuestion);
+    }
+
+
+        function multiplechoose(s) {
+            
+
+        if (document.getElementById("checkbox" + s).checked == false) {
+            document.getElementById("checkbox" + s).checked = true;
+            document.getElementById("icon" + s).classList = "far fa-check-circle fa-2x"
+            document.getElementById("icon" + s).style.color = "#30ff00"
+            vt = parseInt(s[4]) - 1;
+
+            DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
+           
+        } else {
+            document.getElementById("checkbox" + s).checked = false;
+            document.getElementById("icon" + s).classList = "far fa-circle fa-2x"
+            document.getElementById("icon" + s).style.color = "snow"
+            vt = parseInt(s[4]) - 1;
+            DataQuestion[no]["Anwser"][vt]["Ischoose"] = false;
+
+        }
+
+    }
+
+
+        function Onechoose(s) {
+
+        for (i = 0; i <= 3; i++) {
+            if (DataQuestion[no]["Anwser"][i]["Ischoose"] == true) {
+                DataQuestion[no]["Anwser"][i]["Ischoose"] = false
+
+                oldchoose = "-ans" + (i+1) + "-" + no;
+
+                document.getElementById("checkbox" + oldchoose).checked = false;
+                document.getElementById("icon" + oldchoose).classList = "far fa-circle fa-2x"
+                document.getElementById("icon" + oldchoose).style.color = "snow"
+
+                
+            }
+        }
+
+
+            document.getElementById("checkbox" + s).checked = true;
+            document.getElementById("icon" + s).classList = "far fa-check-circle fa-2x"
+            document.getElementById("icon" + s).style.color = "#30ff00"
+            vt = parseInt(s[4]) - 1;
+            DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
+
+     
+
+    }
+
+
+
+    </script>
+
+<script>
+    var time = parseInt((document.getElementById("timeconvert").innerText));
+    var timeconvert = document.getElementById("timeconvert");
+    timeconvert.parentNode.removeChild(timeconvert);
+    var timeInterval = setInterval(timer, 1000);
+
+    function timer() {
+        time -= 1;
+        document.getElementById("time").innerText = time;
+        if (time == 0) {
+            clearInterval(timeInterval);
+        }
+    }
+
+</script>
+
+
+<script>
+    var no = 0
+    transfer("1");
+    function transfer(s) {
+        if (s == "1") {
+            document.getElementById("Prevous").hidden = true;
+            document.getElementById("question-" + no).hidden = false;
+            document.getElementById("Submit").hidden = true;
+        }
+
+        if (s == "2") {
+            document.getElementById("question-" + no).hidden = true;
+            no += 1;
+            document.getElementById("question-" + no).hidden = false;
+
+        }
+
+        if (s == "3") {
+            document.getElementById("question-" + no).hidden = true;
+            no -= 1;
+            document.getElementById("question-" + no).hidden = false;
+
+        }
+
+        if (no > 0) {
+            document.getElementById("Prevous").hidden = false;
+
+        }
+        if (no < 4) {
+            document.getElementById("Prevous").hidden = false;
+            document.getElementById("Next").hidden = false;
+            document.getElementById("Submit").hidden = true;
+
+
+        }
+        if (no == 0) {
+            document.getElementById("Prevous").hidden = true;
+
+        }
+        if (no == 4) {
+            document.getElementById("Submit").hidden = false;
+            document.getElementById("Next").hidden = true;
+
+        }
+    
+    }
+
+</script>
+
+
+<script>
+
+    questionData = JSON.parse(document.getElementById("quesconvert").innerText);
+    anwserData = JSON.parse(document.getElementById("ansconvert").innerText);
+
+
+    timeconvert = document.getElementById("quesconvert");
+    timeconvert.parentNode.removeChild(timeconvert);
+    timeconvert = document.getElementById("ansconvert");
+    timeconvert.parentNode.removeChild(timeconvert);
+
+
+    var question = {
+        QuesionID: "",
+        QuestionTilte: "",
+        QuestionType: "",
+        Anwser: new Array()
+    }
+    var answer = {
+        AnwserId: "",
+        AnwserName: "",
+        Ischoose: false
+    }
+    var Data = new Array();
+    var Data1 = new Array();
+
+    for (i = 0; i < questionData.length; i++) {
+        question.QuesionID = questionData[i]["QuestionId"];
+        question.QuestionTilte = questionData[i]["QuestionTitle"];
+        question.QuestionType = questionData[i]["QuestionType"];
+
+        for (j = 0; j < 4; j++) {
+            answer.AnwserId = anwserData[j]["AnswerId"];
+            answer.AnwserName = anwserData[j]["AnswerContent"];
+            answer.Ischoose = anwserData[j]["IsCorrectAnswer"];
+
+            Data1[j] = answer;
+            answer = {
+                AnwserId: "",
+                AnwserName: "",
+                Ischoose: false
+            }
+        }
+        question.Anwser = Data1;
+
+        Data[i] = question;
+
+        question = {
+            QuesionID: "",
+            QuestionTilte: "",
+            QuestionType: true,
+            Anwser: new Array()
+        }
+
+    }
+
+   
+
+    localStorage.setItem('Data', JSON.stringify(Data) );
+
+    DataQuestion = JSON.parse( localStorage.getItem('Data'));
+
+</script>
+
