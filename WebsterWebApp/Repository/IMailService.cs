@@ -8,6 +8,6 @@ namespace WebsterWebApp.Repository
 {
     public interface IMailService
     {
-        Task SendMail(MailContact mailContact);
+        Task SendMail(string toMail, string subject, string body);
     }
 }

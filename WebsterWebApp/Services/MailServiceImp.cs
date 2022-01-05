@@ -17,14 +17,14 @@ namespace WebsterWebApp.Services
         {
             this.contextMail = contextMail.Value;
         }
-        public async Task SendMail(MailContact mailContact)
+        public async Task SendMail(string toMail, string subject, string body)
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(contextMail.Mail);
-            email.To.Add(MailboxAddress.Parse(mailContact.ToMail));
-            email.Subject = mailContact.Subject;
+            email.To.Add(MailboxAddress.Parse(toMail));
+            email.Subject = subject;
             var builder = new BodyBuilder();
-            builder.HtmlBody = mailContact.Body;
+            builder.HtmlBody = body;
 
             //Set email attachment for this part below if needed
             //string filePath = @"C:\Users\jthie\OneDrive\Desktop\";

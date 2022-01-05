@@ -105,22 +105,6 @@ namespace WebsterWebApp
                 endpoints.MapRazorPages();
 
 
-                //end point test mail
-                endpoints.MapGet("/testmail", async context => {
-
-                    // Get IMailService
-                    var sendmailservice = context.RequestServices.GetService<Repository.IMailService>();
-
-                    MailContact content = new MailContact
-                    {
-                        ToMail = "j.thien1552@gmail.com",
-                        Subject = "Test Mail",
-                        Body = "<p><strong>Hello world</strong></p>"
-                    };
-
-                    await sendmailservice.SendMail(content);
-                    await context.Response.WriteAsync("Send mail");
-                });
             });
         }
     }
