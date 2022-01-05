@@ -35,6 +35,7 @@ namespace WebsterWebApp.Data
 
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<MailContact> Mails { get; set; }
 
     }
 }

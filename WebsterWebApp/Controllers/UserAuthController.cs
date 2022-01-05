@@ -71,9 +71,9 @@ namespace WebsterWebApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel) 
+        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel)
+        //public async Task<RegistrationModel> RegisterUser(RegistrationModel registrationModel)
         {
-            
             registrationModel.RegistrationInValid = "true";
             if (ModelState.IsValid) 
             {
