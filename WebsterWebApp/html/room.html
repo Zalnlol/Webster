@@ -39,6 +39,24 @@
         .ans-background:hover {
             cursor: pointer;
         }
+        .outside-time{
+          
+            width: 4rem;
+            height: 4rem;
+            font-weight: bold;
+            font-size: 20pt;
+         ;
+
+        }
+        #div-time{
+            padding-top: 0.7rem;
+            text-align: center;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50px;
+            background-color: rgb(192, 18, 41);
+            color: white;
+        }
     </style>
 
 </head>
@@ -47,8 +65,14 @@
 
 
     <div class="container background ">
-        <div>
-            <h4 id="time"> </h4>
+        <div style="padding-top: 1%; padding-left: 4%;">
+            <div id="div-time">
+                Time <br>
+                <span id="time" class="outside-time"> </span>
+            </div>
+               
+     
+    
         </div>
         <div id="question-1">
             <div class="row" id="div-question">
@@ -59,7 +83,7 @@
                 </div>
             </div>
 
-            <div id="div-ans" style="margin-top: 5%;">
+            <div id="div-ans" style="margin-top: 5%; padding-bottom: 5%; ">
                 <div class="row">
                     <div class="col-sm-6 text-center;" onmouseover="changecollor('ans1')"
                         onmouseout="changecollor('ans1')" onclick="check('-ans1-1')">
@@ -206,7 +230,7 @@
     </script>
 
     <script>
-        var time=parseInt(21);
+        var time=parseInt(120);
         var timeInterval = setInterval(timer,1000);
         
         function timer(){
