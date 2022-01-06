@@ -1,8 +1,35 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="~/User/assets/bootstrap.bundle.min.js"></script>
+    <link href="~/User/assets/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/mixins/_border-radius.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/mixins/_visibility.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/utilities/_stretched-link.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/_media.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/User/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/User/css/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/User/css/style.css" rel="stylesheet" />
+
+
+
+
+
     <title>@ViewData["Title"] </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -39,15 +66,28 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - WebsterWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@await RenderSectionAsync("Scripts", required: false)
+<script src="~/js/UserRegistration.js" asp-append-version="true"></script>
+<script src="~/js/UserLogin.js" asp-append-version="true"></script>
+<script src="~/js/BootstrapAlert.js" asp-append-version="true"></script>
+
+
+<script src="./assets/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+
+
+<script src="~/User/js/bootstrap.min.js"></script>
+<script src="~/User/js/jquery.min.js"></script>
+<script src="~/User/js/main.js"></script>
+<script src="~/User/js/owl.carousel.min.js"></script>
+<script src="~/User/js/popper.js"></script>
+
+
+

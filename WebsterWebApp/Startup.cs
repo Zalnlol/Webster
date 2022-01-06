@@ -103,8 +103,6 @@ namespace WebsterWebApp
                 );
 
                 endpoints.MapRazorPages();
-
-
             });
         }
     }
