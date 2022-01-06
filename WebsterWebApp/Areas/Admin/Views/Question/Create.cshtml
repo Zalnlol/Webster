@@ -33,7 +33,7 @@
             <div id="divPhotoQuestion">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoQuestion" class="form-control" />
+                    <input type="file" name="photoQuestion" id="photoQuestion" onchange="validationPhotoQuestion()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -49,7 +49,7 @@
             <div id="photoFirstAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoFirstAnswerContent" class="form-control" />
+                    <input type="file" name="photoFirstAnswerContent" id="validationPhotoFirstAns" onchange="validationPhotoFirstAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -65,7 +65,7 @@
             <div id="photoSecondAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoSecondAnswerContent" class="form-control" />
+                    <input type="file" name="photoSecondAnswerContent" id="validationPhotoSecondAns" onchange="validationPhotoSecondAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -81,7 +81,7 @@
             <div id="photoThirdAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoThirdAnswerContent" class="form-control" />
+                    <input type="file" name="photoThirdAnswerContent" id="validationPhotoThirdAns" onchange="validationPhotoThirdAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -97,7 +97,7 @@
             <div id="photoFourthAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoFourthAnswerContent" class="form-control" />
+                    <input type="file" name="photoFourthAnswerContent" id="validationPhotoFourthAns" onchange="validationPhotoFourthAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -144,6 +144,13 @@
     var uploadPhotoQuestion = document.getElementById("uploadPhotoQuestion");
     var a = document.getElementById("divPhotoQuestion");
     a.style.display = "none";
+
+    if (uploadPhotoQuestion.check) {
+        a.style.display = "block";
+    } else {
+        a.style.display = "none";
+    }
+
     uploadPhotoQuestion.onclick = function () {
        
         if (a.style.display === "none") {
@@ -223,3 +230,85 @@
     }
 </script>
 
+<script>
+    function validationPhotoQuestion() {
+        var fileInput = document.getElementById('photoQuestion');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    function validationPhotoFirstAnswer() {
+        var fileInput = document.getElementById('validationPhotoFirstAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoSecondAnswer() {
+        var fileInput = document.getElementById('validationPhotoSecondAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoThirdAnswer() {
+        var fileInput = document.getElementById('validationPhotoThirdAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoFourthAnswer() {
+        var fileInput = document.getElementById('validationPhotoFourthAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>

@@ -112,7 +112,7 @@
                                         <img src="~/@Url.Content(@arr[0, 1])" width="200px" />
                                     }
 
-                                  
+
                                 </div>
                                 <div class="col-sm-2 align-middle">
 
@@ -222,13 +222,35 @@
 
 </div>
 
+<button type="button" class="btn btn-primary" data-toggle="modal" id="notification" data-target="#exampleModal" hidden></button>
 
-    <pre id="ansconvert" hidden> @JsonConvert.SerializeObject(ans)</pre>
-    <pre id="quesconvert" hidden>@JsonConvert.SerializeObject(ques)</pre>
-    <pre id="timeconvert" hidden>@JsonConvert.SerializeObject(ViewBag.Time)</pre>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
+
+            </div>
+            <div class="modal-body">
+                <h5 style="text-align:center" class="text-danger">Press start to do the test</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.href='/Exam/ExamRoom'">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="openFullscreen()">Start</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script>
+
+<pre id="ansconvert" hidden> @JsonConvert.SerializeObject(ans)</pre>
+<pre id="quesconvert" hidden>@JsonConvert.SerializeObject(ques)</pre>
+<pre id="timeconvert" hidden>@JsonConvert.SerializeObject(ViewBag.Time)</pre>
+
+
+<script>
     function changecollor(s) {
 
         if (document.getElementById(s).style.backgroundColor == "rgb(226, 27, 60)") {
@@ -257,22 +279,22 @@
 
     }
 
-        function check(s) {
-      
+    function check(s) {
+
         if (Data[no]["QuestionType"] == true) {
             Onechoose(s)
-         
+
         }
         else {
             multiplechoose(s)
         }
 
-            console.log(DataQuestion);
+        console.log(DataQuestion);
     }
 
 
-        function multiplechoose(s) {
-            
+    function multiplechoose(s) {
+
 
         if (document.getElementById("checkbox" + s).checked == false) {
             document.getElementById("checkbox" + s).checked = true;
@@ -281,7 +303,7 @@
             vt = parseInt(s[4]) - 1;
 
             DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
-           
+
         } else {
             document.getElementById("checkbox" + s).checked = false;
             document.getElementById("icon" + s).classList = "far fa-circle fa-2x"
@@ -294,36 +316,36 @@
     }
 
 
-        function Onechoose(s) {
+    function Onechoose(s) {
 
         for (i = 0; i <= 3; i++) {
             if (DataQuestion[no]["Anwser"][i]["Ischoose"] == true) {
                 DataQuestion[no]["Anwser"][i]["Ischoose"] = false
 
-                oldchoose = "-ans" + (i+1) + "-" + no;
+                oldchoose = "-ans" + (i + 1) + "-" + no;
 
                 document.getElementById("checkbox" + oldchoose).checked = false;
                 document.getElementById("icon" + oldchoose).classList = "far fa-circle fa-2x"
                 document.getElementById("icon" + oldchoose).style.color = "snow"
 
-                
+
             }
         }
 
 
-            document.getElementById("checkbox" + s).checked = true;
-            document.getElementById("icon" + s).classList = "far fa-check-circle fa-2x"
-            document.getElementById("icon" + s).style.color = "#30ff00"
-            vt = parseInt(s[4]) - 1;
-            DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
+        document.getElementById("checkbox" + s).checked = true;
+        document.getElementById("icon" + s).classList = "far fa-check-circle fa-2x"
+        document.getElementById("icon" + s).style.color = "#30ff00"
+        vt = parseInt(s[4]) - 1;
+        DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
 
-     
+
 
     }
 
 
 
-    </script>
+</script>
 
 <script>
     var time = parseInt((document.getElementById("timeconvert").innerText));
@@ -386,7 +408,7 @@
             document.getElementById("Next").hidden = true;
 
         }
-    
+
     }
 
 </script>
@@ -448,11 +470,68 @@
 
     }
 
-   
 
-    localStorage.setItem('Data', JSON.stringify(Data) );
 
-    DataQuestion = JSON.parse( localStorage.getItem('Data'));
+    localStorage.setItem('Data', JSON.stringify(Data));
+
+    DataQuestion = JSON.parse(localStorage.getItem('Data'));
 
 </script>
+
+<script>
+    tam = true;
+    function openFullscreen() {
+        document.getElementById("body").click();
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+        if (tam==true) {
+            setTimeout(creaatescreen, 100)
+
+        }
+       
+
+
+    }
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    function creaatescreen() {
+         width = window.innerWidth;
+         height = window.innerHeight;
+        tam = false;
+       
+        setInterval(checkscreen, 100)
+    }
+
+    
+
+
+    function checkscreen() {
+         currentwidth = window.innerWidth;
+        currentheight = window.innerHeight;
+
+        if ((width != currentwidth) || (height != currentheight)) {
+            openFullscreen();
+        }
+
+    }
+
+
+
+    window.onload = function () {
+        document.getElementById("notification").click();
+    }
+
+
+
+
+</script>
+
+
+
 
