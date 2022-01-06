@@ -480,24 +480,50 @@
 
 <script>
     tam = true;
+    //function openFullscreen() {
+    //    document.getElementById("body").click();
+    //    var elem = document.documentElement;
+    //    if (elem.requestFullscreen) {
+    //        elem.requestFullscreen();
+
+    //    } else if (elem.webkitRequestFullscreen) { /* Safari */
+    //        elem.webkitRequestFullscreen();
+    //    } else if (elem.msRequestFullscreen) { /* IE11 */
+    //        elem.msRequestFullscreen();
+    //    }
+    //    if (tam==true) {
+    //        setTimeout(creaatescreen, 100)
+
+    //    }
+      
+    //}
+
+
     function openFullscreen() {
-        document.getElementById("body").click();
-        var elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
+        var targetelement = document.documentElement;
+      
+
+        if (targetelement.requestFullscreen) {
+            targetelement.requestFullscreen();
         }
-        if (tam==true) {
+        if (targetelement.webkitRequestFullscreen) {
+            targetelement.webkitRequestFullscreen();
+        }
+        if (targetelement.mozRequestFullScreen) {
+            targetelement.mozRequestFullScreen();
+        }
+        if (targetelement.msRequestFullscreen) {
+            targetelement.msRequestFullscreen();
+        }
+
+        if (tam == true) {
             setTimeout(creaatescreen, 100)
 
         }
-       
-
 
     }
+
+
     var width = window.innerWidth;
     var height = window.innerHeight;
     function creaatescreen() {
@@ -509,7 +535,7 @@
     }
 
     
-
+    var ontab = true;
 
     function checkscreen() {
          currentwidth = window.innerWidth;
@@ -518,16 +544,24 @@
         if ((width != currentwidth) || (height != currentheight)) {
             openFullscreen();
         }
-
+       
     }
 
-
+    //$(document).ready(function () {
+    //    $(document).mouseleave(function () {
+    //        alert("Phat hien chuyen tab");
+    //    });
+    //});
 
     window.onload = function () {
         document.getElementById("notification").click();
     }
 
+   
 
+  
+
+    
 
 
 </script>
