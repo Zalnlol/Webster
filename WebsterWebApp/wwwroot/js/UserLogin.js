@@ -4,7 +4,8 @@
 
     function onUserLoginClick() {
 
-        var url = "UserAuth/Login";
+        var url = "/UserAuth/Login";
+        //"http://" + window.location.host +
 
         var antiForgeryToken = $("#UserLoginModal input[name='__RequestVerificationToken']").val();
 
@@ -43,7 +44,7 @@
 
                 }
                 else {
-                    location.href = 'Home/Index';
+                    location.href = '/Home/Index';
 
                 }
             },
