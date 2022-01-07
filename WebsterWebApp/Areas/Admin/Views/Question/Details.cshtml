@@ -37,49 +37,49 @@
         </dd>
 
         <dt class="col-sm-2">
-            <label>FirstAnswerContent</label>
+            <label>A.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.firstAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoFirstAnswer</label>
+            <label>Image Answer A</label>
         </dt>
         <dd class="col-sm-10">
             <img src="~/@ViewBag.photoFirstAns" width="120" />
         </dd>
         <dt class="col-sm-2">
-            <label>SecondAnswerContent</label>
+            <label>B.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.secondAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoSecondAnswer</label>
+            <label>Image Answer B</label>
         </dt>
         <dd class="col-sm-10">
             <img src="~/@ViewBag.photoSecondAns" width="120" />
         </dd>
         <dt class="col-sm-2">
-            <label>ThirdAnswerContent</label>
+            <label>C.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.thirdAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoThirdAnswer</label>
+            <label>Image Answer C</label>
         </dt>
         <dd class="col-sm-10">
             <img src="~/@ViewBag.photoThirdAns" width="120" />
         </dd>
         <dt class="col-sm-2">
-            <label>FourthAnswerContent</label>
+            <label>D.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.fourthAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoFourthAnswer</label>
+            <label>Image Answer D</label>
         </dt>
         <dd class="col-sm-10">
             <img src="~/@ViewBag.photoFourthAns" width="120" />
@@ -92,6 +92,9 @@
             @questionType
         </dd>
         <dt class="col-sm-2">
+            Correct Answer
+        </dt>
+        <dd class="col-sm-2">
             @if (Model.QuestionType == false)
             {
                 @if (ViewBag.CorrectAnswer1 == true)
@@ -102,7 +105,7 @@
                 else
                 {
                     <label>FirstAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer2 == true)
@@ -113,7 +116,7 @@
                 else
                 {
                     <label>SecondAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer3 == true)
@@ -124,7 +127,7 @@
                 else
                 {
                     <label>ThirdAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer4 == true)
@@ -135,7 +138,7 @@
                 else
                 {
                     <label>FourthAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" />
                 }
             }
             else
@@ -167,7 +170,7 @@
                     }
                 </select>
             }
-        </dt>
+        </dd>
 
     </dl>
 </div>
