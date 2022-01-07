@@ -28,119 +28,159 @@
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="QuestionTitle" class="control-label"></label>
+                <label class="control-label">Question title</label>
                 <input asp-for="QuestionTitle" class="form-control" value="@ViewBag.questionTitle" />
                 <span asp-validation-for="QuestionTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="~/@ViewBag.photoQuestion" width="120" />
+                @if (@ViewBag.photoQuestion == null)
+                {
+                    <p>Empty</p>
+
+                }
+                else
+                {
+                    <img src="~/@ViewBag.photoQuestion" width="120" />
+                }
             </div>
             <div class="form-group">
-                <label class="control-label">Do you want to upload image?</label>
+                <label class="control-label">Do you want to upload image ?</label>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="checkbox" id="uploadPhotoQuestion" class="form-check-input" />
             </div>
             <div id="divPhotoQuestion">
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
+                    <label class="control-label">Image Question</label>
                     <input type="file" name="photoQuestion" id="photoQuestion" onchange="validationPhotoQuestion()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">FirstAnswerContent</label>
+                <label class="control-label">Answer A</label>
                 <input name="firstAnswerContent" class="form-control" value="@ViewBag.firstAnswerContent"/>
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="~/@ViewBag.photoFirstAns" width="120" />
+                @if (@ViewBag.photoFirstAns == null)
+                {
+                    <p>Empty</p>
+
+                }
+                else
+                {
+                    <img src="~/@ViewBag.photoFirstAns" width="120" />
+                }
             </div>
 
             <div class="form-group">
-                <label class="control-label">Do you want to upload image?</label>
+                <label class="control-label">Do you want to upload image ?</label>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="checkbox" id="uploadPhotoFirstAnswerContent" class="form-check-input" />
             </div>
             <div id="photoFirstAnswerContent">
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
+                    <label class="control-label">Image Answer A</label>
                     <input type="file" name="photoFirstAnswerContent" id="validationPhotoFirstAns" onchange="validationPhotoFirstAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">SecondAnswerContent</label>
+                <label class="control-label">Answer B</label>
                 <input name="secondAnswerContent" class="form-control" value="@ViewBag.secondAnswerContent"/>
                 <span class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <img src="~/@ViewBag.photoSecondAns" width="120" />
+                @if (@ViewBag.photoSecondAns == null)
+                {
+                    <p>Empty</p>
+
+                }
+                else
+                {
+                    <img src="~/@ViewBag.photoSecondAns" width="120" />
+                }
             </div>
    
             <div class="form-group">
-                <label class="control-label">Do you want to upload image?</label>
+                <label class="control-label">Do you want to upload image ?</label>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="checkbox" id="uploadPhotoSecondAnswerContent" class="form-check-input" />
             </div>
             <div id="photoSecondAnswerContent">
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
+                    <label class="control-label">Image Answer B</label>
                     <input type="file" name="photoSecondAnswerContent" id="validationPhotoSecondAns" onchange="validationPhotoSecondAnswer()" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label">ThirdAnswerContent</label>
+                <label class="control-label">Answer C</label>
                 <input name="thirdAnswerContent" class="form-control" value="@ViewBag.thirdAnswerContent"/>
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="~/@ViewBag.photoThirdAns" width="120" />
+                @if (@ViewBag.photoThirdAns == null)
+                {
+                    <p>Empty</p>
+
+                }
+                else
+                {
+                    <img src="~/@ViewBag.photoThirdAns" width="120" />
+                }
             </div>
             <div class="form-group">
-                <label class="control-label">Do you want to upload image?</label>
+                <label class="control-label">Do you want to upload image ?</label>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="checkbox" id="uploadPhotoThirdAnswerContent" class="form-check-input" />
             </div>
             <div id="photoThirdAnswerContent">
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
+                    <label class="control-label">Image Answer C</label>
                     <input type="file" name="photoThirdAnswerContent" id="validationPhotoThirdAns" onchange="validationPhotoThirdAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">FourthAnswerContent</label>
+                <label class="control-label">Answer D</label>
                 <input name="fourthAnswerContent" class="form-control" value="@ViewBag.fourthAnswerContent"/>
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="~/@ViewBag.photoFourthAns" width="120" />
+                @if (@ViewBag.photoFourthAns == null)
+                {
+                    <p>Empty</p>
+
+                }
+                else
+                {
+                    <img src="~/@ViewBag.photoFourthAns" width="120" />
+                }
             </div>
             <div class="form-group">
-                <label class="control-label">Do you want to upload image?</label>
+                <label class="control-label">Do you want to upload image ?</label>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="checkbox" id="uploadPhotoFourthAnswerContent" class="form-check-input" />
             </div>
             <div id="photoFourthAnswerContent">
                 <div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
+                    <label class="control-label">Image Answer D</label>
                     <input type="file" name="photoFourthAnswerContent" id="validationPhotoFourthAns" onchange="validationPhotoFourthAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 @if (ViewBag.questionType == true)
                 {
-                    <label class="control-label">QuestionHasOneAnswer</label>
+                    <label class="control-label">Question Has One Answer</label>
                     <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" checked />
                     <br />
-                    <label class="control-label">QuestionHasManyAnswer</label>
+                    <label class="control-label">Question Has Many Answer</label>
                     <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" />
                 }
                 else
                 {
-                    <label class="control-label">QuestionHasOneAnswer</label>
+                    <label class="control-label">Question Has One Answer</label>
                     <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" />
                     <br />
-                    <label class="control-label">QuestionHasManyAnswer</label>
+                    <label class="control-label">Question Has Many Answer</label>
                     <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" checked/>
                 }
             </div>
@@ -178,45 +218,45 @@
                 <div class="form-group">
                     @if (ViewBag.CorrectAnswer1 == true)
                     {
-                        <label>FirstAnswer</label>
+                        <label>Answer A</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" checked />
                     }
                     else
                     {
-                        <label>FirstAnswer</label>
+                        <label>Answer A</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer2 == true)
                     {
-                        <label>SecondAnswer</label>
+                        <label>Answer B</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" checked />
                     }
                     else
                     {
-                        <label>SecondAnswer</label>
+                        <label>Answer B</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer3 == true)
                     {
-                        <label>ThirdAnswer</label>
+                        <label>Answer C</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" checked />
                     }
                     else
                     {
-                        <label>ThirdAnswer</label>
+                        <label>Answer C</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer4 == true)
                     {
-                        <label>FourthAnswer</label>
+                        <label>Answer D</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" checked />
                     }
                     else
                     {
-                        <label>FourthAnswer</label>
+                        <label>Answer D</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" />
                     }
                     <br />
