@@ -8,7 +8,10 @@
 @using Newtonsoft.Json;
 @using System.Net.Http;
 @using System.Net.Http.Json;
-
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<link rel="stylesheet" href="~/css/site.css" />
 
 <style>
     .background {
@@ -495,13 +498,13 @@
     //        setTimeout(creaatescreen, 100)
 
     //    }
-      
+
     //}
 
 
     function openFullscreen() {
         var targetelement = document.documentElement;
-      
+
 
         if (targetelement.requestFullscreen) {
             targetelement.requestFullscreen();
@@ -517,7 +520,7 @@
         }
 
         if (tam == true) {
-            setTimeout(creaatescreen, 100)
+          var timedis =  setTimeout(creaatescreen, 100)
 
         }
 
@@ -527,41 +530,88 @@
     var width = window.innerWidth;
     var height = window.innerHeight;
     function creaatescreen() {
-         width = window.innerWidth;
-         height = window.innerHeight;
+        width = window.innerWidth;
+        height = window.innerHeight;
         tam = false;
        
         setInterval(checkscreen, 100)
     }
 
-    
+
     var ontab = true;
 
     function checkscreen() {
-         currentwidth = window.innerWidth;
+        currentwidth = window.innerWidth;
         currentheight = window.innerHeight;
 
         if ((width != currentwidth) || (height != currentheight)) {
             openFullscreen();
         }
-       
+
     }
 
-    //$(document).ready(function () {
-    //    $(document).mouseleave(function () {
-    //        alert("Phat hien chuyen tab");
-    //    });
-    //});
+    var load = true;
+    var load1 = true;
+
+
+    $(document).ready(function () {
+        $(document).mouseleave(function () {
+
+            load = false;
+            dellay();
+
+        });
+
+        $(document).mouseenter(function () {
+
+            load = true;
+         
+
+
+        });
+    });
+
+
+    function dellay() {
+        console.log("call: Load: " + load + " Load 2: " + load1);
+        if (load1 == true ) {
+
+            var sss = setTimeout(displaynoti, 5000);
+       //setTimeout(function () { load1 = false }, 3000);
+
+
+            //load1 = false;
+
+            
+            //displaynoti();
+        }
+
+    }
+
+    function displaynoti() {
+        console.log("call1: Load: " + load + " Load 2: " + load1);
+
+        if (load == false) {
+            alert("Phat hien chuyen tab");
+            load1 = true;
+
+
+        }
+
+    }
+
+
 
     window.onload = function () {
         document.getElementById("notification").click();
+
     }
 
-   
 
-  
 
-    
+
+
+
 
 
 </script>

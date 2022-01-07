@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebsterWebApp.Data;
 using WebsterWebApp.Models;
+using Microsoft.AspNetCore.Http;
+
 
 namespace WebsterWebApp.Controllers
 {
@@ -49,6 +51,8 @@ namespace WebsterWebApp.Controllers
                                                                      lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    HttpContext.Session.SetString("Mail", loginModel.Email);
+
                     loginModel.LoginInValid = "";
                 }
                 else
