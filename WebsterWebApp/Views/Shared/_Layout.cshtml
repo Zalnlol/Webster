@@ -1,4 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using WebsterWebApp.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,13 +65,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
-                        @if (Context.Session.GetString("Mail")!=null)
+                        @if (Context.Session.GetString("Mail") != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                @*  <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> *@
+                                <form class="form-inline" asp-action="Logout" asp-controller="UserAuth" asp-area="">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                 </form>
                             </li>
@@ -79,6 +84,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="modal" data-target="#UserLoginModal">Login</a>
+
                             </li>
                         }
                     </ul>
@@ -89,6 +95,15 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+            <div class="modal fade" id="UserLoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <partial name="_UserLoginPartial">
+            </div>
+
+            <div class="modal fade" id="UserRegistrationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <partial name="_UserRegistrationPartial">
+            </div>
+
         </main>
     </div>
 </body>

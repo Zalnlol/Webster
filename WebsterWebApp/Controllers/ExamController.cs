@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebsterWebApp.Controllers
 {
@@ -16,7 +17,6 @@ namespace WebsterWebApp.Controllers
             this.db = db;
         }
 
-    
         public IActionResult ExamList(string ?notification)
         {
             ViewBag.Notification = notification;

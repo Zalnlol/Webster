@@ -68,14 +68,21 @@ namespace WebsterWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
+            //HttpContext.Session.Remove("Mail");
+            //return BadRequest(HttpContext.Session.GetString("Mail"));
+
+
+
             await _signInManager.SignOutAsync();
 
             if (returnUrl != null)
             {
+           
                 return LocalRedirect(returnUrl);
             }
             else
             {
+                HttpContext.Session.Remove("Mail");
                 return RedirectToAction("Index", "Home");
             }
         }
