@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebsterWebApp.Areas.Admin.Models;
 using WebsterWebApp.Data;
 using WebsterWebApp.Models;
 using Newtonsoft.Json;
+using WebsterWebApp.Areas.Admin.Models;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ExamController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ExamController(DatabaseContext context)
+        public ExamController(ApplicationDbContext context)
         {
             _context = context;
         }
