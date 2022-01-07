@@ -65,10 +65,10 @@
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionTitle)
+                Question title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionType)
+                Question type
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Photo)
@@ -78,13 +78,14 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-    String questionType = item.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";
+    String questionType = item.QuestionType ? "One Answer" : "Many Answer";
+    String title = @item.QuestionTitle.Substring(0, 15);
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionTitle)
+                @title...
             </td>
             <td>
                 @questionType
@@ -92,7 +93,7 @@
             <td>
                 @if (item.Photo == null)
                 {
-                    <img src="~/images/QA/260525402_1006620596585810_8289601711119089916_n.jpg" width="120" />
+                    <p>Empty</p>
                 }
                 else
                 {

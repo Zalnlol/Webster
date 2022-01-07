@@ -22,12 +22,12 @@
             @Html.DisplayFor(model => model.QuestionTitle)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
+            Image Question
         </dt>
         <dd class="col-sm-10">
             @if (Model.Photo == null)
             {
-                <img src="~/images/QA/260525402_1006620596585810_8289601711119089916_n.jpg" width="120" />
+                <p>Empty</p>
 
             }
             else
@@ -37,61 +37,94 @@
         </dd>
 
         <dt class="col-sm-2">
-            <label>FirstAnswerContent</label>
+            <label>A.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.firstAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoFirstAnswer</label>
+            <label>Image Answer A</label>
         </dt>
         <dd class="col-sm-10">
-            <img src="~/@ViewBag.photoFirstAns" width="120" />
+            @if (@ViewBag.photoFirstAns == null)
+            {
+                <p>Empty</p>
+
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoFirstAns" width="120" />
+            }
         </dd>
         <dt class="col-sm-2">
-            <label>SecondAnswerContent</label>
+            <label>B.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.secondAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoSecondAnswer</label>
+            <label>Image Answer B</label>
         </dt>
         <dd class="col-sm-10">
-            <img src="~/@ViewBag.photoSecondAns" width="120" />
+            @if (@ViewBag.photoSecondAns == null)
+            {
+                <p>Empty</p>
+
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoSecondAns" width="120" />
+            }
         </dd>
         <dt class="col-sm-2">
-            <label>ThirdAnswerContent</label>
+            <label>C.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.thirdAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoThirdAnswer</label>
+            <label>Image Answer C</label>
         </dt>
         <dd class="col-sm-10">
-            <img src="~/@ViewBag.photoThirdAns" width="120" />
+            @if (@ViewBag.photoThirdAns == null)
+            {
+                <p>Empty</p>
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoThirdAns" width="120" />
+            }
         </dd>
         <dt class="col-sm-2">
-            <label>FourthAnswerContent</label>
+            <label>D.</label>
         </dt>
         <dd class="col-sm-10">
             @ViewBag.fourthAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>PhotoFourthAnswer</label>
+            <label>Image Answer D</label>
         </dt>
         <dd class="col-sm-10">
-            <img src="~/@ViewBag.photoFourthAns" width="120" />
+            @if (@ViewBag.photoFourthAns == null)
+            {
+                <p>Empty</p>
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoFourthAns" width="120" />
+            }
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.QuestionType)
+            Question type
         </dt>
         <dd class="col-sm-10">
             @{String questionType = Model.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";}
             @questionType
         </dd>
         <dt class="col-sm-2">
+            Correct Answer
+        </dt>
+        <dd class="col-sm-2">
             @if (Model.QuestionType == false)
             {
                 @if (ViewBag.CorrectAnswer1 == true)
@@ -102,7 +135,7 @@
                 else
                 {
                     <label>FirstAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer2 == true)
@@ -113,7 +146,7 @@
                 else
                 {
                     <label>SecondAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer3 == true)
@@ -124,7 +157,7 @@
                 else
                 {
                     <label>ThirdAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer4 == true)
@@ -135,7 +168,7 @@
                 else
                 {
                     <label>FourthAnswer</label>
-                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled"/>
+                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" />
                 }
             }
             else
@@ -167,7 +200,7 @@
                     }
                 </select>
             }
-        </dt>
+        </dd>
 
     </dl>
 </div>
