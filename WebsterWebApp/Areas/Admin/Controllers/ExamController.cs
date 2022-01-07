@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class ExamController : Controller
     {
         private readonly DatabaseContext _context;
@@ -40,15 +39,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             var ques2 = (from c in _context.Questions where c.Subject.Equals("Math") select c).ToList();
             var ques3 = (from c in _context.Questions where c.Subject.Equals("Tech") select c).ToList();
             
-
-  
+        
             try
             {
                 if (ModelState.IsValid && result == null)
                 {
-                    
+                    List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z' };
+                    Random pass = new Random();
+                    string pwd = "";
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        int pas = pass.Next((abc.Count) - 1);
+                        char cha = abc.ElementAt(pas);
+                        pwd = pwd + cha.ToString();
+                    }
                     if (exam.ExamType == true)
                     {
+                            
                         await _context.Exams.AddAsync(exam);
                         await _context.SaveChangesAsync();
                         var des = _context.Exams.OrderByDescending(S => S.ExamId).First();
@@ -98,6 +105,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     }
                     else
                     {
+                        exam.PassWord = pwd;
                         await _context.Exams.AddAsync(exam);
                         await _context.SaveChangesAsync();
                         //var des = _context.Exams.OrderByDescending(S => S.ExamId).First();
@@ -153,14 +161,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             ViewBag.tech = des3.ToList();
 
             return View(res);
-        }
-        //[HttpPost]
-        //public async Task<IActionResult> Details(Exam e)
-        //{
-        //    var result = from c in _context.ExamTypes where c.ExamId.Equals(e.ExamId) select c;
-
-        //    return View(await result.ToListAsync());
-        //}
-
+        }   
     }
 }
