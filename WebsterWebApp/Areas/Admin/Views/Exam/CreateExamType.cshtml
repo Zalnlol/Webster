@@ -1,0 +1,184 @@
+﻿@using Newtonsoft.Json;
+@using WebsterWebApp.Areas.Admin.Models;
+@model WebsterWebApp.Models.ExamType
+@{
+    ViewData["Title"] = "CreateExamType";
+}
+<div>
+    <h3>@ViewBag.nameex</h3>
+</div>
+<h1>CreateExamType</h1>
+<div>
+ <form asp-action="CreateExamType" asp-controller="Exam" method="post">
+        <input type="text" name="examid" value="@ViewBag.idex"/>
+        <br />
+        <label>Hiểu biết chung</label>
+            
+        <div>
+        <select class="form-control" name="ques1" id="ans11" onchange="binding('ans1')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques2" id="ans12" onchange="binding('ans1')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques3" id="ans13" onchange="binding('ans1')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques4" id="ans14" onchange="binding('ans1')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques5" id="ans15" onchange="binding('ans1')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        </div>
+        <label>Math</label>
+        <div>
+        <select class="form-control" name="ques6" id="ans21" onchange="binding('ans2')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques7" id="ans22" onchange="binding('ans2')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques8" id="ans23" onchange="binding('ans2')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques9" id="ans24" onchange="binding('ans2')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques10" id="ans25" onchange="binding('ans2')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <div>
+        <label>Tech</label>
+        <div>
+        <select class="form-control" name="ques11" id="ans31" onchange="binding('ans3')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques12" id="ans32" onchange="binding('ans3')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques13" id="ans33" onchange="binding('ans3')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques14" id="ans34" onchange="binding('ans3')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        <select class="form-control" name="ques15" id="ans35" onchange="binding('ans3')">
+            <option value="0">----- Choose -----</option>
+        </select>
+        </div>   
+        <input type="submit"  value="Submit" />
+ </form>
+ 
+    </div>    
+<pre id="data" hidden>
+    @JsonConvert.SerializeObject(ViewBag.index)
+</pre>
+<pre id="data1" hidden>
+    @JsonConvert.SerializeObject(ViewBag.index1)
+</pre>
+<pre id="data2" hidden>
+    @JsonConvert.SerializeObject(ViewBag.index2)
+</pre>
+
+
+
+<script>
+    obj1 = document.getElementById("data").innerText;
+    obj1 = JSON.parse(obj1);
+    document.getElementById("data").innerHTML = "";
+
+    console.log(obj1);
+</script>
+<script>
+    obj2 = document.getElementById("data1").innerText;
+    obj2 = JSON.parse(obj2);
+    document.getElementById("data1").innerHTML="";
+
+    console.log(obj2);
+</script>
+<script>
+    obj3 = document.getElementById("data2").innerText;
+    obj3 = JSON.parse(obj3);
+   document.getElementById("data2").innerHTML = "";
+
+    console.log(obj3);
+</script>
+
+@* Xu ly select *@
+
+<script>
+
+
+    binding('ans1');
+    binding('ans2');
+    binding('ans3');
+    function binding(s) {
+        switch (s) {
+            case "ans1":
+                ds2 = obj1;
+                ds1 = ds2;
+                break;
+            case "ans2":
+                ds2 = obj2;
+                ds1 = ds2;
+                break;
+            case "ans3":
+                ds2 = obj3;
+                ds1 = ds2;
+                break;
+        }
+        text = "";
+        for (i = 1; i <= 5; i++) {
+            tmp = document.getElementById(s + i).value;
+            if (tmp != "0") {
+                ds2 = ds2.filter(t => t.QuestionId != tmp)
+            }
+        }
+        for (i = 1; i <= 5; i++) {
+            tmp = document.getElementById(s + i).value;
+            if (tmp != "0") {
+                text += '<option value="0"  >----- Choose ----</option> '
+
+                text += '<option value="' + tmp + '"  selected>' + ds1.find(g => g.QuestionId == tmp).QuestionTitle + '</option> '
+                ds2.forEach(element => {
+                    text += '<option value="' + element.QuestionId + '" >' + element.QuestionTitle + '</option> '
+                });
+                document.getElementById(s + i).innerHTML = text;
+                text = "";
+            } else {
+                text += ' <option value="0" selected>----- Choose -----</option> '
+                ds2.forEach(element => {
+                    text += '<option value="' + element.QuestionId + '" >' + element.QuestionTitle + '</option> '
+                });
+                document.getElementById(s + i).innerHTML = text;
+                text = "";
+            }
+        }
+    }
+
+
+</script>
+@{
+    ExamType ex = new ExamType();
+    
+}
+<pre id="Ek" hidden>
+    @JsonConvert.SerializeObject(ex)
+</pre>
+
+<script>
+    function ExamType(ExamTypeId,ExamId,QuestionId){
+        this.ExamTypeId = ExamTypeId;
+        this.ExamId = ExamId;
+        this.QuestionId = QuestionId;
+    }
+    const list =[];
+
+    for(i=0;i<15;i++){
+    
+    examtp = new ExamType(null,@ViewBag.idex,document.getElementById("ans11").value);
+    list[i] = examtp;
+    }
+    console.log(list);
+</script>

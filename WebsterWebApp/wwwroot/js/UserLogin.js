@@ -44,7 +44,7 @@
 
                 }
                 else {
-                    location.href = '/Home/Index';
+                    location.href = '/';
 
                 }
             },
