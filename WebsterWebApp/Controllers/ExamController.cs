@@ -206,5 +206,14 @@ namespace WebsterWebApp.Controllers
 
            
         }
+    
+        [HttpPost]
+        public string CheckResult()
+        {
+            var ds = Request.Query;
+
+            return ds.ToString();
+        }
+    
     }
 }
