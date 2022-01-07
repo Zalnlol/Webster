@@ -52,10 +52,14 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 && m.QuestionTitle.ToUpper().Contains(questionTitle.ToUpper()));
                 return View(model);
             }
-
         }
 
-        [HttpPost]
+        public IActionResult BatchQuestionUpload()
+        {
+            return View();
+        }
+
+            [HttpPost]
         public async Task<IActionResult> BatchQuestionUpload(IFormFile batchQuestions)
         {
             if (ModelState.IsValid)
@@ -74,21 +78,14 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             {
                                 String subject = worksheet.Cells[row, 1].Value?.ToString();
                                 String title = worksheet.Cells[row, 2].Value?.ToString();
-                                var photoQuestion = worksheet.Cells[row, 3].Value;                         
-
-
-                                if (row == 2)
-                                {
-                                    //var filePath = Path.Combine("wwwroot/images/QA", photoQuestion.FileName);
-                                    //var _stream = new FileStream(filePath, FileMode.Create);
-                                }
-
+                                String photoQuestion = worksheet.Cells[row, 3].Value.ToString();                        
                                 String type = worksheet.Cells[row, 4].Value?.ToString();
 
                                 Question question = new Question()
                                 {
                                     Subject = subject,
                                     QuestionTitle = title,
+                                    Photo = photoQuestion,
                                     QuestionType = type == "QuestionHasOneAnswer" ? true : false,
                                 };
 
@@ -96,16 +93,21 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 await _db.SaveChangesAsync();
 
                                 String firstAnswer = worksheet.Cells[row, 5].Value?.ToString();
-                                String secondAnswer = worksheet.Cells[row, 6].Value?.ToString();
-                                String thirdAnswer = worksheet.Cells[row, 7].Value?.ToString();
-                                String fourthAnswer = worksheet.Cells[row, 8].Value?.ToString();
-                                String answerCorrect = worksheet.Cells[row, 9].Value?.ToString();
+                                String photoFirstAnswer = worksheet.Cells[row, 6].Value?.ToString();
+                                String secondAnswer = worksheet.Cells[row, 7].Value?.ToString();
+                                String photoSecondAnswer = worksheet.Cells[row, 8].Value?.ToString();
+                                String thirdAnswer = worksheet.Cells[row, 9].Value?.ToString();
+                                String photoThirdAnswer = worksheet.Cells[row, 10].Value?.ToString();
+                                String fourthAnswer = worksheet.Cells[row, 11].Value?.ToString();
+                                String photoFourthAnswer = worksheet.Cells[row, 12].Value?.ToString();
+                                String answerCorrect = worksheet.Cells[row, 13].Value?.ToString();
 
                                 if (type == "QuestionHasOneAnswer")
                                 {
                                     Answer answer1 = new Answer()
                                     {
                                         AnswerContent = firstAnswer,
+                                        Photo = photoFirstAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
                                     };
@@ -113,6 +115,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer2 = new Answer()
                                     {
                                         AnswerContent = secondAnswer,
+                                        Photo = photoSecondAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
                                     };
@@ -120,13 +123,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer3 = new Answer()
                                     {
                                         AnswerContent = thirdAnswer,
+                                        Photo = photoThirdAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
                                     };
 
                                     Answer answer4 = new Answer()
                                     {
-                                        AnswerContent = thirdAnswer,
+                                        AnswerContent = fourthAnswer,
+                                        Photo = photoFourthAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
                                     };
@@ -142,6 +147,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer1 = new Answer()
                                     {
                                         AnswerContent = firstAnswer,
+                                        Photo = photoFirstAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
                                     };
@@ -149,6 +155,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer2 = new Answer()
                                     {
                                         AnswerContent = secondAnswer,
+                                        Photo = photoSecondAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
                                     };
@@ -156,6 +163,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer3 = new Answer()
                                     {
                                         AnswerContent = thirdAnswer,
+                                        Photo = photoThirdAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
                                     };
@@ -163,6 +171,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                     Answer answer4 = new Answer()
                                     {
                                         AnswerContent = thirdAnswer,
+                                        Photo = photoFourthAnswer,
                                         QuestionId = question.QuestionId,
                                         IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
                                     };

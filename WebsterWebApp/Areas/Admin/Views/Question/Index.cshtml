@@ -14,14 +14,7 @@
 
 <br />
 
-<form asp-action="BatchQuestionUpload" asp-controller="Question" method="post" enctype="multipart/form-data">
-    <label style="color: limegreen">Upload New Question</label>
-    <br />
-    <input type="file" name="batchQuestions" id="batchQuestions" onchange="validationBatchQuestions()" class="form-label" style="color: limegreen "/>
-    <br />
-    <br />
-    <input type="submit" value="Upload" class="btn-success" />
-</form>
+<a asp-action="BatchQuestionUpload"><b style="color:dodgerblue">Upload New Question</b></a>
 
 <hr />
 
@@ -127,20 +120,3 @@
     }
 </script>
 
-<script>
-    function validationBatchQuestions() {
-        var fileInput = document.getElementById('batchQuestions');
-        var filePath = fileInput.value;
-
-        var allowedExtensions =
-            /(\.xlsx)$/i;
-
-        if (!allowedExtensions.exec(filePath)) {
-            alert('Must be .xlsx file!');
-            fileInput.value = '';
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
