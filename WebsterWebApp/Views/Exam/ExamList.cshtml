@@ -5,38 +5,43 @@
 
 }
 
-<div class="row">
-    <div class="col"><h3 style="text-align:center">Exam List</h3></div>
-</div>
 
 
-<table class="table table-striped ">
-    <tr>
-        <th>#</th>
-        <th>Exam Name</th>
-        <th>Start Date</th>
-        <th>Start Hour</th>
-        <th>Action</th>
-    </tr>
-    @foreach (var item in ViewBag.ds)
-    {
 
 
+<div class="container" style="margin-top:7%; min-height:400px">
+
+    <div class="row" style="margin-bottom:2%">
+        <div class="col"><h3 style="text-align:center">Exam List</h3></div>
+    </div>
+
+    <table class="table table-striped ">
         <tr>
-            @{i += 1;}
-            <td>@i</td>
-            <td>@item.ExamName </td>
-            <td>  @String.Format("{0:dd/MM/yyyy}", item.StartDate)</td>
-            <td>@String.Format("{0:HH : mm }", item.StartDate) </td>
-            <td>
-                <input type="button" onclick="checkclick(@item.ExamId)" class="btn btn-info" value="Start Exam" />
-
-            </td>
+            <th>#</th>
+            <th>Exam Name</th>
+            <th>Start Date</th>
+            <th>Start Hour</th>
+            <th>Action</th>
         </tr>
-    }
+        @foreach (var item in ViewBag.ds)
+        {
 
-</table>
 
+            <tr>
+                @{i += 1;}
+                <td>@i</td>
+                <td>@item.ExamName </td>
+                <td>  @String.Format("{0:dd/MM/yyyy}", item.StartDate)</td>
+                <td>@String.Format("{0:HH : mm }", item.StartDate) </td>
+                <td>
+                    <input type="button" onclick="checkclick(@item.ExamId)" class="btn btn-info" value="Start Exam" />
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 <button data-toggle="modal" data-target="#exampleModal" id="model" hidden></button>
 <div id="form" hidden></div>
 

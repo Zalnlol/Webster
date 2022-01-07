@@ -20,7 +20,23 @@ namespace WebsterWebApp.Controllers
         public IActionResult ExamList(string ?notification)
         {
             ViewBag.Notification = notification;
-            ViewBag.ds = db.Exams.Where(t =>t.FinishTime > DateTime.Now).ToList();
+            
+            var exam = db.Exams.Where(t =>t.FinishTime > DateTime.Now).ToList();
+
+            var ExamUserId = db.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+
+            var list = db.ExamUsers.Where(s => s.UserId.Equals(ExamUserId)).ToList();
+
+
+            ViewBag.ds = (from s in list
+                      join t in exam
+                      on s.ExamId.ToString() equals t.ExamId.ToString()
+                      select t
+                      ).ToList();
+
+
+
+
             return View();
         }
 
