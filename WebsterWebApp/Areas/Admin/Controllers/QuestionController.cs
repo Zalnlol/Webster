@@ -58,6 +58,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> BatchQuestionUpload(IFormFile batchQuestions)
         {
+            Random rd = new Random();
+            int tmp = rd.Next(10 - 1);
+            return BadRequest(tmp);
+            
+            return BadRequest(tmp);
+
             if (ModelState.IsValid)
             {
                 if(batchQuestions?.Length > 0)

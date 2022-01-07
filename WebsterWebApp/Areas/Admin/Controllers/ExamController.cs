@@ -105,7 +105,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     }
                     else
                     {
-                        exam.PassWord = pwd;
+                        exam.ExamPass = pwd;
                         await _context.Exams.AddAsync(exam);
                         await _context.SaveChangesAsync();
                         //var des = _context.Exams.OrderByDescending(S => S.ExamId).First();

@@ -22,7 +22,7 @@ namespace WebsterWebApp.Models
 
         [Required(ErrorMessage = "ExamType title is required!")]
         public int PassPercent { get; set; }
-        public string PassWord { get; set; }
+        public string ExamPass { get; set; }
 
         [Required(ErrorMessage = "FirstCountdown type is required!")]
 
