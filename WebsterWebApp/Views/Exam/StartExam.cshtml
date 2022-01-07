@@ -547,14 +547,50 @@
        
     }
 
-    //$(document).ready(function () {
-    //    $(document).mouseleave(function () {
-    //        alert("Phat hien chuyen tab");
-    //    });
-    //});
+    var load = true;
+    var load1= true;
+
+
+    $(document).ready(function () {
+        $(document).mouseleave(function () {
+     
+            load = false;
+            dellay();
+           
+        });
+
+        $(document).mouseenter(function () {
+        
+            load = true;
+  
+
+        });
+    });
+
+
+    function dellay() {
+        if (load1 == true && load == false) {
+            setTimeout(displaynoti, 3000);
+            load1 = false;
+        }
+         
+    }
+
+    function displaynoti() {
+        alert("Phat hien chuyen tab");
+
+        if (load == false) {
+                load1 = true;
+
+            }
+
+    }
+
+  
 
     window.onload = function () {
         document.getElementById("notification").click();
+        nhan();
     }
 
    
