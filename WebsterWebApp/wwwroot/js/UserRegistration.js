@@ -19,7 +19,7 @@
     //Set input text for email to be onBlur (lose focus) and display error message "Email already register"
     $("#UserRegistrationModal input[name='Email']").blur(function () {
         var email = $("#UserRegistrationModal input[name='Email']").val();
-        var url = "UserAuth/UserNameExists?userName=" + email;
+        var url = "/UserAuth/UserNameExists?userName=" + email;
         $.ajax({
             type: "GET",
             url: url,
@@ -45,7 +45,7 @@
     var registerUserButton = $("#UserRegistrationModal button[name='register']").click(onUserRegisterClick);
 
     function onUserRegisterClick() {
-        var url = "UserAuth/RegisterUser";
+        var url = "/UserAuth/RegisterUser";
         var antiForgeryToken = $("#UserRegistrationModal input[name='__RequestVerificationToken']").val();
         var email = $("#UserRegistrationModal input[name='Email']").val();
         var password = $("#UserRegistrationModal input[name='Password']").val();
@@ -87,7 +87,7 @@
                 }
                 else
                 {
-                    location.href = 'Home/Index';
+                    location.href = '/Home/Index';
                 }
             },
             error: function (xhr, ajaxOptions, thrownError)

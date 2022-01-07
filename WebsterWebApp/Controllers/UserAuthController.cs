@@ -108,6 +108,8 @@ namespace WebsterWebApp.Controllers
                 var result = await _userManager.CreateAsync(user, registrationModel.Password);
                 if (result.Succeeded)
                 {
+                    HttpContext.Session.SetString("Mail", registrationModel.Email);
+
                     registrationModel.RegistrationInValid = "";
                     //Auto Log in if registration is success 
                     await _signInManager.SignInAsync(user, isPersistent: false);
