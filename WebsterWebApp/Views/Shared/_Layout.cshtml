@@ -1,50 +1,200 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using WebsterWebApp.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebsterWebApp</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/User/assets/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+
+    <link rel="stylesheet" href="~/User/css/style.css">
+    <link rel="stylesheet" href="~/User/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/User/css/owl.theme.default.min.css">
+    <script src="~/User/assets/bootstrap.bundle.min.js"></script>
+    <link href="~/User/assets/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/mixins/_border-radius.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/mixins/_visibility.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/utilities/_stretched-link.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap/_media.css" rel="stylesheet" />
+    <link href="~/User/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/User/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/User/css/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/User/css/style.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link href="~/User/footer/fonts/icomoon/style.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="~/User/footer/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Style CSS -->
+    <link href="~/User/footer/css/style.css" rel="stylesheet" />
+
+
+    <title>@ViewData["Title"] </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<body id="body">
+    <header style="margin-top:4%">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebsterWebApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="~/">Webster</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="~/">Home</a>
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" href="#">About</a>
                         </li>
-                        <partial name="_AdminMenuPartial" />
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                        @if (Context.Session.GetString("Mail") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                            </li>
+                            <li class="nav-item">
+                                @*  <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> *@
+                                <form class="form-inline" asp-action="Logout" asp-controller="UserAuth" asp-area="">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" data-toggle="modal" data-target="#UserRegistrationModal">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="modal" data-target="#UserLoginModal">Login</a>
+
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    @*<partial name="_LoginPartial" />*@
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
+
+            <div class="modal fade" id="UserLoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <partial name="_UserLoginPartial">
+            </div>
+
+            <div class="modal fade" id="UserRegistrationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <partial name="_UserRegistrationPartial">
+            </div>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - WebsterWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <section>
+
+        <!-- Site footer -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h6 style="color: black">About</h6>
+                        <p class="text-justify">Webster.com <i>Online Aptitude test </i> is an initiative to help the job seekers proving themselves to employers by taking trial tests from various field of expertise.</p>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <h6 style="color: black">Categories</h6>
+                        <ul class="footer-links">
+                            <li><a href="https://www.indiabix.com/aptitude/questions-and-answers/">Quantitative</a></li>
+                            <li><a href="https://www.indiabix.com/verbal-ability/questions-and-answers/">Verbal and Reasoning</a></li>
+                            <li><a href="https://www.indiabix.com/current-affairs/questions-and-answers/">Current Affairs & GK</a></li>
+                            <li><a href="https://www.indiabix.com/engineering/">Engineering</a></li>
+                            <li><a href="https://www.indiabix.com/c-sharp-programming/questions-and-answers/">Technical</a></li>
+                            <li><a href="https://www.indiabix.com/biochemical-engineering/questions-and-answers/">Medical Science</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <h6 style="color: black">Quick Links</h6>
+                        <ul class="footer-links">
+                            <li><a href="http://Webster.com/about/">About Us</a></li>
+                            <li><a href="http://Webster.com/contact/">Contact Us</a></li>
+                            <li><a href="http://Webster.com/contribute-at-Webster/">Contribute</a></li>
+                            <li><a href="http://Webster.com/privacy-policy/">Privacy Policy</a></li>
+                            <li><a href="http://Webster.com/sitemap/">Sitemap</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-sm-6 col-xs-12">
+                        <p class="copyright-text">
+                            Copyright &copy; 2022 All Rights Reserved by
+                            <a href="#">Webster</a>.
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <ul class="social-icons">
+                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </section>
+
 </body>
 </html>
+
+<script src="~/js/UserRegistration.js" asp-append-version="true"></script>
+<script src="~/js/UserLogin.js" asp-append-version="true"></script>
+<script src="~/js/BootstrapAlert.js" asp-append-version="true"></script>
+<script src="~/User/assets/bootstrap.bundle.min.js"></script>
+
+<script src="~/User/js/popper.js"></script>
+<script src="~/User/js/bootstrap.min.js"></script>
+<script src="~/User/js/owl.carousel.min.js"></script>
+
+
+<script src="~/User/js/main.js"></script>
+<script src="~/User/js/owl.carousel.min.js"></script>
+<script src="~/User/js/popper.js"></script>
+<script src="~/User/js/bootstrap.min.js"></script>
+
+<script src="~/User/footer/js/popper.min.js"></script>
+<script src="~/User/footer/js/jquery-3.3.1.min.js"></script>
+<script src="~/User/footer/js/bootstrap.min.js"></script>
+

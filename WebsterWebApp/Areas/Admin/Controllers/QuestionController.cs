@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,25 +15,181 @@ using WebsterWebApp.Areas.Admin.Models;
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class QuestionController : Controller
     {
-        private readonly Data.DatabaseContext _db;
 
-        public QuestionController(Data.DatabaseContext db)
+        private readonly Data.ApplicationDbContext _db;
+
+        public QuestionController(Data.ApplicationDbContext db)
         {
             this._db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(String subject, String questionTitle)
         {
-            return View(_db.Questions.ToList());
+            var model = _db.Questions.ToList();
+            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            if (String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
+            {
+                return View(model);
+            }
+            else if (!String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
+            {
+                ViewBag.optionSubject = subject;
+                model = model.ToList().FindAll(m => m.Subject.ToUpper().Contains(subject.ToUpper()));
+                return View(model);
+            }
+            else if(String.IsNullOrEmpty(subject) && !String.IsNullOrEmpty(questionTitle))
+            {
+                model = model.ToList().FindAll(m => m.QuestionTitle.ToUpper().Contains(questionTitle.ToUpper()));
+                return View(model);
+            }
+            else
+            {
+                ViewBag.optionSubject = subject;
+                model = model.ToList().FindAll(m => m.Subject.ToUpper().Contains(subject.ToUpper()) 
+                && m.QuestionTitle.ToUpper().Contains(questionTitle.ToUpper()));
+                return View(model);
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BatchQuestionUpload(IFormFile batchQuestions)
+        {
+            if (ModelState.IsValid)
+            {
+                if(batchQuestions?.Length > 0)
+                {
+                    var stream = batchQuestions.OpenReadStream();
+                    try
+                    {
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
+                            int rowCount = worksheet.Dimension.Rows;
+
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+                                String subject = worksheet.Cells[row, 1].Value?.ToString();
+                                String title = worksheet.Cells[row, 2].Value?.ToString();
+                                var photoQuestion = worksheet.Cells[row, 3].Value;                         
+
+
+                                if (row == 2)
+                                {
+                                    //var filePath = Path.Combine("wwwroot/images/QA", photoQuestion.FileName);
+                                    //var _stream = new FileStream(filePath, FileMode.Create);
+                                }
+
+                                String type = worksheet.Cells[row, 4].Value?.ToString();
+
+                                Question question = new Question()
+                                {
+                                    Subject = subject,
+                                    QuestionTitle = title,
+                                    QuestionType = type == "QuestionHasOneAnswer" ? true : false,
+                                };
+
+                                _db.Questions.Add(question);
+                                await _db.SaveChangesAsync();
+
+                                String firstAnswer = worksheet.Cells[row, 5].Value?.ToString();
+                                String secondAnswer = worksheet.Cells[row, 6].Value?.ToString();
+                                String thirdAnswer = worksheet.Cells[row, 7].Value?.ToString();
+                                String fourthAnswer = worksheet.Cells[row, 8].Value?.ToString();
+                                String answerCorrect = worksheet.Cells[row, 9].Value?.ToString();
+
+                                if (type == "QuestionHasOneAnswer")
+                                {
+                                    Answer answer1 = new Answer()
+                                    {
+                                        AnswerContent = firstAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
+                                    };
+
+                                    Answer answer2 = new Answer()
+                                    {
+                                        AnswerContent = secondAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
+                                    };
+
+                                    Answer answer3 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
+                                    };
+
+                                    Answer answer4 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
+                                    };
+
+                                    _db.Answers.Add(answer1);
+                                    _db.Answers.Add(answer2);
+                                    _db.Answers.Add(answer3);
+                                    _db.Answers.Add(answer4);
+                                    await _db.SaveChangesAsync();
+                                }
+                                else
+                                {
+                                    Answer answer1 = new Answer()
+                                    {
+                                        AnswerContent = firstAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
+                                    };
+
+                                    Answer answer2 = new Answer()
+                                    {
+                                        AnswerContent = secondAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
+                                    };
+
+                                    Answer answer3 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
+                                    };
+
+                                    Answer answer4 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        QuestionId = question.QuestionId,
+                                        IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
+                                    };
+                                    _db.Answers.Add(answer1);
+                                    _db.Answers.Add(answer2);
+                                    _db.Answers.Add(answer3);
+                                    _db.Answers.Add(answer4);
+                                    await _db.SaveChangesAsync();
+                                }
+                            }
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        return BadRequest(e.Message);
+                    }
+                }
+            }
+            return View();
         }
 
         public IActionResult Create()
         {
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             return View();
         }
@@ -40,11 +200,13 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         IFormFile photoSecondAnswerContent, IFormFile photoThirdAnswerContent, IFormFile photoFourthAnswerContent, String IsCorrectAnswer,
         String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3, String CorrectAnswer4)
         {
+            int count = 1;
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String>
             {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
+
             if (ModelState.IsValid)
             {
                 foreach (var item in TempData["optionSubject"] as List<String>)
@@ -74,7 +236,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer firstAnswer = new Answer();
                 firstAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                firstAnswer.AnswerContent = firstAnswerContent;
+                if(firstAnswerContent != null)
+                {
+                    firstAnswer.AnswerContent = firstAnswerContent;
+                }
+                else
+                {
+                    ViewBag.firstAnswerMsg = "First Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
@@ -82,7 +252,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoFirstAnswerContent.CopyToAsync(stream);
                     firstAnswer.Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "FirstAnswerContent" || CorrectAnswer1 == "true")
+                if (IsCorrectAnswer == "FirstAnswer" || CorrectAnswer1 == "true")
                 {
                     firstAnswer.IsCorrectAnswer = true;
                 }
@@ -95,7 +265,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer secondAnswer = new Answer();
                 secondAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                secondAnswer.AnswerContent = secondAnswerContent;
+                if (secondAnswerContent != null)
+                {
+                    secondAnswer.AnswerContent = secondAnswerContent;
+                }
+                else
+                {
+                    ViewBag.secondAnswerMsg = "Second Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
@@ -103,7 +281,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoSecondAnswerContent.CopyToAsync(stream);
                     secondAnswer.Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "SecondAnswerContent" || CorrectAnswer2 == "true")
+                if (IsCorrectAnswer == "SecondAnswer" || CorrectAnswer2 == "true")
                 {
                     secondAnswer.IsCorrectAnswer = true;
                 }
@@ -116,7 +294,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer thirdAnswer = new Answer();
                 thirdAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                thirdAnswer.AnswerContent = thirdAnswerContent;
+                if (thirdAnswerContent != null)
+                {
+                    thirdAnswer.AnswerContent = thirdAnswerContent;
+                }
+                else
+                {
+                    ViewBag.thirdAnswerMsg = "Third Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
@@ -124,7 +310,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoThirdAnswerContent.CopyToAsync(stream);
                     thirdAnswer.Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "ThirdAnswerContent" || CorrectAnswer3 == "true")
+                if (IsCorrectAnswer == "ThirdAnswer" || CorrectAnswer3 == "true")
                 {
                     thirdAnswer.IsCorrectAnswer = true;
                 }
@@ -137,7 +323,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                 Answer fourthAnswer = new Answer();
                 fourthAnswer.QuestionId = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(question.QuestionId)).QuestionId;
-                fourthAnswer.AnswerContent = fourthAnswerContent;
+                if (fourthAnswerContent != null)
+                {
+                    fourthAnswer.AnswerContent = fourthAnswerContent;
+                }
+                else
+                {
+                    ViewBag.fourthAnswerMsg = "Fourth Answer is required!";
+                    count++;
+                }
                 if (photoFirstAnswerContent != null)
                 {
                     var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
@@ -145,7 +339,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await photoFourthAnswerContent.CopyToAsync(stream);
                     fourthAnswer.Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
                 }
-                if (IsCorrectAnswer == "FourthAnswerContent" || CorrectAnswer4 == "true")
+                if (IsCorrectAnswer == "FourthAnswer" || CorrectAnswer4 == "true")
                 {
                     fourthAnswer.IsCorrectAnswer = true;
                 }
@@ -153,16 +347,49 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 {
                     fourthAnswer.IsCorrectAnswer = false;
                 }
-                _db.Answers.Add(fourthAnswer);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                if(count == 1)
+                {
+                    _db.Answers.Add(fourthAnswer);
+                    await _db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _db.Answers.Remove(firstAnswer);
+                    _db.Answers.Remove(secondAnswer);
+                    _db.Answers.Remove(thirdAnswer);
+                    _db.Questions.Remove(question);
+                    await _db.SaveChangesAsync();
+                    return View();
+                }
+               
             }
             return View();
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
+            List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
+            ViewBag.selectAnswer = new List<String> {
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
+            };
+            for (int i = 0; i < answers.Capacity; i++)
+            {
+                ViewBag.firstAnswerContent = answers[0].AnswerContent;
+                ViewBag.photoFirstAns = answers[0].Photo;
+                ViewBag.CorrectAnswer1 = answers[0].IsCorrectAnswer;
+                ViewBag.secondAnswerContent = answers[1].AnswerContent;
+                ViewBag.photoSecondAns = answers[1].Photo;
+                ViewBag.CorrectAnswer2 = answers[1].IsCorrectAnswer;
+                ViewBag.thirdAnswerContent = answers[2].AnswerContent;
+                ViewBag.photoThirdAns = answers[2].Photo;
+                ViewBag.CorrectAnswer3 = answers[2].IsCorrectAnswer;
+                ViewBag.fourthAnswerContent = answers[3].AnswerContent;
+                ViewBag.photoFourthAns = answers[3].Photo;
+                ViewBag.CorrectAnswer4 = answers[3].IsCorrectAnswer;
+            }
             return View(question);
         }
 
@@ -170,10 +397,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
             ViewBag.subject = question.Subject;
+            ViewBag.questionTitle = question.QuestionTitle;
+            ViewBag.photoQuestion = question.Photo;
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
             for (int i = 0; i < answers.Capacity; i++)
             {
@@ -204,7 +433,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             ViewBag.selectAnswer = new List<String> 
             {
-                "FirstAnswerContent", "SecondAnswerContent", "ThirdAnswerContent", "FourthAnswerContent"
+                "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
             for (int i = 0; i < answers.Capacity; i++)
@@ -223,12 +452,21 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 ViewBag.CorrectAnswer4 = answers[3].IsCorrectAnswer;
             }
             Question _question = _db.Questions.SingleOrDefault(_q => _q.QuestionId.Equals(id));
+            ViewBag.questionTitle = _question.QuestionTitle;
             if (_question != null)
             {
                 if (ModelState.IsValid)
                 {
                     _question.Subject = subject;
-                    _question.QuestionTitle = question.QuestionTitle;
+                    if(question.QuestionTitle != null)
+                    {
+                        _question.QuestionTitle = question.QuestionTitle;
+                    }
+                    else
+                    {
+                        _question.QuestionTitle = ViewBag.questionTitle;
+                    }
+                   
                     if (photoQuestion != null)
                     {
                         var filePath = Path.Combine("wwwroot/images/QA", photoQuestion.FileName);
@@ -252,13 +490,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
                     for (int i = 0; i < answers.Capacity; i++)
                     {
-                        answers[0].AnswerContent = firstAnswerContent;
+                        if(firstAnswerContent == null)
+                        {
+                            answers[0].AnswerContent = answers[0].AnswerContent;
+                        }
+                        else
+                        {
+                            answers[0].AnswerContent = firstAnswerContent;
+                        }
                         if(photoFirstAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoFirstAnswerContent.CopyToAsync(stream);
-                            answers[0].Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
+                            if(i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.CreateNew);
+                                await photoFirstAnswerContent.CopyToAsync(stream);
+                                answers[0].Photo = $"images/QA/{photoFirstAnswerContent.FileName}";
+                            }                         
                         }
                         else
                         {
@@ -266,7 +514,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if(isCorrectAnswer == "FirstAnswerContent")
+                            if(isCorrectAnswer == "FirstAnswer")
                             {
                                 answers[0].IsCorrectAnswer = true;
                                 answers[1].IsCorrectAnswer = false;
@@ -288,16 +536,26 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             {
                                 answers[0].IsCorrectAnswer = false;
                             }
+                        }                       
+
+                        if(secondAnswerContent == null)
+                        {
+                            answers[1].AnswerContent = ViewBag.secondAnswerContent;
+                        }
+                        else
+                        {
+                            answers[1].AnswerContent = secondAnswerContent;
                         }
                         
-
-                        answers[1].AnswerContent = secondAnswerContent;
                         if (photoSecondAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoSecondAnswerContent.CopyToAsync(stream);
-                            answers[1].Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoSecondAnswerContent.CopyToAsync(stream);
+                                answers[1].Photo = $"images/QA/{photoSecondAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -305,7 +563,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "SecondAnswerContent")
+                            if (isCorrectAnswer == "SecondAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = true;
@@ -329,13 +587,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             }
                         }
 
-                        answers[2].AnswerContent = thirdAnswerContent;
+                        if (thirdAnswerContent == null)
+                        {
+                            answers[2].AnswerContent = ViewBag.thirdAnswerContent;
+                        }
+                        else
+                        {
+                            answers[2].AnswerContent = thirdAnswerContent;
+                        }
                         if (photoThirdAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoThirdAnswerContent.CopyToAsync(stream);
-                            answers[2].Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoThirdAnswerContent.CopyToAsync(stream);
+                                answers[2].Photo = $"images/QA/{photoThirdAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -343,7 +611,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "ThirdAnswerContent")
+                            if (isCorrectAnswer == "ThirdAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = false;
@@ -367,13 +635,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             }
                         }
 
-                        answers[3].AnswerContent = fourthAnswerContent;
+                        if (fourthAnswerContent == null)
+                        {
+                            answers[3].AnswerContent = ViewBag.fourthAnswerContent;
+                        }
+                        else
+                        {
+                            answers[3].AnswerContent = fourthAnswerContent;
+                        }
                         if (photoFourthAnswerContent != null)
                         {
-                            var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            await photoFourthAnswerContent.CopyToAsync(stream);
-                            answers[3].Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
+                            if (i == 0)
+                            {
+                                var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswerContent.FileName);
+                                var stream = new FileStream(filePath, FileMode.Create);
+                                await photoFourthAnswerContent.CopyToAsync(stream);
+                                answers[3].Photo = $"images/QA/{photoFourthAnswerContent.FileName}";
+                            }
                         }
                         else
                         {
@@ -381,7 +659,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         }
                         if (questionType == "true")
                         {
-                            if (isCorrectAnswer == "FourthAnswerContent")
+                            if (isCorrectAnswer == "FourthAnswer")
                             {
                                 answers[0].IsCorrectAnswer = false;
                                 answers[1].IsCorrectAnswer = false;

@@ -4,13 +4,61 @@
     ViewData["Title"] = "Index";
 }
 
+<br />
+
 <h4>Question List</h4>
 
 <p>
     <a asp-action="Create"><b style="color:dodgerblue">Create New Question</b></a>
 </p>
 
-<table class="table">
+<br />
+
+<form asp-action="BatchQuestionUpload" asp-controller="Question" method="post" enctype="multipart/form-data">
+    <label style="color: limegreen">Upload New Question</label>
+    <br />
+    <input type="file" name="batchQuestions" id="batchQuestions" onchange="validationBatchQuestions()" class="form-label" style="color: limegreen "/>
+    <br />
+    <br />
+    <input type="submit" value="Upload" class="btn-success" />
+</form>
+
+<hr />
+
+<form asp-action="Index" method="post">
+    <select name="subject" onchange="check()">
+        @if (ViewBag.optionSubject == null)
+        {
+            <option value="">All</option>
+            @foreach (var item in TempData["optionSubject"] as List<String>)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+        else
+        {
+            <option value="">All</option>
+            foreach (var item in TempData["optionSubject"] as List<String>)
+            {
+                if (item == ViewBag.optionSubject)
+                {
+                    <option value="@item" selected>@item</option>
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        }
+    </select>
+    &nbsp;
+    <input type="text" name="questionTitle" placeholder="Enter question title"/>
+    <input type="submit" id="_Filter" value="Filter" class="btn-primary"/>
+</form>
+
+<br />
+
+<table class="table" cellspacing="0" cellpadding="0">
     <thead>
         <tr>
             <th>
@@ -54,9 +102,44 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> &nbsp;
                 <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> &nbsp;
-                <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+                <a asp-action="Delete" onclick="ConfirmDelete()" asp-route-id="@item.QuestionId">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script>
+    function check() {
+        document.getElementById("_Filter").click() = "true";
+    }
+</script>
+
+<script>
+    
+    function ConfirmDelete() {
+        if (confirm("Are you sure ?")) {
+            return true;
+        } else {
+            event.preventDefault();
+        }
+    }
+</script>
+
+<script>
+    function validationBatchQuestions() {
+        var fileInput = document.getElementById('batchQuestions');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.xlsx)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Must be .xlsx file!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

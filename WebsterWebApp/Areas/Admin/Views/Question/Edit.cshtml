@@ -29,11 +29,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="QuestionTitle" class="control-label"></label>
-                <input asp-for="QuestionTitle" class="form-control" value="@Model.QuestionTitle" />
+                <input asp-for="QuestionTitle" class="form-control" value="@ViewBag.questionTitle" />
                 <span asp-validation-for="QuestionTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="~/@Model.Photo" width="120" />
+                <img src="~/@ViewBag.photoQuestion" width="120" />
             </div>
             <div class="form-group">
                 <label class="control-label">Do you want to upload image?</label>
@@ -43,7 +43,7 @@
             <div id="divPhotoQuestion">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoQuestion" class="form-control" />
+                    <input type="file" name="photoQuestion" id="photoQuestion" onchange="validationPhotoQuestion()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -63,7 +63,7 @@
             <div id="photoFirstAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoFirstAnswerContent" class="form-control" />
+                    <input type="file" name="photoFirstAnswerContent" id="validationPhotoFirstAns" onchange="validationPhotoFirstAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -84,7 +84,7 @@
             <div id="photoSecondAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoSecondAnswerContent" class="form-control" />
+                    <input type="file" name="photoSecondAnswerContent" id="validationPhotoSecondAns" onchange="validationPhotoSecondAnswer()" class="form-control" />
                 </div>
             </div>
 
@@ -104,7 +104,7 @@
             <div id="photoThirdAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoThirdAnswerContent" class="form-control" />
+                    <input type="file" name="photoThirdAnswerContent" id="validationPhotoThirdAns" onchange="validationPhotoThirdAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -123,7 +123,7 @@
             <div id="photoFourthAnswerContent">
                 <div class="form-group">
                     <label asp-for="Photo" class="control-label"></label>
-                    <input type="file" name="photoFourthAnswerContent" class="form-control" />
+                    <input type="file" name="photoFourthAnswerContent" id="validationPhotoFourthAns" onchange="validationPhotoFourthAnswer()" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -149,19 +149,19 @@
                     <select name="isCorrectAnswer">
                         @foreach (var item in ViewBag.selectAnswer)
                         {
-                            if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswerContent")
+                            if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswerContent")
+                            else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswerContent")
+                            else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswerContent")
+                            else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswer")
                             {
                                 <option value="@item" selected>@item</option>
                             }
@@ -178,45 +178,45 @@
                 <div class="form-group">
                     @if (ViewBag.CorrectAnswer1 == true)
                     {
-                        <label>FirstAnswerContent</label>
+                        <label>FirstAnswer</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" checked />
                     }
                     else
                     {
-                        <label>FirstAnswerContent</label>
+                        <label>FirstAnswer</label>
                         <input type="checkbox" name="CorrectAnswer1" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer2 == true)
                     {
-                        <label>SecondAnswerContent</label>
+                        <label>SecondAnswer</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" checked />
                     }
                     else
                     {
-                        <label>SecondAnswerContent</label>
+                        <label>SecondAnswer</label>
                         <input type="checkbox" name="CorrectAnswer2" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer3 == true)
                     {
-                        <label>ThirdAnswerContent</label>
+                        <label>ThirdAnswer</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" checked />
                     }
                     else
                     {
-                        <label>ThirdAnswerContent</label>
+                        <label>ThirdAnswer</label>
                         <input type="checkbox" name="CorrectAnswer3" value="true" />
                     }
                     <br />
                     @if (ViewBag.CorrectAnswer4 == true)
                     {
-                        <label>FourthAnswerContent</label>
+                        <label>FourthAnswer</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" checked />
                     }
                     else
                     {
-                        <label>FourthAnswerContent</label>
+                        <label>FourthAnswer</label>
                         <input type="checkbox" name="CorrectAnswer4" value="true" />
                     }
                     <br />
@@ -322,6 +322,89 @@
         if (g.style.display === "none") {
             g.style.display = "block";
             f.style.display = "none";
+        }
+    }
+
+</script>
+
+<script>
+    function validationPhotoQuestion() {
+        var fileInput = document.getElementById('photoQuestion');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoFirstAnswer() {
+        var fileInput = document.getElementById('validationPhotoFirstAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoSecondAnswer() {
+        var fileInput = document.getElementById('validationPhotoSecondAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoThirdAnswer() {
+        var fileInput = document.getElementById('validationPhotoThirdAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validationPhotoFourthAnswer() {
+        var fileInput = document.getElementById('validationPhotoFourthAns');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
         }
     }
 

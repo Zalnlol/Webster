@@ -9,26 +9,19 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Subject)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.QuestionTitle)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.QuestionTitle)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QuestionType)
-        </dt>
-        <dd class = "col-sm-10">
-            @{String questionType = Model.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";}
-            @questionType
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd class="col-sm-10">
@@ -42,6 +35,140 @@
                 <img src="~/@Url.Content(Model.Photo)" width="120" />
             }
         </dd>
+
+        <dt class="col-sm-2">
+            <label>FirstAnswerContent</label>
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.firstAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            <label>PhotoFirstAnswer</label>
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@ViewBag.photoFirstAns" width="120" />
+        </dd>
+        <dt class="col-sm-2">
+            <label>SecondAnswerContent</label>
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.secondAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            <label>PhotoSecondAnswer</label>
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@ViewBag.photoSecondAns" width="120" />
+        </dd>
+        <dt class="col-sm-2">
+            <label>ThirdAnswerContent</label>
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.thirdAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            <label>PhotoThirdAnswer</label>
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@ViewBag.photoThirdAns" width="120" />
+        </dd>
+        <dt class="col-sm-2">
+            <label>FourthAnswerContent</label>
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.fourthAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            <label>PhotoFourthAnswer</label>
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@ViewBag.photoFourthAns" width="120" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuestionType)
+        </dt>
+        <dd class="col-sm-10">
+            @{String questionType = Model.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";}
+            @questionType
+        </dd>
+        <dt class="col-sm-2">
+            @if (Model.QuestionType == false)
+            {
+                @if (ViewBag.CorrectAnswer1 == true)
+                {
+                    <label>FirstAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" checked />
+                }
+                else
+                {
+                    <label>FirstAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled"/>
+                }
+                <br />
+                @if (ViewBag.CorrectAnswer2 == true)
+                {
+                    <label>SecondAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" checked />
+                }
+                else
+                {
+                    <label>SecondAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled"/>
+                }
+                <br />
+                @if (ViewBag.CorrectAnswer3 == true)
+                {
+                    <label>ThirdAnswerContent</label>
+                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" checked />
+                }
+                else
+                {
+                    <label>ThirdAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled"/>
+                }
+                <br />
+                @if (ViewBag.CorrectAnswer4 == true)
+                {
+                    <label>FourthAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" checked />
+                }
+                else
+                {
+                    <label>FourthAnswer</label>
+                    <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled"/>
+                }
+            }
+            else
+            {
+                <select name="isCorrectAnswer" disabled>
+                    @foreach (var item in ViewBag.selectAnswer)
+                    {
+                        if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswer")
+                        {
+                            <option value="@item" selected>@item</option>
+                        }
+                        else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswer")
+                        {
+                            <option value="@item" selected>@item</option>
+                        }
+                        else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswer")
+                        {
+                            <option value="@item" selected>@item</option>
+                        }
+                        else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswer")
+                        {
+                            <option value="@item" selected>@item</option>
+                        }
+                        else
+                        {
+                            <option value="@item">@item</option>
+                        }
+
+                    }
+                </select>
+            }
+        </dt>
+
     </dl>
 </div>
 <div>

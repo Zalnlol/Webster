@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+    <style>
+        .background {
+            margin-top: 2%;
+            min-height: 400px;
+            border-radius: 40px;
+            background-color: rgb(241, 241, 241);
+        }
+
+        .ans-background {
+            width: 75%;
+            margin: 0 auto;
+            min-height: 100px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgb(129, 142, 155);
+            padding: 6% 0% 6% 6%;
+
+
+        }
+
+        .ans-background:hover {
+            cursor: pointer;
+        }
+        .outside-time{
+          
+            width: 4rem;
+            height: 4rem;
+            font-weight: bold;
+            font-size: 20pt;
+         ;
+
+        }
+        #div-time{
+            padding-top: 0.7rem;
+            text-align: center;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50px;
+            background-color: rgb(192, 18, 41);
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container background ">
+        <div style="padding-top: 1%; padding-left: 4%;">
+            <div id="div-time">
+                Time <br>
+                <span id="time" class="outside-time"> </span>
+            </div>
+               
+     
+    
+        </div>
+        <div id="question-1">
+            <div class="row" id="div-question">
+                <div class="col text-center" style="margin-top: 2%;">
+                    <h3>Cau 1 : aahjkdkdllddifjn</h3>
+
+                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                </div>
+            </div>
+
+            <div id="div-ans" style="margin-top: 5%; padding-bottom: 5%; ">
+                <div class="row">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans1')"
+                        onmouseout="changecollor('ans1')" onclick="check('-ans1-1')">
+                        <div style=" background-color: #e21b3c;" id="ans1" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-heart fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5>nhan le nguyen thanh </h5>
+                                    <input type="checkbox" id="checkbox-ans1-1" hidden>
+                                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans1-1" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans2')"
+                        onmouseout="changecollor('ans2')" onclick="check('-ans2-1')">
+                        <div style=" background-color: #1368ce;" id="ans2" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-square fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5>nhan le nguyen thanh </h5>
+                                    <input type="checkbox" id="checkbox-ans2-1" hidden>
+                                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans2-1" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 4%;">
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans3')"
+                        onmouseout="changecollor('ans3')" onclick="check('-ans3-1')">
+                        <div style=" background-color: #d89e00;" id="ans3" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-circle fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5>nhan le nguyen thanh </h5>
+                                    <input type="checkbox" id="checkbox-ans3-1" hidden>
+                                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans3-1" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 text-center;" onmouseover="changecollor('ans4')"
+                        onmouseout="changecollor('ans4')" onclick="check('-ans4-1')">
+                        <div style=" background-color: #26890c;" id="ans4" class="ans-background">
+                            <div class="row ans">
+                                <div class="col-sm-2">
+                                    <i class="fas fa-star fa-2x" style="color: snow;"></i>
+                                </div>
+                                <div class="col-sm-7" style="color: snow; margin-top: 1%;">
+                                    <h5>nhan le nguyen thanh </h5>
+                                    <input type="checkbox" id="checkbox-ans4-1" hidden>
+                                    <!-- <img src="../wwwroot/images/QA/1280px-flag-of-ethiopia-svg.png" style="max-width: 200px;" alt=""> -->
+                                </div>
+                                <div class="col-sm-2 align-middle">
+
+                                    <i class="far fa-circle fa-2x " id="icon-ans4-1" style="color: snow;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        function changecollor(s) {
+
+            if (document.getElementById(s).style.backgroundColor == "rgb(226, 27, 60)") {
+                document.getElementById(s).style.backgroundColor = "#d01937";
+            } else if (document.getElementById(s).style.backgroundColor == "rgb(208, 25, 55)") {
+                document.getElementById(s).style.backgroundColor = "rgb(226, 27, 60)"
+            }
+
+            if (document.getElementById(s).style.backgroundColor == "rgb(19, 104, 206)") {
+                document.getElementById(s).style.backgroundColor = "#1260be";
+            } else if (document.getElementById(s).style.backgroundColor == "rgb(18, 96, 190)") {
+                document.getElementById(s).style.backgroundColor = "rgb(19, 104, 206)"
+            }
+
+            if (document.getElementById(s).style.backgroundColor == "rgb(216, 158, 0)") {
+                document.getElementById(s).style.backgroundColor = "#c79200";
+            } else if (document.getElementById(s).style.backgroundColor == "rgb(199, 146, 0)") {
+                document.getElementById(s).style.backgroundColor = "rgb(216, 158, 0)"
+            }
+
+            if (document.getElementById(s).style.backgroundColor == "rgb(38, 137, 12)") {
+                document.getElementById(s).style.backgroundColor = "#237e0b";
+            } else if (document.getElementById(s).style.backgroundColor == "rgb(35, 126, 11)") {
+                document.getElementById(s).style.backgroundColor = "rgb(38, 137, 12)"
+            }
+
+        }
+
+        function check(s) {
+            if (document.getElementById("checkbox" + s).checked == false) {
+                document.getElementById("checkbox" + s).checked = true;
+                document.getElementById("icon" + s).classList = "far fa-check-circle fa-2x"
+                document.getElementById("icon" + s).style.color = "#30ff00"
+
+
+            } else {
+                document.getElementById("checkbox" + s).checked = false;
+                document.getElementById("icon" + s).classList = "far fa-circle fa-2x"
+                document.getElementById("icon" + s).style.color = "snow"
+
+
+
+            }
+        }
+    </script>
+
+    <script>
+        var time=parseInt(120);
+        var timeInterval = setInterval(timer,1000);
+        
+        function timer(){
+            time-=1; 
+                document.getElementById("time").innerText=time;
+               if(time ==0){
+                   clearInterval(timeInterval);
+               }
+        }
+
+    </script>
+
+
+</body>
+
+</html>
