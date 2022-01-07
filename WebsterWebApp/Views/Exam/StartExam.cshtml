@@ -1,9 +1,11 @@
 ﻿@{
+
     ViewData["Title"] = "Start Exam";
     var ques = ViewBag.Question;
     var ans = ViewBag.Anwser;
     int tmp = 0;
     string[,] arr = new string[4, 2];
+    Layout = "_LayoutExam";
 }
 @using Newtonsoft.Json;
 @using System.Net.Http;
@@ -57,10 +59,38 @@
 
 <div class="container background ">
     <div style="padding-top: 1%; padding-left: 4%;">
-        <div id="div-time">
-            Time <br>
-            <span id="time" class="outside-time"> </span>
+        <div class="row">
+            <div class="col-sm-9">
+                <div id="div-time">
+                    Time <br>
+                    <span id="time" class="outside-time"> </span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+               
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button class="btn btn-light" id="btn-0" onclick="changequestion(0)">1</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-light" id="btn-1" onclick="changequestion(1)">2</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-light" id="btn-2" onclick="changequestion(2)">3</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-light" id="btn-3" onclick="changequestion(3)">4</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-light" id="btn-4" onclick="changequestion(4)">5</button>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
+
+       
     </div>
 
     @for (int i = 0; i < 5; i++)
@@ -316,6 +346,23 @@
 
         }
 
+        tmp = true;
+
+        for (i = 0; i <= 3; i++) {
+            if (DataQuestion[no]["Anwser"][i]["Ischoose"] == true) {
+                tmp = false;
+            }
+        }
+
+        if (tmp == true) {
+            document.getElementById("btn-" + no).classList.value = "btn btn-light"
+
+        } else {
+            document.getElementById("btn-" + no).classList.value = "btn btn-success"
+
+        }
+
+
     }
 
 
@@ -342,6 +389,8 @@
         vt = parseInt(s[4]) - 1;
         DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
 
+
+        document.getElementById("btn-" + no).classList.value ="btn btn-success"
 
 
     }
@@ -387,6 +436,11 @@
         if (s == "3") {
             document.getElementById("question-" + no).hidden = true;
             no -= 1;
+            document.getElementById("question-" + no).hidden = false;
+
+        }
+
+        if (s == "0") {
             document.getElementById("question-" + no).hidden = false;
 
         }
@@ -617,10 +671,10 @@
             //to call some function, so we'll prevent this
 
             var keyCode = e.keyCode || e.which;
-            console.log(keyCode);
-            if (keyCode=123) {
+            
+           
                 e.preventDefault();
-            }
+            
          
 
             //now we caught the key code.
@@ -633,6 +687,15 @@
 
 </script>
 
+
+<script>
+    function changequestion(number) {
+        document.getElementById("question-" + no).hidden = true;
+        no = number;
+        transfer("0")
+    }
+
+</script>
 
 
 
