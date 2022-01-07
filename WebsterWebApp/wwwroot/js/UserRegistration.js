@@ -87,7 +87,7 @@
                 }
                 else
                 {
-                    location.href = '/Home/Index';
+                    location.href = '/';
                 }
             },
             error: function (xhr, ajaxOptions, thrownError)

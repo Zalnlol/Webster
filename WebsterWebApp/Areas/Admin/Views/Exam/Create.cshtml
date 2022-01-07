@@ -1,0 +1,70 @@
+﻿@model WebsterWebApp.Areas.Admin.Models.Exam
+@using Newtonsoft.Json;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Exam</h4>
+<hr />
+<a></a>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label  class="control-label">@Html.DisplayNameFor(model=>model.ExamName)</label>
+                <input asp-for="ExamName" class="form-control" />
+                <span asp-validation-for="ExamName" class="text-danger"></span>
+            </div>
+             
+            <div class="form-group">
+                <label asp-for="PassPercent" class="control-label"></label>
+                <input asp-for="PassPercent" class="form-control" />
+                <span asp-validation-for="PassPercent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstCountdown" class="control-label"></label>
+                <input type="time" asp-for="FirstCountdown" class="form-control" />
+                <span asp-validation-for="FirstCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondCountdown" class="control-label"></label>
+                <input type="time" asp-for="SecondCountdown" class="form-control" />
+                <span asp-validation-for="SecondCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThirdCountdown" class="control-label"></label>
+                <input type="time" asp-for="ThirdCountdown" class="form-control" />
+                <span asp-validation-for="ThirdCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input type="datetime" type="datetime-local" asp-for="StartDate"  class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">@Html.DisplayNameFor(s=>s.FinishTime)</label>
+                <input  asp-for="FinishTime" type="datetime-local" class="form-control" />
+                <span asp-validation-for="FinishTime" class="text-danger"></span>
+            </div>
+            <div class="form-group" >.
+
+                <label asp-for="ExamType" class="control-label"></label>
+                <input asp-for="ExamType" type="checkbox" class="form-control" />
+                <span asp-validation-for="ExamType" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            
+        </form>
+        <div>
+    <a asp-action="Index">Back to List</a>
+
+</div>  
+ </div>>
+ </div>>

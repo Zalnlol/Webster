@@ -1,0 +1,69 @@
+﻿@model WebsterWebApp.Areas.Admin.Models.Exam
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Exam Information</h4>
+    <hr />
+    <table class="table">
+        <tr>
+           
+           <th> @Html.DisplayNameFor(s=>s.ExamName)</th>
+           <th> Random ExamType</th>
+           <th>
+                @Html.DisplayNameFor(model => model.FirstCountdown)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondCountdown)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThirdCountdown)
+            </th>
+        </tr>
+        <tr>
+           
+           <td> @Html.DisplayFor(s=>s.ExamName)</td>
+           <td> @Html.DisplayFor(s=>s.ExamType)</td>
+           <td>
+                @Html.DisplayFor(model => model.FirstCountdown)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SecondCountdown)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ThirdCountdown)
+            </td>
+        </tr>
+    </table>
+    <h4>List Question</h4>
+    <h5>Part Math:</h5>
+    @foreach (var item in ViewBag.math)
+    {
+        
+        <h6>- @item</h6>
+        <br />
+    }
+    <h5>Part General Knowledge:</h5>
+    @foreach (var item in ViewBag.kn)
+    {
+        
+        <h6>- @item</h6>
+        <br />
+    }
+    <h5>Part Tech:</h5>
+    @foreach (var item in ViewBag.tech)
+    {
+        
+        <h6>- @item</h6>
+        <br />
+    }
+    
+</div>
+<div>
+    
+    <a asp-action="Index">Back to List</a>
+</div>
