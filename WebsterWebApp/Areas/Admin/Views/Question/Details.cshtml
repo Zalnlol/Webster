@@ -35,9 +35,8 @@
                 <img src="~/@Url.Content(Model.Photo)" width="120" />
             }
         </dd>
-
         <dt class="col-sm-2">
-            <label>A.</label>
+            A.
         </dt>
         <dd class="col-sm-10">
             @ViewBag.firstAnswerContent
@@ -57,13 +56,13 @@
             }
         </dd>
         <dt class="col-sm-2">
-            <label>B.</label>
+            B.
         </dt>
         <dd class="col-sm-10">
             @ViewBag.secondAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>Image Answer B</label>
+            Image Answer B
         </dt>
         <dd class="col-sm-10">
             @if (@ViewBag.photoSecondAns == null)
@@ -77,13 +76,13 @@
             }
         </dd>
         <dt class="col-sm-2">
-            <label>C.</label>
+            C.
         </dt>
         <dd class="col-sm-10">
             @ViewBag.thirdAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>Image Answer C</label>
+            Image Answer C
         </dt>
         <dd class="col-sm-10">
             @if (@ViewBag.photoThirdAns == null)
@@ -96,13 +95,13 @@
             }
         </dd>
         <dt class="col-sm-2">
-            <label>D.</label>
+            D.
         </dt>
         <dd class="col-sm-10">
             @ViewBag.fourthAnswerContent
         </dd>
         <dt class="col-sm-2">
-            <label>Image Answer D</label>
+            Image Answer D
         </dt>
         <dd class="col-sm-10">
             @if (@ViewBag.photoFourthAns == null)
@@ -118,7 +117,7 @@
             Question type
         </dt>
         <dd class="col-sm-10">
-            @{String questionType = Model.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";}
+            @{String questionType = Model.QuestionType ? "One Answer" : "Many Answer";}
             @questionType
         </dd>
         <dt class="col-sm-2">
@@ -129,45 +128,45 @@
             {
                 @if (ViewBag.CorrectAnswer1 == true)
                 {
-                    <label>FirstAnswer</label>
+                    <label>A</label>
                     <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>FirstAnswer</label>
+                    <label>A</label>
                     <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer2 == true)
                 {
-                    <label>SecondAnswer</label>
+                    <label>B</label>
                     <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>SecondAnswer</label>
+                    <label>B</label>
                     <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer3 == true)
                 {
-                    <label>ThirdAnswerContent</label>
+                    <label>C</label>
                     <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>ThirdAnswer</label>
+                    <label>C</label>
                     <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer4 == true)
                 {
-                    <label>FourthAnswer</label>
+                    <label>D</label>
                     <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>FourthAnswer</label>
+                    <label>D</label>
                     <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" />
                 }
             }
@@ -178,19 +177,19 @@
                     {
                         if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswer")
                         {
-                            <option value="@item" selected>@item</option>
+                            <option value="@item" selected>A</option>
                         }
                         else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswer")
                         {
-                            <option value="@item" selected>@item</option>
+                            <option value="@item" selected>B</option>
                         }
                         else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswer")
                         {
-                            <option value="@item" selected>@item</option>
+                            <option value="@item" selected>C</option>
                         }
                         else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswer")
                         {
-                            <option value="@item" selected>@item</option>
+                            <option value="@item" selected>D</option>
                         }
                         else
                         {

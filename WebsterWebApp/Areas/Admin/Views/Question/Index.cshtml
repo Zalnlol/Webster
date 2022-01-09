@@ -12,8 +12,6 @@
     <a asp-action="Create"><b style="color:dodgerblue">Create New Question</b></a>
 </p>
 
-<br />
-
 <a asp-action="BatchQuestionUpload"><b style="color:dodgerblue">Upload New Question</b></a>
 
 <hr />
@@ -72,7 +70,7 @@
     <tbody>
 @foreach (var item in Model) {
     String questionType = item.QuestionType ? "One Answer" : "Many Answer";
-    String title = @item.QuestionTitle.Substring(0, 15);
+    String title = @item.QuestionTitle.Substring(0, 22);
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
