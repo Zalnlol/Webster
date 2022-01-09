@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-               
+
                 <div class="row">
                     <div class="col-sm-2">
                         <button class="btn btn-light" id="btn-0" onclick="changequestion(0)">1</button>
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-       
+
     </div>
 
     @for (int i = 0; i < 5; i++)
@@ -246,7 +246,7 @@
         <div class="col text-center">
             <input type="button" id="Prevous" class="btn btn-info" onclick="transfer('3')" value="Prevous" />
             <input type="button" id="Next" class="btn btn-info" onclick="transfer('2')" value="Next" />
-            <input type="button" id="Submit" class="btn btn-danger" value="Submit" />
+            <input type="button" id="Submit" class="btn btn-danger" value="Submit" onclick=" endexam('1')" />
 
 
         </div>
@@ -258,7 +258,7 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" id="notification" data-target="#exampleModal" hidden></button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -275,13 +275,15 @@
         </div>
     </div>
 </div>
+<div id="modelfn"></div>
 
 
 
-<pre id="ansconvert" hidden> @JsonConvert.SerializeObject(ans)</pre>
-<pre id="quesconvert" hidden>@JsonConvert.SerializeObject(ques)</pre>
-<pre id="timeconvert" hidden>@JsonConvert.SerializeObject(ViewBag.Time)</pre>
+<pre id="quesconvert" hidden> @JsonConvert.SerializeObject(ViewBag.ListQues)</pre>
+@*<pre id="timeconvert" hidden> @JsonConvert.SerializeObject(ViewBag.Time)</pre*@
 
+
+<pre id="timeconvert" hidden> @JsonConvert.SerializeObject(ViewBag.Time)</pre>
 
 <script>
     function changecollor(s) {
@@ -314,15 +316,16 @@
 
     function check(s) {
 
-        if (Data[no]["QuestionType"] == true) {
+        if (DataQuestion[no]["QuestionType"] == true) {
             Onechoose(s)
 
         }
         else {
             multiplechoose(s)
         }
+        //console.log(DataQuestion);
 
-        console.log(DataQuestion);
+
     }
 
 
@@ -390,7 +393,7 @@
         DataQuestion[no]["Anwser"][vt]["Ischoose"] = true;
 
 
-        document.getElementById("btn-" + no).classList.value ="btn btn-success"
+        document.getElementById("btn-" + no).classList.value = "btn btn-success"
 
 
     }
@@ -401,6 +404,8 @@
 
 <script>
     var time = parseInt((document.getElementById("timeconvert").innerText));
+
+
     var timeconvert = document.getElementById("timeconvert");
     timeconvert.parentNode.removeChild(timeconvert);
     var timeInterval = setInterval(timer, 1000);
@@ -409,6 +414,7 @@
         time -= 1;
         document.getElementById("time").innerText = time;
         if (time == 0) {
+            endexam("3");
             clearInterval(timeInterval);
         }
     }
@@ -473,87 +479,13 @@
 
 <script>
 
-    questionData = JSON.parse(document.getElementById("quesconvert").innerText);
-    anwserData = JSON.parse(document.getElementById("ansconvert").innerText);
-
-
-    timeconvert = document.getElementById("quesconvert");
-    timeconvert.parentNode.removeChild(timeconvert);
-    timeconvert = document.getElementById("ansconvert");
-    timeconvert.parentNode.removeChild(timeconvert);
-
-
-    var question = {
-        QuesionID: "",
-        QuestionTilte: "",
-        QuestionType: "",
-        Anwser: new Array()
-    }
-    var answer = {
-        AnwserId: "",
-        AnwserName: "",
-        Ischoose: false
-    }
-    var Data = new Array();
-    var Data1 = new Array();
-
-    for (i = 0; i < questionData.length; i++) {
-        question.QuesionID = questionData[i]["QuestionId"];
-        question.QuestionTilte = questionData[i]["QuestionTitle"];
-        question.QuestionType = questionData[i]["QuestionType"];
-
-        for (j = 0; j < 4; j++) {
-            answer.AnwserId = anwserData[j]["AnswerId"];
-            answer.AnwserName = anwserData[j]["AnswerContent"];
-            answer.Ischoose = anwserData[j]["IsCorrectAnswer"];
-
-            Data1[j] = answer;
-            answer = {
-                AnwserId: "",
-                AnwserName: "",
-                Ischoose: false
-            }
-        }
-        question.Anwser = Data1;
-
-        Data[i] = question;
-
-        question = {
-            QuesionID: "",
-            QuestionTilte: "",
-            QuestionType: true,
-            Anwser: new Array()
-        }
-
-    }
-
-
-
-    localStorage.setItem('Data', JSON.stringify(Data));
-
-    DataQuestion = JSON.parse(localStorage.getItem('Data'));
+    DataQuestion = JSON.parse(document.getElementById("quesconvert").innerText);
 
 </script>
 
 <script>
     tam = true;
-    //function openFullscreen() {
-    //    document.getElementById("body").click();
-    //    var elem = document.documentElement;
-    //    if (elem.requestFullscreen) {
-    //        elem.requestFullscreen();
-
-    //    } else if (elem.webkitRequestFullscreen) { /* Safari */
-    //        elem.webkitRequestFullscreen();
-    //    } else if (elem.msRequestFullscreen) { /* IE11 */
-    //        elem.msRequestFullscreen();
-    //    }
-    //    if (tam==true) {
-    //        setTimeout(creaatescreen, 100)
-
-    //    }
-
-    //}
+    outtab = 0;
 
 
     function openFullscreen() {
@@ -574,7 +506,7 @@
         }
 
         if (tam == true) {
-          var timedis =  setTimeout(creaatescreen, 100)
+            var timedis = setTimeout(creaatescreen, 100)
 
         }
 
@@ -587,7 +519,7 @@
         width = window.innerWidth;
         height = window.innerHeight;
         tam = false;
-       
+
         setInterval(checkscreen, 100)
     }
 
@@ -621,30 +553,35 @@
             load = true;
         });
 
+
     });
 
 
     function dellay() {
-        console.log("call: Load: " + load + " Load 2: " + load1);
-        if (load1 == true ) {
+
+        if (load1 == true) {
 
             var sss = setTimeout(displaynoti, 1000);
-       //setTimeout(function () { load1 = false }, 3000);
+            //setTimeout(function () { load1 = false }, 3000);
 
 
             //load1 = false;
 
-            
+
             //displaynoti();
         }
 
     }
 
     function displaynoti() {
-        console.log("call1: Load: " + load + " Load 2: " + load1);
+
 
         if (load == false) {
             alert("Phat hien chuyen tab");
+            outtab += 1;
+            if (outtab >= 3) {
+                endexam("2");
+            }
             load1 = true;
         }
 
@@ -667,20 +604,20 @@
         //Yes! use keydown because some keys are fired only in this trigger,
         //such arrows keys
         $("body").keydown(function (e) {
-            //well so you need keep on mind that your browser use some keys 
+            //well so you need keep on mind that your browser use some keys
             //to call some function, so we'll prevent this
 
             var keyCode = e.keyCode || e.which;
-            
-           
-                e.preventDefault();
-            
-         
+
+
+            e.preventDefault();
+
+
 
             //now we caught the key code.
-         
 
-       
+
+
         });
     });
 
@@ -696,6 +633,114 @@
     }
 
 </script>
+
+<script>
+
+    function endexam(ss) {
+
+        text = "";
+
+        if (ss == "1") {
+
+            text = `   <button type="button" class="btn btn-primary" data-toggle="modal" id="exemend" data-target="#examandmodal" hidden></button>
+
+
+                <div class="modal fade" id="examandmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
+
+                            </div>
+                            <div class="modal-body">
+                                <h5 style="text-align:center" class="text-danger">Do you want to finish the test?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finnishexam()">Finish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+        } else if (ss == "2") {
+            text = `   <button type="button" class="btn btn-primary" data-toggle="modal" id="exemend" data-target="#examandmodal" hidden></button>
+
+
+                <div class="modal fade" id="examandmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
+
+                            </div>
+                            <div class="modal-body">
+                                <h5 style="text-align:center" class="text-danger">You have switched tabs too many times, please end the test</h5>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finnishexam()">Finish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+        } else if (ss == "3") {
+            text = `   <button type="button" class="btn btn-primary" data-toggle="modal" id="exemend" data-target="#examandmodal" hidden></button>
+
+
+                <div class="modal fade" id="examandmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
+
+                            </div>
+                            <div class="modal-body">
+                                <h5 style="text-align:center" class="text-danger">Time has expired, please submit your work</h5>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finnishexam()">Finish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+        }
+
+        document.getElementById("modelfn").innerHTML = text;
+        document.getElementById("exemend").click();
+
+
+
+    }
+
+
+
+    function finnishexam() {
+        $.ajax({
+            type: "POST",
+            url: "/Exam/CheckResult",
+            data: {
+                data: DataQuestion
+            },
+            dataType: "text",
+            success: function (data) {
+
+                console.log(data);
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+    }
+
+
+
+
+</script>
+
 
 
 

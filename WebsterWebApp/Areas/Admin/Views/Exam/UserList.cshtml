@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebsterWebApp.Models.ExamUser>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h1>User list</h1>
+<h3>@ViewBag.id</h3>
+<p>
+    <a asp-action="AddUser" asp-route-id="@ViewBag.id" >Add User into Exam</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ExamId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamId)
+            </td>
+            <td>
+                <a asp-action="RemoveUser" asp-route-id="@item.ExamUserId">Remove</a>   
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

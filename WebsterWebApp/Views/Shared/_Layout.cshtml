@@ -70,6 +70,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Services</a>
                         </li>
+
+                        @if (Context.Session.GetString("Mail") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Exam/ExamList">Exam List</a>
+                            </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>

@@ -12,16 +12,7 @@
     <a asp-action="Create"><b style="color:dodgerblue">Create New Question</b></a>
 </p>
 
-<br />
-
-<form asp-action="BatchQuestionUpload" asp-controller="Question" method="post" enctype="multipart/form-data">
-    <label style="color: limegreen">Upload New Question</label>
-    <br />
-    <input type="file" name="batchQuestions" id="batchQuestions" onchange="validationBatchQuestions()" class="form-label" style="color: limegreen "/>
-    <br />
-    <br />
-    <input type="submit" value="Upload" class="btn-success" />
-</form>
+<a asp-action="BatchQuestionUpload"><b style="color:dodgerblue">Upload New Question</b></a>
 
 <hr />
 
@@ -65,10 +56,10 @@
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionTitle)
+                Question title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionType)
+                Question type
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Photo)
@@ -78,13 +69,14 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-    String questionType = item.QuestionType ? "QuestionHasOneAnswer" : "QuestionHasManyAnswer";
+    String questionType = item.QuestionType ? "One Answer" : "Many Answer";
+    String title = @item.QuestionTitle.Substring(0, 22);
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionTitle)
+                @title...
             </td>
             <td>
                 @questionType
@@ -92,7 +84,7 @@
             <td>
                 @if (item.Photo == null)
                 {
-                    <img src="~/images/QA/260525402_1006620596585810_8289601711119089916_n.jpg" width="120" />
+                    <p>Empty</p>
                 }
                 else
                 {
@@ -126,20 +118,3 @@
     }
 </script>
 
-<script>
-    function validationBatchQuestions() {
-        var fileInput = document.getElementById('batchQuestions');
-        var filePath = fileInput.value;
-
-        var allowedExtensions =
-            /(\.xlsx)$/i;
-
-        if (!allowedExtensions.exec(filePath)) {
-            alert('Must be .xlsx file!');
-            fileInput.value = '';
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
