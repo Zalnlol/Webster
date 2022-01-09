@@ -59,83 +59,101 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return View();
         }
 
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> BatchQuestionUpload(IFormFile batchQuestions)
         {
-            if (ModelState.IsValid)
+            if (batchQuestions?.Length > 0)
             {
-                if(batchQuestions?.Length > 0)
+                var stream = batchQuestions.OpenReadStream();
+                try
                 {
-                    var stream = batchQuestions.OpenReadStream();
-                    try
+                    using (var package = new ExcelPackage(stream))
                     {
-                        using (var package = new ExcelPackage(stream))
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        String tmp = "0";
+                        for (int row = 2; row <= rowCount; row++)
                         {
-                            ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
-                            int rowCount = worksheet.Dimension.Rows;
-
-                            for (int row = 2; row <= rowCount; row++)
+                            tmp = "0";
+                            String subject = worksheet.Cells[row, 1].Value?.ToString();
+                            String title = worksheet.Cells[row, 2].Value?.ToString();
+                            String photoQuestion = worksheet.Cells[row, 3].Value?.ToString();
+                            String type = worksheet.Cells[row, 4].Value?.ToString();
+                            if (subject == null || title == null || type == null)
                             {
-                                String subject = worksheet.Cells[row, 1].Value?.ToString();
-                                String title = worksheet.Cells[row, 2].Value?.ToString();
-                                String photoQuestion = worksheet.Cells[row, 3].Value.ToString();                        
-                                String type = worksheet.Cells[row, 4].Value?.ToString();
+                                tmp = "1";
+                            }
 
-                                Question question = new Question()
-                                {
-                                    Subject = subject,
-                                    QuestionTitle = title,
-                                    Photo = photoQuestion,
-                                    QuestionType = type == "QuestionHasOneAnswer" ? true : false,
-                                };
+                            Question question = new Question()
+                            {
+                                Subject = subject,
+                                QuestionTitle = title,
+                                Photo = photoQuestion,
+                                QuestionType = type == "QuestionHasOneAnswer" ? true : false,
+                            };
 
+                            if (tmp == "0")
+                            {
                                 _db.Questions.Add(question);
                                 await _db.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                ViewBag.msg = "upload fail!";
+                                return View();
+                            }
 
-                                String firstAnswer = worksheet.Cells[row, 5].Value?.ToString();
-                                String photoFirstAnswer = worksheet.Cells[row, 6].Value?.ToString();
-                                String secondAnswer = worksheet.Cells[row, 7].Value?.ToString();
-                                String photoSecondAnswer = worksheet.Cells[row, 8].Value?.ToString();
-                                String thirdAnswer = worksheet.Cells[row, 9].Value?.ToString();
-                                String photoThirdAnswer = worksheet.Cells[row, 10].Value?.ToString();
-                                String fourthAnswer = worksheet.Cells[row, 11].Value?.ToString();
-                                String photoFourthAnswer = worksheet.Cells[row, 12].Value?.ToString();
-                                String answerCorrect = worksheet.Cells[row, 13].Value?.ToString();
+                            String firstAnswer = worksheet.Cells[row, 5].Value?.ToString();
+                            String photoFirstAnswer = worksheet.Cells[row, 6].Value?.ToString();
+                            String secondAnswer = worksheet.Cells[row, 7].Value?.ToString();
+                            String photoSecondAnswer = worksheet.Cells[row, 8].Value?.ToString();
+                            String thirdAnswer = worksheet.Cells[row, 9].Value?.ToString();
+                            String photoThirdAnswer = worksheet.Cells[row, 10].Value?.ToString();
+                            String fourthAnswer = worksheet.Cells[row, 11].Value?.ToString();
+                            String photoFourthAnswer = worksheet.Cells[row, 12].Value?.ToString();
+                            String answerCorrect = worksheet.Cells[row, 13].Value?.ToString();
+                            if (firstAnswer == null || secondAnswer == null || thirdAnswer == null || fourthAnswer == null || answerCorrect == null)
+                            {
+                                tmp = "1";
+                            }
 
-                                if (type == "QuestionHasOneAnswer")
+                            if (type == "QuestionHasOneAnswer")
+                            {
+                                Answer answer1 = new Answer()
                                 {
-                                    Answer answer1 = new Answer()
-                                    {
-                                        AnswerContent = firstAnswer,
-                                        Photo = photoFirstAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
-                                    };
+                                    AnswerContent = firstAnswer,
+                                    Photo = photoFirstAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
+                                };
 
-                                    Answer answer2 = new Answer()
-                                    {
-                                        AnswerContent = secondAnswer,
-                                        Photo = photoSecondAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
-                                    };
+                                Answer answer2 = new Answer()
+                                {
+                                    AnswerContent = secondAnswer,
+                                    Photo = photoSecondAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
+                                };
 
-                                    Answer answer3 = new Answer()
-                                    {
-                                        AnswerContent = thirdAnswer,
-                                        Photo = photoThirdAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
-                                    };
+                                Answer answer3 = new Answer()
+                                {
+                                    AnswerContent = thirdAnswer,
+                                    Photo = photoThirdAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
+                                };
 
-                                    Answer answer4 = new Answer()
-                                    {
-                                        AnswerContent = fourthAnswer,
-                                        Photo = photoFourthAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
-                                    };
+                                Answer answer4 = new Answer()
+                                {
+                                    AnswerContent = fourthAnswer,
+                                    Photo = photoFourthAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
+                                };
 
+                                if (tmp == "0")
+                                {
                                     _db.Answers.Add(answer1);
                                     _db.Answers.Add(answer2);
                                     _db.Answers.Add(answer3);
@@ -144,52 +162,71 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 }
                                 else
                                 {
-                                    Answer answer1 = new Answer()
-                                    {
-                                        AnswerContent = firstAnswer,
-                                        Photo = photoFirstAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
-                                    };
+                                    ViewBag.msg = "upload fail!";
+                                }
+                            }
+                            else
+                            {
+                                Answer answer1 = new Answer()
+                                {
+                                    AnswerContent = firstAnswer,
+                                    Photo = photoFirstAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
+                                };
 
-                                    Answer answer2 = new Answer()
-                                    {
-                                        AnswerContent = secondAnswer,
-                                        Photo = photoSecondAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
-                                    };
+                                Answer answer2 = new Answer()
+                                {
+                                    AnswerContent = secondAnswer,
+                                    Photo = photoSecondAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
+                                };
 
-                                    Answer answer3 = new Answer()
-                                    {
-                                        AnswerContent = thirdAnswer,
-                                        Photo = photoThirdAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
-                                    };
+                                Answer answer3 = new Answer()
+                                {
+                                    AnswerContent = thirdAnswer,
+                                    Photo = photoThirdAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
+                                };
 
-                                    Answer answer4 = new Answer()
-                                    {
-                                        AnswerContent = thirdAnswer,
-                                        Photo = photoFourthAnswer,
-                                        QuestionId = question.QuestionId,
-                                        IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
-                                    };
+                                Answer answer4 = new Answer()
+                                {
+                                    AnswerContent = thirdAnswer,
+                                    Photo = photoFourthAnswer,
+                                    QuestionId = question.QuestionId,
+                                    IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
+                                };
+
+                                if (tmp == "0")
+                                {
                                     _db.Answers.Add(answer1);
                                     _db.Answers.Add(answer2);
                                     _db.Answers.Add(answer3);
                                     _db.Answers.Add(answer4);
                                     await _db.SaveChangesAsync();
                                 }
+                                else
+                                {
+                                    ViewBag.msg = "upload fail!";
+                                }
                             }
+                        }
+                        if (tmp == "0")
+                        {
                             return RedirectToAction("Index");
                         }
                     }
-                    catch(Exception e)
-                    {
-                        return BadRequest(e.Message);
-                    }
                 }
+                catch (Exception e)
+                {
+                    ViewBag.msg = e.Message;
+                }
+            }
+            else
+            {
+                ViewBag.msg = "not found!";
             }
             return View();
         }
@@ -197,7 +234,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Create()
         {
             TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
-            ViewBag.selectAnswer = new List<String> {
+            ViewBag.selectAnswer = new List<String> 
+            {
                 "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             return View();
@@ -215,7 +253,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             {
                 "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
-
             if (ModelState.IsValid)
             {
                 foreach (var item in TempData["optionSubject"] as List<String>)
@@ -377,11 +414,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
-            ViewBag.selectAnswer = new List<String> {
+            ViewBag.selectAnswer = new List<String> 
+            {
                 "FirstAnswer", "SecondAnswer", "ThirdAnswer", "FourthAnswer"
             };
             for (int i = 0; i < answers.Capacity; i++)
