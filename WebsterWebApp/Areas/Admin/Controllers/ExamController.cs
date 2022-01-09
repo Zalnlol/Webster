@@ -149,8 +149,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 _context.ExamTypes.Add(ext);
                 _context.SaveChanges();
             }
-           
-            
+            return RedirectToAction("AddUser", "Exam", int.Parse(res["examid"]));
+
             return View();
         }
         public IActionResult Details(int id)
@@ -164,11 +164,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
             return View(res);
         }   
-        public IActionResult GetUserList(int examid)
-        {   
-            var res = from c in _context.ExamUsers where c.ExamId.Equals(examid) select c;
-            return View(res.ToList());
-        }
         public IActionResult UserList(int id)
         {
             var s = from c in _context.ExamUsers where c.ExamId.Equals(id) select c;
@@ -217,11 +212,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("AddUser", "Exam", int.Parse(res["examid"]));
-            //            _context.ExamUsers.Add(examUser);
-            //            _context.SaveChanges();
-            //;            return View();
-            //return View();
+            return RedirectToAction("Index");
+        
         }
     }
 }

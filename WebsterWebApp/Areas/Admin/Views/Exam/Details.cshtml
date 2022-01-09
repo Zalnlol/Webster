@@ -13,6 +13,7 @@
         <tr>
            
            <th> @Html.DisplayNameFor(s=>s.ExamName)</th>
+           <th></th>
            <th> Random ExamType</th>
            <th> @Html.DisplayNameFor(s=>s.ExamPass)</th>
            <th>
@@ -27,10 +28,10 @@
         </tr>
         <tr>
            
-           <td> @Html.DisplayFor(s=>s.ExamName)</td>
-           <td> @Html.DisplayFor(s=>s.ExamPass)</td>
+           <td> @Html.DisplayFor(s=>s.ExamName)</td> 
            <td>
            <td> @Html.DisplayFor(s=>s.ExamType)</td>
+           <td> @Html.DisplayFor(s=>s.ExamPass)</td>
            <td>
                 @Html.DisplayFor(model => model.FirstCountdown)
             </td>
@@ -42,26 +43,44 @@
             </td>
         </tr>
     </table>
+    @{
+        int a = 1;
+    }
     <h4>List Question</h4>
     <h5>Part Math:</h5>
     @foreach (var item in ViewBag.math)
     {
         
-        <h6>- @item</h6>
+        <h6><b>Question</b> @a: @item</h6>
+        for (char i = 'A';i<69;i++)
+        {
+            <label>Answer @i:<a>........</a></label>
+        }
+        a++;
         <br />
     }
     <h5>Part General Knowledge:</h5>
     @foreach (var item in ViewBag.kn)
     {
         
-        <h6>- @item</h6>
+        <h6><b>Question</b> @a: @item</h6>
+        for (char i = 'A';i<69;i++)
+        {
+            <label>Answer @i:<a>........</a></label>
+        }
+        a++;
         <br />
     }
     <h5>Part Tech:</h5>
     @foreach (var item in ViewBag.tech)
     {
         
-        <h6>- @item</h6>
+        <h6><b>Question</b> @a: @item</h6>
+        for (char i = 'A';i<69;i++)
+        {
+            <label>Answer @i:<a>........</a></label>
+        }
+        a++;
         <br />
     }
     
