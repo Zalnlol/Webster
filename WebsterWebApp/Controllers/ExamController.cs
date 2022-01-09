@@ -5,6 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WebsterWebApp.Controllers
 {
@@ -201,10 +205,129 @@ namespace WebsterWebApp.Controllers
                 RedirectToAction("ExamRoom");
             }
 
-            //return BadRequest(ViewBag.Anwser[1]);
+           ;
+            var quess = ViewBag.Question;
+            var anss = ViewBag.Anwser;
+            string[,] arr = new string[4, 2];
+
+       
+
+            List<Models.QuestionData> ListQues = new List<Models.QuestionData>();
+
+            for (int i = 0; i <= 4; i++)
+            {
+                Models.QuestionData Ques = new Models.QuestionData();
+                Ques.QuesionID = quess[i].QuestionId;
+                Ques.QuestionTilte = quess[i].QuestionTitle;
+                Ques.QuestionType = quess[i].QuestionType;
+
+   
+
+                for (int j = 0; j < anss.Length; j++)
+                {
+                    if (anss[j].QuestionId == quess[i].QuestionId)
+                    {
+                        Models.AnwserData Ans = new Models.AnwserData();
+                        Ans.AnwserId = anss[j].AnswerId;
+                        Ans.AnwserName = anss[j].AnswerContent;
+                        Ans.Ischoose = false;
+                        Ques.Anwser.Add(Ans);
+                    }
+                }
+                ListQues.Add(Ques);
+
+            }
+
+            ViewBag.ListQues = ListQues;
+
+
             return View();
 
            
         }
+    
+        [HttpPost]
+        public object CheckResult(string data)
+        {
+            var json = Request.Form;
+
+
+            //var res = JsonConvert.DeserializeObject<
+            //      List<Models.QuestionData>>(data);
+
+
+            //JObject json1 = JObject.Parse(data);
+
+            List<Models.QuestionData> ListQues = new List<Models.QuestionData>();
+          
+          
+
+
+            for (int i=0;i<=4;i++)
+            {
+                Models.QuestionData Ques = new Models.QuestionData();
+                Ques.QuesionID = int.Parse(json["data[" + i + "][QuesionID]"]);
+                Ques.QuestionTilte = json["data[" + i + "][QuestionTilte]"];
+                Ques.QuestionType = bool.Parse(json["data[" + i + "][QuestionType]"]);
+
+                for (int j = 0; j <=3; j++)
+                {
+                    Models.AnwserData Ans = new Models.AnwserData();
+                    Ans.AnwserId = int.Parse(json["data[" + i + "][Anwser][" + j + "][AnwserId]"]);
+                    Ans.AnwserName = json["data[" + i + "][Anwser][" + j + "][AnwserName]"];
+                    Ans.Ischoose = bool.Parse(json["data[" + i + "][Anwser][" + j + "][Ischoose]"]);
+                    Ques.Anwser.Add(Ans);
+
+
+                }
+                ListQues.Add(Ques);
+
+            }
+
+
+            var anwsersystem = db.Answers.ToList();
+            var tmp = true;
+            int mark = 0;
+
+            foreach (var item in ListQues)
+            {
+                var anwsersystem1 = anwsersystem.Where(t => t.QuestionId == item.QuesionID);
+
+                for (int i = 0;  i <= 3; i++ )
+                {
+
+                    var question1 = anwsersystem1.SingleOrDefault(t => t.AnswerId == item.Anwser[i].AnwserId);
+                    if (question1 !=null)
+                    {
+                        if (question1.IsCorrectAnswer == item.Anwser[i].Ischoose )
+                        {
+
+                        }
+                        else
+                        {
+                            
+                            tmp = false;
+                        }
+                    }
+                   
+
+                }
+                if (tmp==true)
+                {
+                    mark += 1;
+                }
+                tmp = true;
+
+            }
+
+           
+
+            //return json["data[0][QuesionID]"];
+            return mark;
+
+
+
+        }
+
     }
 }

@@ -1,0 +1,41 @@
+﻿@{
+    TempData["Title"] = "Upload file excel";
+}
+
+<form asp-action="BatchQuestionUpload" asp-controller="Question" method="post" enctype="multipart/form-data">
+    <label style="color: limegreen">Upload New Question</label>
+    <br />
+    <input type="file" name="batchQuestions" id="batchQuestions" onchange="validationBatchQuestions()" class="form-label" style="color: limegreen " />
+    <br />
+    <br />
+    <input type="submit" value="Upload" class="btn-success" />
+</form>
+
+<hr />
+
+<p class="text-danger">@ViewBag.msg</p>
+
+<div>
+    <p>File Excel must be format like this. If you want to upload image then you drag and drop image into folder images/QA</p>
+    <a href="~/images/QA/Untitled.png" data-lightbox="~/images/QA/Untitled.png"><img src="~/images/QA/Untitled.png" width="500" /></a>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <a href="~/images/QA/Untitled1.png" data-lightbox="~/images/QA/Untitled1.png"><img src="~/images/QA/Untitled1.png" width="500" /></a>
+</div>
+
+<script>
+    function validationBatchQuestions() {
+        var fileInput = document.getElementById('batchQuestions');
+        var filePath = fileInput.value;
+
+        var allowedExtensions =
+            /(\.xlsx|\.xls)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Must be .xlsx, .xls file!');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
