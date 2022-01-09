@@ -1,0 +1,33 @@
+﻿
+@model IEnumerable<WebsterWebApp.Data.ApplicationUser>
+@using static WebsterWebApp.Models.ExamUser;
+@{
+    ViewData["Title"] = "Add user";
+    
+}
+
+<h1>Add user</h1>
+
+<a>@ViewBag.exam</a>
+
+<form asp-action="AddUser" asp-controller="Exam" >
+    <input type="text" name="examid" value ="@ViewBag.exam">@ViewBag.exam</input>
+
+    @{
+        int a=1;
+    }
+    @foreach (var item in Model)
+   {    
+       <div>
+           <a>Name:</a>
+           <label>@item.FirstName @item.LastName</label>
+           <a>Email</a>
+           <label>@item.Email</label>
+           <input type="checkbox" readonly="readonly" name='id' value="@item.Id"></input>
+
+           <br> 
+       </div>
+   
+   } 
+    <input type="submit" value="submit"/>
+</form>

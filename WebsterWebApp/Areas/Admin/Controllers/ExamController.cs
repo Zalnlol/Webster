@@ -8,10 +8,12 @@ using WebsterWebApp.Data;
 using WebsterWebApp.Models;
 using Newtonsoft.Json;
 using WebsterWebApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Roles = "Admin")]
     public class ExamController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -55,7 +57,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     }
                     if (exam.ExamType == true)
                     {
-                            
+                        exam.ExamPass = pwd;   
                         await _context.Exams.AddAsync(exam);
                         await _context.SaveChangesAsync();
                         var des = _context.Exams.OrderByDescending(S => S.ExamId).First();
@@ -105,7 +107,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     }
                     else
                     {
-                        exam.PassWord = pwd;
+                        exam.ExamPass = pwd;
                         await _context.Exams.AddAsync(exam);
                         await _context.SaveChangesAsync();
                         //var des = _context.Exams.OrderByDescending(S => S.ExamId).First();
@@ -162,5 +164,64 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
             return View(res);
         }   
+        public IActionResult GetUserList(int examid)
+        {   
+            var res = from c in _context.ExamUsers where c.ExamId.Equals(examid) select c;
+            return View(res.ToList());
+        }
+        public IActionResult UserList(int id)
+        {
+            var s = from c in _context.ExamUsers where c.ExamId.Equals(id) select c;
+            var res = _context.Exams.SingleOrDefault(c => c.ExamId.Equals(id));
+            ViewBag.id = res.ExamId;
+            //return BadRequest(ViewBag.id);
+            return View(s.ToList());
+        }
+        public IActionResult RemoveUser(int id)
+        {   var res = _context.ExamUsers.SingleOrDefault(s=>s.ExamUserId == id);
+            _context.ExamUsers.Remove(res);
+            _context.SaveChanges();
+            return View();
+        }
+        public IActionResult AddUser(int id)
+        {
+            var r = _context.Exams.SingleOrDefault(c => c.ExamId.Equals(id));
+            var s = (from c in _context.ExamUsers where c.ExamId.Equals(id) select c).ToList();
+            var list = (from c in _context.Users select c).ToList();
+            List<ApplicationUser> es = list;
+            foreach (var item in s)
+            {
+                for (int i = 0; i < es.Count; i++)
+                {   var sa =es.ElementAt(i);
+                    if (sa.Id==item.UserId)
+                    {
+                        es.Remove(sa);
+                    };
+                }
+            }
+            ViewBag.exam = r.ExamId;
+            //return BadRequest(r);
+            return View(es);
+        }
+        [HttpPost]
+        public IActionResult AddUser()
+        {
+            var res = Request.Form;
+            List<string> s = res["id"].ToList();
+            foreach (var item in s)
+            {
+                ExamUser exu = new ExamUser();
+                exu.ExamId = int.Parse(res["examid"]);
+                exu.UserId = item;
+                _context.ExamUsers.Add(exu);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("AddUser", "Exam", int.Parse(res["examid"]));
+            //            _context.ExamUsers.Add(examUser);
+            //            _context.SaveChanges();
+            //;            return View();
+            //return View();
+        }
     }
 }
