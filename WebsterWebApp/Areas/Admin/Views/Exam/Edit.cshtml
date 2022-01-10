@@ -1,0 +1,67 @@
+﻿@model WebsterWebApp.Models.Exam
+
+@{
+    ViewData["Title"] = "Edit";
+    
+}
+
+<h1>Edit</h1>
+
+<h4>Exam</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ExamId" />
+            <div class="form-group">
+                <label asp-for="ExamName" class="control-label"></label>
+                <input asp-for="ExamName" class="form-control" />
+                <span asp-validation-for="ExamName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PassPercent" class="control-label"></label>
+                <input asp-for="PassPercent" class="form-control" />
+                <span asp-validation-for="PassPercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExamPass" class="control-label"></label>
+                <input asp-for="ExamPass" class="form-control" />
+                <span asp-validation-for="ExamPass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstCountdown" class="control-label"></label>
+                <input asp-for="FirstCountdown" class="form-control" />
+                <span asp-validation-for="FirstCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondCountdown" class="control-label"></label>
+                <input asp-for="SecondCountdown" class="form-control" />
+                <span asp-validation-for="SecondCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThirdCountdown" class="control-label"></label>
+                <input asp-for="ThirdCountdown" class="form-control" />
+                <span asp-validation-for="ThirdCountdown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishTime" class="control-label"></label>
+                <input asp-for="FinishTime" class="form-control" />
+                <span asp-validation-for="FinishTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
