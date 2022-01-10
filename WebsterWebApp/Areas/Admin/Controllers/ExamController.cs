@@ -218,7 +218,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             var r = _context.Exams.SingleOrDefault(c => c.ExamId.Equals(id));
             var s = (from c in _context.ExamUsers where c.ExamId.Equals(id) select c).ToList();
-            var list = (from c in _context.Users select c).ToList();
+            var list = (from c in _context.Users  select c).ToList();
             List<ApplicationUser> es = list;
             foreach (var item in s)
             {

@@ -8,11 +8,11 @@
 
 <h1>Add user</h1>
 
-<a>@ViewBag.exam</a>
+
 
 <form asp-action="AddUser" asp-controller="Exam" >
     <label>Exam Id</label>
-    <input type="text" name="examid" readonly="readonly" value ="@ViewBag.exam"></input>
+    <input type="text" name="examid" hidden="hidden" readonly="readonly" value ="@ViewBag.exam">
 
     @{
         int a=1;
@@ -22,12 +22,16 @@
        <div>
            <label>Name:</label>
            <a>@item.FirstName @item.LastName</a>
+           <br>
            <label>Email:</label>
            <a>@item.Email</a>
-           <input type="checkbox" readonly="readonly" name='id' value="@item.Id"></input>
-
+           <br>
+           <label>Check to add exam :
+               <input  type="checkbox" readonly="readonly" name='id' value="@item.Id">
+           </label>
            <br> 
        </div>
+       <hr />
    
    } 
     <input type="submit" class="btn-primary" value="submit"/>
