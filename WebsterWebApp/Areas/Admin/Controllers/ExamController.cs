@@ -31,7 +31,43 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
             return View();
         }
-        
+        public IActionResult Edit(int id)
+        {
+            var res = _context.Exams.Find(id);
+            return View(res);
+        }
+        [HttpPost]
+        public IActionResult Edit(Exam exam)
+        {
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    var ex = _context.Exams.Find(exam.ExamId);
+                    ex.ExamName = exam.ExamName;
+                    ex.PassPercent = exam.PassPercent;
+                    ex.FinishTime = exam.FinishTime;
+                    ex.ThirdCountdown = exam.ThirdCountdown;
+                    ex.SecondCountdown = exam.SecondCountdown;
+                    ex.StartDate = exam.StartDate;
+                    ex.FinishTime = exam.FinishTime;
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception e)
+            {
+
+                ModelState.AddModelError(string.Empty, e.Message);
+            }
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Exam exam)
         {
@@ -49,7 +85,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z' };
                     Random pass = new Random();
                     string pwd = "";
-                    for (int i = 1; i <= 5; i++)
+                    for (int i = 1; i <= 6; i++)
                     {
                         int pas = pass.Next((abc.Count) - 1);
                         char cha = abc.ElementAt(pas);
