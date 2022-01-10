@@ -29,10 +29,8 @@ namespace WebsterWebApp.Data
 
         //public virtual DbSet<Areas.Admin.Models.User> User { get; set; }
 
-        public virtual DbSet<Areas.Admin.Models.CandidateList> CandidateLists { get; set; }
-
+        public virtual DbSet<Areas.Admin.Models.Candidate> Candidate { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
-
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
         public virtual DbSet<ExamType> ExamTypes { get; set; }

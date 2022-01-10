@@ -70,17 +70,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Services</a>
                         </li>
-
-                        @if (Context.Session.GetString("Mail") != null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Exam/ExamList">Exam List</a>
-                            </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
                         <li>
-                            <partial name="_AdminMenuPartial"/>
+                            <partial name="_AdminMenuPartial" />
                         </li>
                         @if (Context.Session.GetString("Mail") != null)
                         {
@@ -92,6 +86,9 @@
                                 <form class="form-inline" asp-action="Logout" asp-controller="UserAuth" asp-area="">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                 </form>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Exam/ExamList">Exam List</a>
                             </li>
                         }
                         else
@@ -105,11 +102,11 @@
                             </li>
                         }
                     </ul>
-                    @*<partial name="_LoginPartial" />*@
+                        @*<partial name="_LoginPartial" />*@
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
     <div>
         <main role="main" class="pb-3">
             @RenderBody()

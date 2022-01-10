@@ -13,11 +13,11 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class CandidateListController : Controller
+    public class CandidateController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CandidateListController(ApplicationDbContext context)
+        public CandidateController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // GET: Admin/CandidateList
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CandidateLists.ToListAsync());
+            return View(await _context.Candidate.ToListAsync());
         }
 
         // GET: Admin/CandidateList/Details/5
@@ -36,7 +36,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var candidateList = await _context.CandidateLists
+            var candidateList = await _context.Candidate
                 .FirstOrDefaultAsync(m => m.CandidateId == id);
             if (candidateList == null)
             {
@@ -57,7 +57,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CandidateId,Exam,Email")] CandidateList candidateList)
+        public async Task<IActionResult> Create([Bind("CandidateId,Exam,Email")] Candidate candidateList)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var candidateList = await _context.CandidateLists.FindAsync(id);
+            var candidateList = await _context.Candidate.FindAsync(id);
             if (candidateList == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,Exam,Email")] CandidateList candidateList)
+        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,Exam,Email")] Candidate candidateList)
         {
             if (id != candidateList.CandidateId)
             {
@@ -127,7 +127,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var candidateList = await _context.CandidateLists
+            var candidateList = await _context.Candidate
                 .FirstOrDefaultAsync(m => m.CandidateId == id);
             if (candidateList == null)
             {
@@ -142,15 +142,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var candidateList = await _context.CandidateLists.FindAsync(id);
-            _context.CandidateLists.Remove(candidateList);
+            var candidateList = await _context.Candidate.FindAsync(id);
+            _context.Candidate.Remove(candidateList);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CandidateListExists(int id)
         {
-            return _context.CandidateLists.Any(e => e.CandidateId == id);
+            return _context.Candidate.Any(e => e.CandidateId == id);
         }
     }
 }

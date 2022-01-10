@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebsterWebApp.Areas.Admin.Models
 {
     [Table("tb_Candidate_List")]
-    public class CandidateList
+    public class Candidate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
