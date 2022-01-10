@@ -24,6 +24,6 @@ namespace WebsterWebApp.Areas.Admin.Models
         public string Role { get; set; }
 
         [ForeignKey("Email")]
-        public virtual ICollection<Candidate> CandidateLists { get; set; }
+        public virtual ICollection<CandidateList> CandidateLists { get; set; }
     }
 }

@@ -13,11 +13,11 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class CandidateController : Controller
+    public class CandidateListController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CandidateController(ApplicationDbContext context)
+        public CandidateListController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -57,7 +57,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CandidateId,Exam,Email")] Candidate candidateList)
+        public async Task<IActionResult> Create([Bind("CandidateId,Exam,Email")] CandidateList candidateList)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,Exam,Email")] Candidate candidateList)
+        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,Exam,Email")] CandidateList candidateList)
         {
             if (id != candidateList.CandidateId)
             {
