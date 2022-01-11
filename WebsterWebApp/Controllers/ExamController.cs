@@ -38,9 +38,6 @@ namespace WebsterWebApp.Controllers
                       select t
                       ).ToList();
 
-
-
-
             return View();
         }
 
@@ -88,6 +85,58 @@ namespace WebsterWebApp.Controllers
 
         public IActionResult ExamRoom()
         {
+
+            var ExamUserId = db.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+            var examid = HttpContext.Session.GetString("examid");
+            var res = db.Results.SingleOrDefault(t =>t.IdUser.Equals(ExamUserId) && t.ExamId ==  int.Parse(examid));
+            if (res ==null)
+            {
+               
+
+                Models.ResultsModel results = new Models.ResultsModel();
+                results.ExamId = int.Parse(examid);
+                results.IdUser = ExamUserId;
+                results.ExamDate = DateTime.Now;
+
+                 db.Results.Add(results);
+                 db.SaveChanges();
+                 HttpContext.Session.SetString("count", "0");
+                ViewBag.count = HttpContext.Session.GetString("count");
+
+
+            }
+            else
+            {
+                if (HttpContext.Session.GetString("count") ==null)
+                {
+
+                    if (res.TimeGK==0)
+                    {
+
+                        HttpContext.Session.SetString("count", "0");
+                        ViewBag.count = HttpContext.Session.GetString("count");
+                    }else
+                    if (res.TimeMath == 0)
+                    {
+                        HttpContext.Session.SetString("count", "1");
+                        ViewBag.count = HttpContext.Session.GetString("count");
+                    }else
+                    {
+                        HttpContext.Session.SetString("count", "2");
+                        ViewBag.count = HttpContext.Session.GetString("count");
+                    }
+
+                }
+                else
+                {
+                    ViewBag.count = HttpContext.Session.GetString("count");
+
+                }
+
+            }
+
+          
+
             return View();
         }
 
@@ -319,6 +368,62 @@ namespace WebsterWebApp.Controllers
                 tmp = true;
 
             }
+            mark *=  10;
+
+            var ExamUserId11 = db.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+            var examid11 = HttpContext.Session.GetString("examid");
+            var res111 = db.Results.SingleOrDefault(t => t.IdUser.Equals(ExamUserId11) && t.ExamId == int.Parse(examid11));
+
+
+
+
+            int countnumber =int.Parse(HttpContext.Session.GetString("count"));
+
+ 
+
+            if (res111 != null)
+            {
+                if (countnumber == 0)
+                {
+                    res111.GKScore = mark;
+                    res111.TimeGK = int.Parse(json["time"]);
+                    db.SaveChanges();
+                }
+                if (countnumber == 1)
+                {
+                    res111.MathScore = mark;
+                    res111.TimeMath = int.Parse(json["time"]);
+                    db.SaveChanges();
+                }
+                if (countnumber == 2)
+                {
+                    double pass = Math.Round((res111.GKScore + res111.MathScore + res111.TechScore) * 1.5);
+
+                    var examm = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(examid11));
+
+                    if (pass>= examm.PassPercent )
+                    {
+                        res111.IsPass = true;
+                    }
+                    else
+                    {
+                        res111.IsPass = false;
+
+                    }
+
+                    res111.TechScore = mark;
+                    res111.TimeTech = int.Parse(json["time"]);
+                    db.SaveChanges();
+                }
+            }
+
+            countnumber += 1;
+            if (countnumber == 3)
+            {
+                HttpContext.Session.Remove("count");
+            }
+
+            HttpContext.Session.SetString("count", countnumber.ToString());
 
            
 
@@ -327,6 +432,38 @@ namespace WebsterWebApp.Controllers
 
 
 
+        }
+
+
+        public IActionResult ExamResult(string ? idexam)
+        {
+            string examid = "";
+            if (HttpContext.Session.GetString("examid") != null)
+            {
+                 examid = HttpContext.Session.GetString("examid");
+            }
+            else
+            {
+                 examid = idexam;
+
+            }
+
+            var ExamUserId = db.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+           
+
+
+            var res = db.Results.SingleOrDefault(t => t.IdUser.Equals(ExamUserId) && t.ExamId == int.Parse(examid));
+            string examname = db.Exams.SingleOrDefault(t =>t.ExamId== int.Parse(examid)).ExamName;
+            string name = db.Users.SingleOrDefault(t => t.Id.Equals(ExamUserId)).FirstName + db.Users.SingleOrDefault(t => t.Id.Equals(ExamUserId)).LastName;
+
+            ViewBag.mail = HttpContext.Session.GetString("Mail");
+            ViewBag.res = res;
+            ViewBag.examname = examname;
+            ViewBag.name = name;
+
+
+
+            return View();
         }
 
     }
