@@ -435,6 +435,7 @@ namespace WebsterWebApp.Controllers
             }
 
             countnumber += 1;
+           
             if (countnumber == 3)
             {
                 HttpContext.Session.Remove("count");
@@ -442,7 +443,7 @@ namespace WebsterWebApp.Controllers
 
             HttpContext.Session.SetString("count", countnumber.ToString());
 
-           
+
 
             //return json["data[0][QuesionID]"];
             return mark;
@@ -454,6 +455,16 @@ namespace WebsterWebApp.Controllers
 
         public IActionResult ExamResult(string ? idexam)
         {
+
+            if (HttpContext.Session.GetString("count")!=null) {
+                int countnumber = int.Parse(HttpContext.Session.GetString("count"));
+                if (countnumber == 3)
+                {
+                    HttpContext.Session.Remove("count");
+                }
+            }
+         
+
             string examid = "";
             if (HttpContext.Session.GetString("examid") != null)
             {
