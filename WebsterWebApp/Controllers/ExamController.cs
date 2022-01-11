@@ -41,7 +41,7 @@ namespace WebsterWebApp.Controllers
 
             foreach (var item in ds1)
             {
-                var t = db.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId));
+                var t = db.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId) && t.TimeTech !=0);
 
                 if (t!=null)
                 {
@@ -483,5 +483,47 @@ namespace WebsterWebApp.Controllers
             return View();
         }
 
+
+        public IActionResult ExamHistoryList()
+        {
+       
+
+            var exam = db.Exams.ToList();
+
+            var ExamUserId = db.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+
+            var list = db.ExamUsers.Where(s => s.UserId.Equals(ExamUserId)).ToList();
+
+
+            var ds1 = (from s in list
+                       join t in exam
+                       on s.ExamId.ToString() equals t.ExamId.ToString()
+                       select t
+                      ).ToList();
+            List<Models.Exam> examuser = new List<Models.Exam>();
+            List<Models.ResultsModel> result = new List<Models.ResultsModel>();
+
+
+            foreach (var item in ds1)
+            {
+                var t = db.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId) && t.TimeTech != 0);
+
+                if (t != null)
+                {
+                    examuser.Add(item);
+                    result.Add(t);
+                }
+                else
+                {
+                }
+
+            }
+
+            ViewBag.ds = examuser.ToArray();
+            ViewBag.ds1 = result.ToArray();
+
+
+            return View();
+        }
     }
 }
