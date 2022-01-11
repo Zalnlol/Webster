@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Exam Room";
 
+    var count = ViewBag.count;
+
 }
 <style>
     .box-note {
@@ -27,6 +29,19 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
+
+    .box-exam-desable {
+        padding: 2px;
+        text-align: center;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px rgb(209, 207, 207);
+        background-color: rgb(255, 255, 255);
+        width: 80%;
+        color: #83898a;
+    }
+
+
 </style>
 
 <div class="container" style="margin-top:6%;margin-bottom:6%">
@@ -61,26 +76,77 @@
     </div>
     <div class="row">
         <div class="col-sm-1" style="margin-left:5%;"></div>
-        <div class="col-sm-3">
-            <div class="box-exam" style="margin:0px auto;">
+
+
+        <div class="col-sm-3" >
+            <div class="box-exam" style="margin:0px auto;" hidden id="GK">
                 <a href="/Exam/StartExam?type=1">General Knowledge Exam</a>
             </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="box-exam" style="margin:0px auto;">
-                <a href="/Exam/StartExam?type=2">Math</a>
+
+            <div class="box-exam-desable" style="margin:0px auto;" hidden id="GKDisablle">
+                <span>General Knowledge Exam</span>
             </div>
         </div>
 
-        <div class="col-sm-3">
-            <div class="box-exam" style="margin:0px auto;">
-                <a href="/Exam/StartExam?type=3">Tech</a>
+        <div class="col-sm-3" >
+            <div class="box-exam" style="margin:0px auto;" hidden id="Math">
+                <a href="/Exam/StartExam?type=2">Math Exam</a>
+            </div>
+      
+            <div class="box-exam-desable" style="margin:0px auto;" hidden id="MathDisable">
+                <span>Math Exam</span>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-3" >
+            <div class="box-exam" style="margin:0px auto;" hidden id="Tech">
+                <a href="/Exam/StartExam?type=3">Tech Exam</a>
+            </div>
+   
+            <div class="box-exam-desable"  hidden id="TechDisable" style="margin:0px auto;">
+                <span>Tech Exam</span>
             </div>
         </div>
     </div>
 
 </div>
 <script>
+
+    count = parseInt(@count);
+
+
+    console.log(count);
+   
+    if (count == 0) {
+        
+        document.getElementById("GK").hidden = false;
+        document.getElementById("MathDisable").hidden = false;
+        document.getElementById("TechDisable").hidden = false;
+    }
+
+    if (count == 1) {
+
+        document.getElementById("GKDisablle").hidden = false;
+        document.getElementById("Math").hidden = false;
+        document.getElementById("TechDisable").hidden = false;
+    }
+
+    if (count == 2) {
+        document.getElementById("GKDisablle").hidden = false;
+        document.getElementById("MathDisable").hidden = false;
+        document.getElementById("Tech").hidden = false;
+    }
+    if (count==3) {
+        document.getElementById("GKDisablle").hidden = false;
+        document.getElementById("MathDisable").hidden = false;
+        document.getElementById("TechDisable").hidden = false;
+        location.href ="/Exam/ExamResult"
+    }
+
+
+
 
 </script>
 

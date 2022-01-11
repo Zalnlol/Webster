@@ -26,6 +26,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             this._db = db;
         }
 
+        public IActionResult IndexCharts()
+        {
+            int gkQuantity = _db.Questions.Where(q => q.Subject == "General Knowledge").Count();
+            int mathQuantity = _db.Questions.Where(q => q.Subject == "Math").Count();
+            int techQuantity = _db.Questions.Where(q => q.Subject == "Tech").Count();
+            List<int> data = new List<int> { gkQuantity, mathQuantity, techQuantity };
+            return  Json(new { JsonList = data });
+        }
+
         public IActionResult Index(String subject, String questionTitle)
         {
             var model = _db.Questions.ToList();
