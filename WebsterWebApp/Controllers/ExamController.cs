@@ -32,12 +32,29 @@ namespace WebsterWebApp.Controllers
             var list = db.ExamUsers.Where(s => s.UserId.Equals(ExamUserId)).ToList();
 
 
-            ViewBag.ds = (from s in list
+            var ds1 = (from s in list
                       join t in exam
                       on s.ExamId.ToString() equals t.ExamId.ToString()
                       select t
                       ).ToList();
+            List<Models.Exam> examuser = new List<Models.Exam>();
 
+            foreach (var item in ds1)
+            {
+                var t = db.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId));
+
+                if (t!=null)
+                {
+                  
+                }
+                else
+                {
+                    examuser.Add(item);
+                }
+
+            }
+
+            ViewBag.ds = examuser;
             return View();
         }
 
