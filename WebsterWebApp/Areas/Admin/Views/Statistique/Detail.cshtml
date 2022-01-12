@@ -16,6 +16,7 @@
     }
 
     int i = 0;
+    var tmp = false;
 }
 @using Newtonsoft.Json;
 @using System.Net.Http;
@@ -164,16 +165,23 @@
         <td>
             @foreach (var item in ViewBag.result)
             {
-                if (@ViewBag.user[j].Id.Equals(item.IdUser) )
+                if (@ViewBag.user[j].Id.Equals(item.IdUser))
                 {
+                    {
+                        tmp = true;
+                    }
                     <span class="text-success">Tested</span>
                 }
-                else
-                {
-        <span class="text-danger">Not Tested</span>
-                }
-            }
 
+
+            }
+            @if (tmp == false)
+            {
+                <span class="text-danger">Not Tested</span>
+            }
+            @{
+                tmp = false;
+            }
 
         </td>
         <td>
@@ -183,7 +191,7 @@
                 {
                     <span class="text-success">Pass</span>
                 }
-                else
+                else if(@ViewBag.user[j].Id.Equals(item.IdUser) && (item.IsPass != true))
                 {
                     <span class="text-danger">Not Pass</span>
                 }
