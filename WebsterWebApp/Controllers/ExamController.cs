@@ -414,11 +414,15 @@ namespace WebsterWebApp.Controllers
                 }
                 if (countnumber == 2)
                 {
-                    double pass = Math.Round((res111.GKScore + res111.MathScore + res111.TechScore) * 1.5);
+                    double pass = (res111.GKScore + res111.MathScore + mark) ;
 
                     var examm = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(examid11));
 
-                    if (pass>= examm.PassPercent )
+                    var ispasss= Math.Round(examm.PassPercent * 1.5);
+
+              
+
+                    if (pass>= ispasss)
                     {
                         res111.IsPass = true;
                     }
