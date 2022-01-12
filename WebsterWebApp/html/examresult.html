@@ -57,36 +57,36 @@
             </div>
         </div>
 
-        
-            <div class="row" style="margin-top: 2%;">
-                <div class="col-sm-4"></div>
-                <div class="col" style="font-size: 15pt;">
-                    <b>Name:</b> <span>Le Nguyenx Thanh Mhan</span>
-                    <br>
-                    <b>Mail:</b> <span>lengthanhnhan123@gmail.com</span>
-                    <br>
-                    <b>Exam Name:</b> <span>It Test</span>
-                    <br>
-                    <b>GK Score:</b> <span>40</span>
-                    <br>
-                    <b>GK Time:</b> <span>250s / 300s </span>
-                    <br>
 
-                    <b>Math Score:</b> <span>20</span>
-                    <br>
-                    <b>Math Time:</b> <span>200s / 300s</span>
-                    <br>
-                    
-                    <b>Tech Score:</b> <span>40</span>
-                    <br>
-                    <b>Tech Time:</b> <span>250s / 300s </span>
-                    <br>
-                    <b>Exam date:</b> <span>2021     </span>
-                    <br>
-                </div>
+        <div class="row" style="margin-top: 2%;">
+            <div class="col-sm-4"></div>
+            <div class="col" style="font-size: 15pt;">
+                <b>Name:</b> <span>Le Nguyenx Thanh Mhan</span>
+                <br>
+                <b>Mail:</b> <span>lengthanhnhan123@gmail.com</span>
+                <br>
+                <b>Exam Name:</b> <span>It Test</span>
+                <br>
+                <b>GK Score:</b> <span>40</span>
+                <br>
+                <b>GK Time:</b> <span>250s / 300s </span>
+                <br>
+
+                <b>Math Score:</b> <span>20</span>
+                <br>
+                <b>Math Time:</b> <span>200s / 300s</span>
+                <br>
+
+                <b>Tech Score:</b> <span>40</span>
+                <br>
+                <b>Tech Time:</b> <span>250s / 300s </span>
+                <br>
+                <b>Exam date:</b> <span>2021 </span>
+                <br>
             </div>
-      
-      
+        </div>
+
+
 
     </div>
 
@@ -96,6 +96,61 @@
     style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas> -->
 
     <script>
+
+        function binding(search, fillter) {
+            var text = `<tr>
+                    <th>Exam Id</th>
+                    <th>Exam Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+            </tr>`;
+            te = "";
+
+            if (search == "" && fillter == "") {
+
+                data.forEach(element => {
+
+                    var starttime = Date.parse(element.StartDate);
+                    var endtime = Date.parse(element.FinishTime);
+                    var currenttime = Date.now();
+
+
+                    if ((currenttime < starttime) && (currenttime < endtime)) {
+                        te = `<span class="text-warning">Not Active</span>`;
+                    }
+                    if ((currenttime > starttime) && (currenttime > endtime)) {
+                        te = `<span class="text-success">Complete</span>`;
+
+                    }
+
+                    if ((currenttime >= starttime) && (currenttime <== endtime)) {
+                    te = `<span class="text-primary">Activating</span>`;
+
+                    text += ` <tr>
+                                         <td>`+ element.ExamId + `</td>
+                                        <td>`+ element.ExamName + `</td>
+                                        <td>`+ element.StartDate + `</td>
+                                        <td>`+ element.FinishTime + `</td>
+                                        <td>`+ te + `</td>
+                                        <td>
+                                            <a href="/Statistique/Detail/`+ element.ExamId + `"><input type="button" class="btn btn-info" value="Start Exam" /></a>
+
+                                        </td>
+                                        </tr>`;
+                                    }                 
+
+
+                });
+
+
+
+        }
+
+
+    }
+
         $(function () {
 
             var donutChartCanvas = $('#GKtest').get(0).getContext('2d')
