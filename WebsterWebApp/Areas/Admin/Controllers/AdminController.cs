@@ -31,5 +31,24 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             return View(await _context.Users.ToListAsync());
         }
+
+        // GET: Admin/UserList/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ApplicationUser applicationUser)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(applicationUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(applicationUser);
+        }
     }
 }
