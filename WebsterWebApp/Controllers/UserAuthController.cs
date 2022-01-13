@@ -9,7 +9,12 @@ using System.Threading.Tasks;
 using WebsterWebApp.Data;
 using WebsterWebApp.Models;
 using Microsoft.AspNetCore.Http;
-
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using WebsterWebApp.Areas.Admin.Models;
 
 namespace WebsterWebApp.Controllers
 {
@@ -18,15 +23,17 @@ namespace WebsterWebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
-        private readonly Repository.IMailService mailServices;
+        private readonly Repository.IMailService _mailServices;
+        public readonly IConfiguration _configuration;
 
 
-        public UserAuthController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _context, Repository.IMailService mailServices) 
+        public UserAuthController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _context, Repository.IMailService _mailServices, IConfiguration _configuration) 
         {
             this._context = _context;
             this._signInManager = _signInManager;
             this._userManager = _userManager;
-            this.mailServices = mailServices;
+            this._mailServices = _mailServices;
+            this._configuration = _configuration;
         }
 
         [AllowAnonymous]
@@ -141,6 +148,25 @@ namespace WebsterWebApp.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSetting:Secret").Value);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]{
+                    new Claim(ClaimTypes.NameIdentifier, user.Email.ToString()),
+                    new Claim(ClaimTypes.Name, user.Email)
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

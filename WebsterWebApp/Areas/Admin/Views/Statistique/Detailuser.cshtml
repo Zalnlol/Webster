@@ -53,9 +53,9 @@
         <div class="col" style="font-size: 15pt;">
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
 
-                    <b>Name:</b>  
+                    <b>Name:</b>
                 </div>
                 <div class="col-sm-7" style="text-align:left">
                     <span>@ViewBag.name</span>
@@ -65,7 +65,7 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
 
                     <b>Mail:</b>
                 </div>
@@ -78,7 +78,7 @@
 
             <div class="row">
                 <div class="col-sm-5">
-                    <b>Exam Name:</b> 
+                    <b>Exam Name:</b>
 
                 </div>
                 <div class="col-sm-7" style="text-align:left">
@@ -88,8 +88,8 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
-                    <b>GK Score:</b> 
+                <div class="col-sm-5">
+                    <b>GK Score:</b>
 
                 </div>
                 <div class="col-sm-7" style="text-align:left">
@@ -104,7 +104,7 @@
 
                 </div>
                 <div class="col-sm-7" style="text-align:left">
-                     <span>@res.TimeGK s  </span>
+                    <span>@res.TimeGK s  </span>
                 </div>
             </div>
 
@@ -121,7 +121,7 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
                     <b>Math Time:</b>
 
                 </div>
@@ -132,9 +132,9 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
 
-                    <b>Tech Score:</b> 
+                    <b>Tech Score:</b>
                 </div>
                 <div class="col-sm-7" style="text-align:left">
                     <span>@res.TechScore</span>
@@ -144,7 +144,7 @@
 
             <div class="row">
                 <div class="col-sm-5">
-                    <b>Tech Time:</b> 
+                    <b>Tech Time:</b>
 
                 </div>
                 <div class="col-sm-5" style="text-align:left">
@@ -154,9 +154,9 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
 
-                    <b>Exam date:</b> 
+                    <b>Exam date:</b>
                 </div>
                 <div class="col-sm-7" style="text-align:left">
                     <span>@res.ExamDate  </span>
@@ -176,7 +176,7 @@
 
 
             <div class="row">
-                <div class="col-sm-5" >
+                <div class="col-sm-5">
                     <b>Exam date:</b>
 
                 </div>
@@ -198,7 +198,7 @@
 
 
     <div class="row">
-        @Html.ActionLink("Back to History Exam", "ExamHistoryList", "Exam")
+        @Html.ActionLink("Back to Detail Exam", "Detail", "Statistique", new { ExamId = @res.ExamId })
     </div>
 
 </div>

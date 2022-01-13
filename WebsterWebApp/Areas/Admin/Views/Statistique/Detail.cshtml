@@ -1,0 +1,290 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Exam.ExamName + " Detail";
+
+    var a = ViewBag.result;
+    var countthi = a.Length;
+
+    var countthitotal = ViewBag.user.Length;
+
+    int count = 0;
+    for (int k = 0; k < a.Length; k++)
+    {
+        if (a[k].IsPass == true)
+        {
+            count += 1;
+        }
+    }
+
+    int i = 0;
+    var tmp = false;
+}
+@using Newtonsoft.Json;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+
+<div class="container" style="margin-top:3%">
+    <h3 style="text-align:center; margin-bottom:2%">@ViewBag.Exam.ExamName Detail</h3>
+
+
+
+    <div class=" row" style="margin-top: 5%;">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
+            <h5 style="text-align: center;">Number of Tests</h5>
+            <canvas id="NoT"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+
+        <div class="col-sm-4">
+            <h5 style="text-align: center;">Number of Reached</h5>
+            <canvas id="NoR"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+
+
+    </div>
+
+
+    <div class="row" style="margin-top: 5%;">
+        <div class="col">
+            <h3 style="text-align: center;">Information</h3>
+
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 2%;">
+        <div class="col-sm-4"></div>
+        <div class="col" style="font-size: 15pt;">
+
+            <div class="row">
+                <div class="col-sm-5">
+
+                    <b>Exam Name:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@ViewBag.Exam.ExamName</span>
+                </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+
+                    <b>Start Date:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @ViewBag.Exam.StartDate</span>
+                </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+                    <b>End Date:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @ViewBag.Exam.FinishTime </span>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+                    <b>Number of contestants:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@ViewBag.Exam.PassPercent %</span>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+                    <b>Reached:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@countthi / @countthitotal </span>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+
+                    <b>Tested:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @count / @countthi </span>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top:2%">
+                <div class="col-sm-5">
+
+                    <b>Download file excel report detail:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> <a href="/Admin/Statistique/Report?Examid=@ViewBag.Exam.ExamId">@ViewBag.Exam.ExamName Report.xlsx</a></span>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+    <table class="table table-striped " id="table">
+
+        <tr>
+            <th>#</th>
+            <th>Mail</th>
+            <th>Name</th>
+            <th>IsTest</th>
+            <th>IsPass</th>
+
+            <th>Action</th>
+        </tr>
+      @for (int j = 0; j < ViewBag.user.Length; j++)
+      {
+
+
+    <tr>
+        @{i += 1;}
+        <td>@i</td>
+        <td>@ViewBag.user[j].Email </td>
+        <td>  @ViewBag.user[j].FirstName @ViewBag.user[j].LastName</td>
+        <td>
+            @foreach (var item in ViewBag.result)
+            {
+                if (@ViewBag.user[j].Id.Equals(item.IdUser))
+                {
+                    {
+                        tmp = true;
+                    }
+                    <span class="text-success">Tested</span>
+                }
+
+
+            }
+            @if (tmp == false)
+            {
+                <span class="text-danger">Not Tested</span>
+            }
+            @{
+                tmp = false;
+            }
+
+        </td>
+        <td>
+            @foreach (var item in ViewBag.result)
+            {
+                if (@ViewBag.user[j].Id.Equals(item.IdUser) && (item.IsPass == true))
+                {
+                    <span class="text-success">Pass</span>
+                }
+                else if(@ViewBag.user[j].Id.Equals(item.IdUser) && (item.IsPass != true))
+                {
+                    <span class="text-danger">Not Pass</span>
+                }
+            }
+
+
+        </td>
+        <td>
+            <a href="/Admin/Statistique/Detailuser?ExamId=@ViewBag.Exam.ExamId&Maill=@ViewBag.user[j].Email"><button class="btn btn-primary">Detail</button></a> 
+
+        </td>
+        </tr>
+        }
+    </table>
+
+
+</div>
+
+
+<script>
+    $(function () {
+
+
+
+          var donutChartCanvas = $('#NoT').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'Not Tested',
+                'Tested',
+
+            ],
+            datasets: [
+                {
+                    data: [@countthitotal - @countthi, @countthi],
+                    backgroundColor: ['#f56954', '#00c0ef'],
+                }
+            ]
+        }
+        var donutChart = new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+        var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+
+
+
+
+
+
+
+
+
+        var donutChartCanvas = $('#NoR').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'Not Reached',
+                'Reached',
+
+            ],
+            datasets: [
+                {
+                    data: [@countthitotal - @count, @count],
+                    backgroundColor: ['#f56954', '#00c0ef'],
+                }
+            ]
+        }
+        var donutChart = new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+        var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+
+
+
+
+    })
+</script>
+
+<script>
+
+
+
+</script>
+
