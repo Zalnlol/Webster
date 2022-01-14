@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WebsterWebApp.Controllers
 {
+    [Authorize(Roles = "User")]
     public class ExamController : Controller
     {
         private readonly Data.ApplicationDbContext db;
@@ -20,7 +21,6 @@ namespace WebsterWebApp.Controllers
         {
             this.db = db;
         }
-
         public IActionResult ExamList(string ?notification)
         {
             ViewBag.Notification = notification;

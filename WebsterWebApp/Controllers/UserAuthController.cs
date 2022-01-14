@@ -42,6 +42,7 @@ namespace WebsterWebApp.Controllers
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             Services.Mail mail = new Services.Mail();
+            
             //await mail.SendMail(toMail, subject, body);
 
             //-------------------------------------------------------------

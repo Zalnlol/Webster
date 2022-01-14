@@ -65,29 +65,6 @@
                         <li>
                             <partial name="_AdminMenuPartial" />
                         </li>
-                        <!--if (Context.Session.GetString("Mail") != null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                            </li>
-                            <li class="nav-item">-->
-                        <!--<form class="form-inline" asp-action="Logout" asp-controller="UserAuth" asp-area="">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Exam/ExamList">Exam List</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" data-toggle="modal" data-target="#UserRegistrationModal">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="modal" data-target="#UserLoginModal">Login</a>
-                            </li>
-                        }-->
                     </ul>
                     <partial name="_LoginPartial" />
 
@@ -98,8 +75,12 @@
     <div>
         <main role="main" class="pb-3">
             @RenderBody()
+
+            @*This if-else block is required to view user's profile*@
+            @*-------------------------------------------------*@
             @if (SignInManager.IsSignedIn(User))
             {
+
             }
             else
             {
@@ -110,6 +91,7 @@
                     <partial name="_UserRegistrationPartial">
                 </div>
             }
+            @*------------------------------------------------------*@
         </main>
 
     </div>

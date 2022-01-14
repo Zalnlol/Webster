@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebsterWebApp.Data;
 using WebsterWebApp.Models;
+using WebsterWebApp.Areas.Admin.Models;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
@@ -56,9 +57,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     LastName = registrationModel.LastName,
                 };
                 //Create method built into UserManager as part of Identity framework
+                
                 var result = await _userManager.CreateAsync(user, registrationModel.Password);
                 if (result.Succeeded) 
                 {
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "de5167aa-1f3f-454d-b6ca-6407d8ab0dbb" });
+                    _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
                 return View(registrationModel);

@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="profile-nav col-md-3">
+            <div class="panel">
+                <div class="user-heading round">
+                    <a href="#">
+                        <img src="~/images/system/user_icon.svg" alt="">
+                    </a>
+                    <h1>Thiện Nguyễn</h1>
+                    <p>j.thien1551@gmail.com</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="profile-form" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Username"></label>
+                                    <input asp-for="Username" class="form-control" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.PhoneNumber"></label>
+                                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#"> <i class="fa fa-user"></i> Profile</a></li>
+                    <li><a href="#"> <i class="fa fa-calendar"></i> Recent Activity <span class="label label-warning pull-right r-activity">9</span></a></li>
+                    <li><a href="#"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="profile-info col-md-9">
+            <div class="panel">
+                <div class="panel-body bio-graph-info">
+
+                    <div class="row">
+                        <div class="bio-row">
+                            <p><span>First Name </span>: Thiện</p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Last Name </span>: Nguyen</p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Email </span>: j.thien1551@gmail.com</p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Mobile </span>: (+84) 989096911</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
