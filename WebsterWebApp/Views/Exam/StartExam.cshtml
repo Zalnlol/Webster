@@ -116,6 +116,16 @@
                     <h3>
 
                         @ques[i].QuestionTitle
+                        <br />
+                        @if (ques[i].QuestionType == true)
+                        {
+                            <span>(One Choose)</span>
+                        }
+                        else
+                        {
+                            <span>(Muiltiple Choose)</span>
+                        }
+
                     </h3>
 
                     @if (@ques[i].Photo != null)
