@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Exam History List";
+
+    var res = ViewBag.ds1;
+ 
+
+    int i = 0;
+
+}
+
+
+
+
+
+<div class="container" style="margin-top:7%; min-height:400px">
+
+    <div class="row" style="margin-bottom:2%">
+        <div class="col"><h3 style="text-align:center">Exam History List</h3></div>
+    </div>
+
+    <table class="table table-striped ">
+        <tr>
+            <th>#</th>
+            <th>Exam Name</th>
+            <th>Exam Date</th>
+            <th>Total Mark</th>
+            <th>Is Pass</th>
+            <th>Action</th>
+        </tr>
+        @*@foreach (var item in ViewBag.ds)*@
+        @for (int j = 0; j < ViewBag.ds.Length; j++)
+
+        {
+
+
+            <tr>
+                @{i += 1;}
+                <td>@i</td>
+                <td>@ViewBag.ds[j].ExamName </td>
+                <td>  @String.Format("{0:dd/MM/yyyy HH : mm}", ViewBag.ds1[j].ExamDate)</td>
+                <td>
+                    @{
+                        var total = ViewBag.ds1[j].GKScore + ViewBag.ds1[j].MathScore + ViewBag.ds1[j].TechScore;
+                    }
+                    @total
+                </td>
+
+                <td>
+                    @if (ViewBag.ds1[j].IsPass)
+                    {
+                        <span style="font-size:15pt" class="text-success">Pass</span>
+                    }
+                    else
+                    {
+                        <span style="font-size:15pt" class="text-danger">Not Pass</span>
+
+                    }
+                </td>
+                <td>
+                    <a href="/Exam/ExamResult?idexam=@ViewBag.ds1[j].ExamId"><input type="button" class="btn btn-info" value="Detail" /></a> 
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+</script>
+

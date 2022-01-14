@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebsterWebApp.Areas.Admin.Models;
 using WebsterWebApp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebsterWebApp
 {

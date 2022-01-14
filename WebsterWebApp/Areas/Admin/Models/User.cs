@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebsterWebApp.Areas.Admin.Models
 {
-    [Table("tb_User")]
+    [Table("AspNetUsers")]
     public class User
     {
         [Key]

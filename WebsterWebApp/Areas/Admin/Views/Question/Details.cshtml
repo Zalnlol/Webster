@@ -56,6 +56,11 @@
             }
         </dd>
         <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            ---------------------------
+        </dd>
+        <dt class="col-sm-2">
             B.
         </dt>
         <dd class="col-sm-10">
@@ -76,6 +81,11 @@
             }
         </dd>
         <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            ---------------------------
+        </dd>
+        <dt class="col-sm-2">
             C.
         </dt>
         <dd class="col-sm-10">
@@ -93,6 +103,11 @@
             {
                 <img src="~/@ViewBag.photoThirdAns" width="120" />
             }
+        </dd>
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            ---------------------------
         </dd>
         <dt class="col-sm-2">
             D.
@@ -128,76 +143,76 @@
             {
                 @if (ViewBag.CorrectAnswer1 == true)
                 {
-                    <label>A</label>
+                    <label>Answer A</label>
                     <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>A</label>
+                    <label>Answer A</label>
                     <input type="checkbox" name="CorrectAnswer1" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer2 == true)
                 {
-                    <label>B</label>
+                    <label>Answer B</label>
                     <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>B</label>
+                    <label>Answer B</label>
                     <input type="checkbox" name="CorrectAnswer2" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer3 == true)
                 {
-                    <label>C</label>
+                    <label>Answer C</label>
                     <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>C</label>
+                    <label>Answer C</label>
                     <input type="checkbox" name="CorrectAnswer3" value="true" disabled="disabled" />
                 }
                 <br />
                 @if (ViewBag.CorrectAnswer4 == true)
                 {
-                    <label>D</label>
+                    <label>Answer D</label>
                     <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" checked />
                 }
                 else
                 {
-                    <label>D</label>
+                    <label>Answer D</label>
                     <input type="checkbox" name="CorrectAnswer4" value="true" disabled="disabled" />
                 }
             }
             else
             {
-                <select name="isCorrectAnswer" disabled>
-                    @foreach (var item in ViewBag.selectAnswer)
-                    {
-                        if (ViewBag.CorrectAnswer1 == true && item == "FirstAnswer")
-                        {
-                            <option value="@item" selected>A</option>
-                        }
-                        else if (ViewBag.CorrectAnswer2 == true && item == "SecondAnswer")
-                        {
-                            <option value="@item" selected>B</option>
-                        }
-                        else if (ViewBag.CorrectAnswer3 == true && item == "ThirdAnswer")
-                        {
-                            <option value="@item" selected>C</option>
-                        }
-                        else if (ViewBag.CorrectAnswer4 == true && item == "FourthAnswer")
-                        {
-                            <option value="@item" selected>D</option>
-                        }
-                        else
-                        {
-                            <option value="@item">@item</option>
-                        }
+        <select name="isCorrectAnswer" disabled>
+            @foreach (var item in ViewBag.selectAnswer)
+            {
+                if (ViewBag.CorrectAnswer1 == true)
+                {
+                    <option value="@item" selected>Answer A</option>
+                }
+                else if (ViewBag.CorrectAnswer2 == true)
+                {
+                    <option value="@item" selected>Answer B</option>
+                }
+                else if (ViewBag.CorrectAnswer3 == true)
+                {
+                    <option value="@item" selected>Answer C</option>
+                }
+                else if (ViewBag.CorrectAnswer4 == true)
+                {
+                    <option value="@item" selected>Answer D</option>
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
 
-                    }
-                </select>
+            }
+        </select>
             }
         </dd>
 

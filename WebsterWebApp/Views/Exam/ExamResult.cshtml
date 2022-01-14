@@ -1,0 +1,294 @@
+﻿@{
+    ViewData["Title"] = "Exam Result";
+
+
+    var res = ViewBag.res;
+    var total = res.GKScore + res.MathScore + res.TechScore;
+    var GKScore = res.GKScore;
+    var MathScore = res.MathScore;
+    var TechScore = res.TechScore;
+
+
+}
+
+<script src="~/plugins/chart.js/Chart.min.js"></script>
+
+
+<div class="container" style="margin-top:7%; min-height:400px">
+
+    <h3 style="text-align: center;">Result Test</h3>
+
+
+    <div class=" row" style="margin-top: 5%;">
+        <div class="col-sm-4">
+            <h5 style="text-align: center;">General Knowledge Exam</h5>
+            <canvas id="GKtest"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+
+        <div class="col-sm-4">
+            <h5 style="text-align: center;">Math Exam</h5>
+            <canvas id="Mathtest"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+
+        <div class="col-sm-4">
+            <h5 style="text-align: center;">Tech Exam</h5>
+            <canvas id="Techtest"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top: 5%;">
+        <div class="col">
+            <h3 style="text-align: center;">Information</h3>
+
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 2%;">
+        <div class="col-sm-4"></div>
+        <div class="col" style="font-size: 15pt;">
+
+            <div class="row">
+                <div class="col-sm-5" >
+
+                    <b>Name:</b>  
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@ViewBag.name</span>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+
+                    <b>Mail:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @ViewBag.mail</span>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <b>Exam Name:</b> 
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @ViewBag.examname </span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+                    <b>GK Score:</b> 
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@res.GKScore</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <b>GK Time:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                     <span>@res.TimeGK s  </span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5">
+
+                    <b>Math Score:</b>
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>  @res.MathScore </span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+                    <b>Math Time:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@res.TimeMath s</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+
+                    <b>Tech Score:</b> 
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@res.TechScore</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <b>Tech Time:</b> 
+
+                </div>
+                <div class="col-sm-5" style="text-align:left">
+                    <span>@res.TimeTech s</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+
+                    <b>Exam date:</b> 
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span>@res.ExamDate  </span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <b>Total Score:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    <span> @total /150 </span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5" >
+                    <b>Exam date:</b>
+
+                </div>
+                <div class="col-sm-7" style="text-align:left">
+                    @if (res.IsPass)
+                    {
+                        <span class="text-success" style="font-size:17pt">Pass</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger" style="font-size:17pt">Not Pass</span>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+
+    <div class="row">
+        @Html.ActionLink("Back to History Exam", "ExamHistoryList", "Exam")
+    </div>
+
+</div>
+
+
+<script>
+    $(function () {
+
+        var donutChartCanvas = $('#GKtest').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'Incorect',
+                'Correct',
+
+            ],
+            datasets: [
+                {
+                    data: [50-@GKScore, @GKScore],
+                    backgroundColor: ['#f56954', '#00c0ef'],
+                }
+            ]
+        }
+        var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+
+
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+
+        var donutChart = new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+
+
+
+
+
+
+        var donutChartCanvas = $('#Mathtest').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'Incorect',
+                'Correct',
+
+            ],
+            datasets: [
+                {
+                    data: [50 - @MathScore, @MathScore],
+                    backgroundColor: ['#f56954', '#00c0ef'],
+                }
+            ]
+        }
+        var donutChart = new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+
+
+
+
+        var donutChartCanvas = $('#Techtest').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'Incorect',
+                'Correct',
+
+            ],
+            datasets: [
+                {
+                    data: [50-@TechScore, @TechScore],
+                    backgroundColor: ['#f56954', '#00c0ef'],
+                }
+            ]
+        }
+
+        var donutChart = new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+    })
+</script>

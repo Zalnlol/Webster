@@ -404,6 +404,7 @@
 
 <script>
     var time = parseInt((document.getElementById("timeconvert").innerText));
+    var time1 = parseInt((document.getElementById("timeconvert").innerText));
 
 
     var timeconvert = document.getElementById("timeconvert");
@@ -577,7 +578,7 @@
 
 
         if (load == false) {
-            alert("Phat hien chuyen tab");
+            alert("Detect tab switching");
             outtab += 1;
             if (outtab >= 3) {
                 endexam("2");
@@ -716,16 +717,22 @@
 
 
     function finnishexam() {
+        var timer1 = (time1 - time);
+        clearInterval(timeInterval);
+
         $.ajax({
             type: "POST",
             url: "/Exam/CheckResult",
             data: {
-                data: DataQuestion
+                data: DataQuestion,
+                time :timer1 ,
             },
             dataType: "text",
             success: function (data) {
 
                 console.log(data);
+
+                location.href = "/Exam/ExamRoom";
 
             },
             error: function (data) {
