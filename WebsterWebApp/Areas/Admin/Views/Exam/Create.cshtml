@@ -24,21 +24,25 @@
                 <label asp-for="PassPercent" class="control-label"></label>
                 <input asp-for="PassPercent" class="form-control" />
                 <span asp-validation-for="PassPercent" class="text-danger"></span>
+                
             </div>
             <div class="form-group">
                 <label asp-for="FirstCountdown" class="control-label"></label>
-                <input type="time" asp-for="FirstCountdown" class="form-control" />
+                <input type="text" asp-for="FirstCountdown" id="time1" onchange="validatetime(1)"  class="form-control" />
                 <span asp-validation-for="FirstCountdown" class="text-danger"></span>
+                <span id="t1"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SecondCountdown" class="control-label"></label>
-                <input type="time" asp-for="SecondCountdown" class="form-control" />
+                <input type="text" asp-for="SecondCountdown" id="time2" onchange="validatetime(2)" class="form-control" />
                 <span asp-validation-for="SecondCountdown" class="text-danger"></span>
+                <span  id="t2">  </span>
             </div>
             <div class="form-group">
                 <label asp-for="ThirdCountdown" class="control-label"></label>
-                <input type="time" asp-for="ThirdCountdown" class="form-control" />
+                <input type="text" asp-for="ThirdCountdown" id="time3" onchange="validatetime(3)" class="form-control" />
                 <span asp-validation-for="ThirdCountdown" class="text-danger"></span>
+                <span  id="t3">  </span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
@@ -59,7 +63,7 @@
                 <span asp-validation-for="ExamType" class="text-danger" ></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input id="sub" type="submit" value="Create" class="btn btn-primary" />
             </div>
             
         </form>
@@ -69,3 +73,27 @@
 </div>  
  </div>
  </div>
+ <script>
+    validatetime(1);
+    validatetime(2);
+    validatetime(3);
+
+    function validatetime(i){
+    let text = document.getElementById("time"+i).value;
+    let pattern = /^00:[0-5]{1}[\d]{1}:[0-5]{1}[\d]{1}$/;
+    let result = text.match(pattern);
+    if(result == null){
+    document.getElementById("t"+i).innerHTML = "Time is format 00:mm:ss !!";
+    document.getElementById("t"+i).style.color = "red";
+    document.getElementById("t"+i).style.fontStyle = "oblique"
+    document.getElementById("time"+i).value = "";
+    }
+    else{
+    
+    document.getElementById("t"+i).innerHTML = "Is complete !";
+    document.getElementById("t"+i).style.color = "green";
+    document.getElementById("t"+i).style.fontStyle = "oblique"
+    
+    };
+   };
+ </script>
