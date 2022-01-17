@@ -18,7 +18,6 @@ namespace WebsterWebApp.Areas.Admin.Models
         [Required(ErrorMessage = "Subject is required!")]
         public String Subject { get; set; }
 
-        [Required(ErrorMessage = "Question title is required!")]
         public String QuestionTitle { get; set; }
 
         [Required(ErrorMessage = "Question type is required!")]
