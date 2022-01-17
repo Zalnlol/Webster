@@ -17,14 +17,14 @@
                 <select name="subject">
                     @foreach (var item in TempData["optionSubject"] as List<String>)
                     {
-                        <option value="@item">@item</option>
+                        <option id="@item" value="@item">@item</option>
                     }
                 </select>
             </div>
             <div class="form-group">
                 <label class="control-label">Question title</label>
-                <input asp-for="QuestionTitle" class="form-control" />
-                <span asp-validation-for="QuestionTitle" class="text-danger"></span>
+                <input name="questionTitle" class="form-control" value="@ViewBag.questionTitle" />
+                <span class="text-danger">@ViewBag.questionTitleMsg</span>
             </div>
 
             <div class="form-group">
@@ -39,100 +39,128 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">Answer A</label>
-                <input name="firstAnswerContent" class="form-control" value="@ViewBag.firstAnswerContent"/>
-                <span class="text-danger">@ViewBag.firstAnswerMsg</span>
+                <label class="control-label">Choose form</label>
+                <select id="package" name="_form" onchange="check()">
+                    @foreach (var item in TempData["form"] as List<String>)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label class="control-label">Do you want to upload image ?</label>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <input type="checkbox" id="uploadPhotoFirstAnswerContent" class="form-check-input" />
-            </div>
-            <div id="photoFirstAnswerContent">
+
+            <div id="yesNoForm">
                 <div class="form-group">
-                    <label class="control-label">Image Answer A</label>
-                    <input type="file" name="photoFirstAnswerContent" id="validationPhotoFirstAns" onchange="validationPhotoFirstAnswer()" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Answer B</label>
-                <input name="secondAnswerContent" class="form-control" value="@ViewBag.secondAnswerContent"/>
-                <span class="text-danger">@ViewBag.secondAnswerMsg</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Do you want to upload image ?</label>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <input type="checkbox" id="uploadPhotoSecondAnswerContent" class="form-check-input" />
-            </div>
-            <div id="photoSecondAnswerContent">
-                <div class="form-group">
-                    <label class="control-label">Image Answer B</label>
-                    <input type="file" name="photoSecondAnswerContent" id="validationPhotoSecondAns" onchange="validationPhotoSecondAnswer()" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Answer C</label>
-                <input name="thirdAnswerContent" class="form-control" value="@ViewBag.thirdAnswerContent"/>
-                <span class="text-danger">@ViewBag.thirdAnswerMsg</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Do you want to upload image ?</label>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <input type="checkbox" id="uploadPhotoThirdAnswerContent" class="form-check-input" />
-            </div>
-            <div id="photoThirdAnswerContent">
-                <div class="form-group">
-                    <label class="control-label">Image Answer C</label>
-                    <input type="file" name="photoThirdAnswerContent" id="validationPhotoThirdAns" onchange="validationPhotoThirdAnswer()" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Answer D</label>
-                <input name="fourthAnswerContent" class="form-control" value="@ViewBag.fourthAnswerContent" />
-                <span class="text-danger">@ViewBag.fourthAnswerMsg</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Do you want to upload image ?</label>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <input type="checkbox" id="uploadPhotoFourthAnswerContent" class="form-check-input" />
-            </div>
-            <div id="photoFourthAnswerContent">
-                <div class="form-group">
-                    <label  class="control-label">Image Answer D</label>
-                    <input type="file" name="photoFourthAnswerContent" id="validationPhotoFourthAns" onchange="validationPhotoFourthAnswer()" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Question Has One Answer</label>
-                <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" checked/>
-                <br />
-                <label class="control-label">Question Has Many Answer</label>
-                <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" />
-            </div>
-            <div id="divQuestionHasOneAnswer">
-                <div class="form-group">
-                    <select name="IsCorrectAnswer">
-                        @foreach (var item in ViewBag.selectAnswer)
+                    <label class="control-label">Correct Answer</label>
+                    <select name="IsCorrectAnswer2">
+                        @foreach (var item in ViewBag.yesnoAnswer)
                         {
                             <option value="@item">@item</option>
                         }
                     </select>
                 </div>
             </div>
-            <div id="divQuestionHasManyAnswer">
+
+            <div id="defaultForm">
                 <div class="form-group">
-                    <label>Answer A</label>
-                    <input type="checkbox" name="CorrectAnswer1" value="true" />
+                    <label class="control-label">Answer A</label>
+                    <input name="firstAnswerContent" class="form-control" value="@ViewBag.firstAnswerContent" />
+                    <span class="text-danger">@ViewBag.firstAnswerMsg</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Do you want to upload image ?</label>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="checkbox" id="uploadPhotoFirstAnswer" class="form-check-input" />
+                </div>
+                <div id="photoFirstAnswer">
+                    <div class="form-group">
+                        <label class="control-label">Image Answer A</label>
+                        <input type="file" name="photoFirstAnswer" id="validationPhotoFirstAns" onchange="validationPhotoFirstAnswer()" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Answer B</label>
+                    <input name="secondAnswerContent" class="form-control" value="@ViewBag.secondAnswerContent" />
+                    <span class="text-danger">@ViewBag.secondAnswerMsg</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Do you want to upload image ?</label>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="checkbox" id="uploadPhotoSecondAnswer" class="form-check-input" />
+                </div>
+                <div id="photoSecondAnswer">
+                    <div class="form-group">
+                        <label class="control-label">Image Answer B</label>
+                        <input type="file" name="photoSecondAnswer" id="validationPhotoSecondAns" onchange="validationPhotoSecondAnswer()" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Answer C</label>
+                    <input name="thirdAnswerContent" class="form-control" value="@ViewBag.thirdAnswerContent" />
+                    <span class="text-danger">@ViewBag.thirdAnswerMsg</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Do you want to upload image ?</label>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="checkbox" id="uploadPhotoThirdAnswer" class="form-check-input" />
+                </div>
+                <div id="photoThirdAnswer">
+                    <div class="form-group">
+                        <label class="control-label">Image Answer C</label>
+                        <input type="file" name="photoThirdAnswer" id="validationPhotoThirdAns" onchange="validationPhotoThirdAnswer()" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Answer D</label>
+                    <input name="fourthAnswerContent" class="form-control" value="@ViewBag.fourthAnswerContent" />
+                    <span class="text-danger">@ViewBag.fourthAnswerMsg</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Do you want to upload image ?</label>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="checkbox" id="uploadPhotoFourthAnswer" class="form-check-input" />
+                </div>
+                <div id="photoFourthAnswer">
+                    <div class="form-group">
+                        <label class="control-label">Image Answer D</label>
+                        <input type="file" name="photoFourthAnswer" id="validationPhotoFourthAns" onchange="validationPhotoFourthAnswer()" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Question Has One Answer</label>
+                    <input type="radio" name="questionType" id="QuestionHasOneAnswer" value="true" checked />
                     <br />
-                    <label>Answer B</label>
-                    <input type="checkbox" name="CorrectAnswer2" value="true" />
-                    <br />
-                    <label>Answer C</label>
-                    <input type="checkbox" name="CorrectAnswer3" value="true" />
-                    <br />
-                    <label>Answer D</label>
-                    <input type="checkbox" name="CorrectAnswer4" value="true" />
-                    <br />
+                    <label class="control-label">Question Has Many Answer</label>
+                    <input type="radio" name="questionType" id="QuestionHasManyAnswer" value="false" />
+                </div>
+                <div id="divQuestionHasOneAnswer">
+                    <div class="form-group">
+                        <label class="control-label">Correct Answer</label>
+                        <select name="isCorrectAnswer">
+                            @foreach (var item in ViewBag.selectAnswer)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="divQuestionHasManyAnswer">
+                    <label class="control-label">Correct Answer</label>
+                    <div class="form-group">
+                        <label>Answer A</label>
+                        <input type="checkbox" name="CorrectAnswer1" value="true" />
+                        <br />
+                        <label>Answer B</label>
+                        <input type="checkbox" name="CorrectAnswer2" value="true" />
+                        <br />
+                        <label>Answer C</label>
+                        <input type="checkbox" name="CorrectAnswer3" value="true" />
+                        <br />
+                        <label>Answer D</label>
+                        <input type="checkbox" name="CorrectAnswer4" value="true" />
+                        <br />
+                        <span class="text-danger">@ViewBag.correctAns</span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -158,7 +186,7 @@
     }
 
     uploadPhotoQuestion.onclick = function () {
-       
+
         if (a.style.display === "none") {
             a.style.display = "block";
         } else {
@@ -166,10 +194,10 @@
         }
     }
 
-    var uploadPhotoFirstAnswerContent = document.getElementById("uploadPhotoFirstAnswerContent");
-    var b = document.getElementById("photoFirstAnswerContent");
+    var uploadPhotoFirstAnswer = document.getElementById("uploadPhotoFirstAnswer");
+    var b = document.getElementById("photoFirstAnswer");
     b.style.display = "none";
-    uploadPhotoFirstAnswerContent.onclick = function () {
+    uploadPhotoFirstAnswer.onclick = function () {
 
         if (b.style.display === "none") {
             b.style.display = "block";
@@ -178,10 +206,10 @@
         }
     }
 
-    var uploadPhotoSecondAnswerContent = document.getElementById("uploadPhotoSecondAnswerContent");
-    var c = document.getElementById("photoSecondAnswerContent");
+    var uploadPhotoSecondAnswer = document.getElementById("uploadPhotoSecondAnswer");
+    var c = document.getElementById("photoSecondAnswer");
     c.style.display = "none";
-    uploadPhotoSecondAnswerContent.onclick = function () {
+    uploadPhotoSecondAnswer.onclick = function () {
 
         if (c.style.display === "none") {
             c.style.display = "block";
@@ -190,10 +218,10 @@
         }
     }
 
-    var uploadPhotoThirdAnswerContent = document.getElementById("uploadPhotoThirdAnswerContent");
-    var d = document.getElementById("photoThirdAnswerContent");
+    var uploadPhotoThirdAnswer = document.getElementById("uploadPhotoThirdAnswer");
+    var d = document.getElementById("photoThirdAnswer");
     d.style.display = "none";
-    uploadPhotoThirdAnswerContent.onclick = function () {
+    uploadPhotoThirdAnswer.onclick = function () {
 
         if (d.style.display === "none") {
             d.style.display = "block";
@@ -202,10 +230,10 @@
         }
     }
 
-    var uploadPhotoFourthAnswerContent = document.getElementById("uploadPhotoFourthAnswerContent");
-    var e = document.getElementById("photoFourthAnswerContent");
+    var uploadPhotoFourthAnswer = document.getElementById("uploadPhotoFourthAnswer");
+    var e = document.getElementById("photoFourthAnswer");
     e.style.display = "none";
-    uploadPhotoFourthAnswerContent.onclick = function () {
+    uploadPhotoFourthAnswer.onclick = function () {
 
         if (e.style.display === "none") {
             e.style.display = "block";
@@ -232,8 +260,37 @@
         if (g.style.display === "none") {
             g.style.display = "block";
             f.style.display = "none";
-        } 
+        }
     }
+
+</script>
+
+<script>
+    var h = document.getElementById("yesNoForm");
+    var i = document.getElementById("defaultForm");
+    h.style.display = "none";
+
+    function check() {
+        var selectedPackage = document.getElementById("package").value;
+        if (selectedPackage == "Yes & No") {
+            if (h.style.display === "none") {
+                h.style.display = "block";
+                i.style.display = "none";
+            } else {
+                h.style.display = "none";
+                i.style.display = "block";
+            }
+        } else if (selectedPackage == "Default Form") {
+            if (i.style.display === "none") {
+                i.style.display = "block";
+                h.style.display = "none";
+            } else {
+                h.style.display = "block";
+                i.style.display = "none";
+            }
+        }
+    }
+
 </script>
 
 <script>
@@ -248,7 +305,7 @@
             alert('Invalid file type!');
             fileInput.value = '';
             return false;
-        }else {
+        } else {
             return true;
         }
     }

@@ -2,9 +2,8 @@
     TempData["Title"] = "Upload file excel";
 }
 
+<h4 style="color: limegreen">Upload New Question</h4>
 <form asp-action="BatchQuestionUpload" asp-controller="Question" method="post" enctype="multipart/form-data">
-    <label style="color: limegreen">Upload New Question</label>
-    <br />
     <input type="file" name="batchQuestions" id="batchQuestions" onchange="validationBatchQuestions()" class="form-label" style="color: limegreen " />
     <br />
     <br />

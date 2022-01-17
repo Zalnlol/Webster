@@ -1,0 +1,119 @@
+﻿@model WebsterWebApp.Areas.Admin.Models.Question
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Details Question</h4>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuestionTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuestionTitle)
+        </dd>
+        <dt class="col-sm-2">
+            Image Question
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Photo == null)
+            {
+                <p>Empty</p>
+
+            }
+            else
+            {
+                <img src="~/@Url.Content(Model.Photo)" width="120" />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            A.
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.firstAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            <label>Image Answer A</label>
+        </dt>
+        <dd class="col-sm-10">
+            @if (@ViewBag.photoFirstAns == null)
+            {
+                <p>Empty</p>
+
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoFirstAns" width="120" />
+            }
+        </dd>
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            ---------------------------
+        </dd>
+        <dt class="col-sm-2">
+            B.
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.secondAnswerContent
+        </dd>
+        <dt class="col-sm-2">
+            Image Answer B
+        </dt>
+        <dd class="col-sm-10">
+            @if (@ViewBag.photoSecondAns == null)
+            {
+                <p>Empty</p>
+
+            }
+            else
+            {
+                <img src="~/@ViewBag.photoSecondAns" width="120" />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Question type
+        </dt>
+        <dd class="col-sm-10">
+            @{String questionType = Model.QuestionType ? "One Answer" : "Many Answer";}
+            @questionType
+        </dd>
+        <dt class="col-sm-2">
+            Correct Answer
+        </dt>
+        <dd class="col-sm-2">
+            
+            <select name="isCorrectAnswer" disabled>
+                @foreach (var item in ViewBag.yesnoAnswer)
+                {
+                    if (ViewBag.CorrectAnswer1 == true)
+                    {
+                        <option value="@item" selected>Answer A</option>
+                    }
+                    else if (ViewBag.CorrectAnswer2 == true)
+                    {
+                        <option value="@item" selected>Answer B</option>
+                    }
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+            </select>   
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.QuestionId">Edit</a> &nbsp;
+    <a asp-action="Index">Back to List</a>
+</div>
