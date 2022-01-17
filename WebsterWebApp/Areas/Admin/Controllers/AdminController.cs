@@ -37,36 +37,22 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> UserList()
         {
             var userList = from r in _context.UserRoles
-                            join u in _context.Users
-                            on r.UserId equals u.Id
-                            where r.RoleId == "de5167aa-1f3f-454d-b6ca-6407d8ab0dbb"
-                            select new
-                            {
-                                u.FirstName,
-                                u.LastName,
-                                u.Avatar,
-                                u.Email,
-                            };
-            //return BadRequest(userList);
-            return View(await _context.Users.ToListAsync());
+                           join u in _context.Users
+                           on r.UserId equals u.Id
+                           where r.RoleId == "de5167aa-1f3f-454d-b6ca-6407d8ab0dbb"
+                           select u;
+            return View(userList);
         }
 
         // GET: Admin/AdminList
         public async Task<IActionResult> AdminList()
         {
             var adminList = from r in _context.UserRoles
-                           join u in _context.Users
-                           on r.UserId equals u.Id
-                           where r.RoleId == "79c11e1c-38c2-4e6b-a375-96261d4d65d5"
-                           select new
-                           {
-                               u.FirstName,
-                               u.LastName,
-                               u.Avatar,
-                               u.Email,
-                           };
-            //return BadRequest(adminList);
-            return View(await _context.Users.ToListAsync());
+                            join u in _context.Users
+                            on r.UserId equals u.Id
+                            where r.RoleId == "79c11e1c-38c2-4e6b-a375-96261d4d65d5"
+                            select u;
+            return View(adminList);
         }
 
         // GET: Admin/UserList/Create
@@ -79,6 +65,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegistrationModel registrationModel)
         {
+            return BadRequest("Hello User!");
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser
@@ -105,7 +92,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         }
 
 
-        // GET: Admin/UserList/Create
+        // GET: Admin/UserList/CreateCreateAdminAccount
         public IActionResult CreateAdminAccount()
         {
             return View();
@@ -132,7 +119,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 {
                     _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "79c11e1c-38c2-4e6b-a375-96261d4d65d5" });
                     _context.SaveChanges();
-                    
                     return RedirectToAction(nameof(Index));
                 }
                 return View(registrationModel);
