@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label asp-for="Subject" class="control-label"></label>
                 <select name="subject">
-                    @foreach (var item in TempData["optionSubject"] as List<String>)
+                    @foreach (var item in TempData["subject"] as List<String>)
                     {
                         if (item == ViewBag.subject)
                         {
@@ -103,11 +103,11 @@
                     <select name="isCorrectAnswer2">
                         @foreach (var item in ViewBag.yesnoAnswer)
                         {
-                            if (ViewBag.CorrectAnswer1 == true)
+                            if (ViewBag.CorrectAnswer1 == true && item == "Yes")
                             {
                                 <option value="@item" selected>@item</option>
                             }
-                            else if (ViewBag.CorrectAnswer2 == true)
+                            else if (ViewBag.CorrectAnswer2 == true && item == "No")
                             {
                                 <option value="@item" selected>@item</option>
                             }

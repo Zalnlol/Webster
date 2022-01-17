@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label asp-for="Subject" class="control-label"></label>
                 <select name="subject">
-                    @foreach (var item in TempData["optionSubject"] as List<String>)
+                    @foreach (var item in TempData["subject"] as List<String>)
                     {
                         <option id="@item" value="@item">@item</option>
                     }

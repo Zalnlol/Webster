@@ -93,173 +93,199 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
                         int rowCount = worksheet.Dimension.Rows;
-                        String tmp = "0";
                         List<Question> questions = new List<Question>();
                         List<Answer> answers = new List<Answer>();
+                        List<Question> _questions = new List<Question>();
+                        List<Answer> _answers = new List<Answer>();
+                        String tmp = "0";
                         for (int row = 2; row <= rowCount; row++)
                         {
-                            tmp = "0";
-                            String subject = worksheet.Cells[row, 1].Value?.ToString();
-                            String title = worksheet.Cells[row, 2].Value?.ToString();
-                            String photoQuestion = worksheet.Cells[row, 3].Value?.ToString();
-                            String type = worksheet.Cells[row, 4].Value?.ToString();
+                            if (worksheet.Cells[row, 1].Value?.ToString() == "Default")
+                            {
+                                tmp = "0";
+                                String subject = worksheet.Cells[row, 2].Value?.ToString();
+                                String title = worksheet.Cells[row, 3].Value?.ToString();
+                                String photoQuestion = worksheet.Cells[row, 4].Value?.ToString();
+                                String type = worksheet.Cells[row, 5].Value?.ToString();
+                                List<String> sub = new List<string> { "General Knowledge", "Math", "Tech" };
 
-                            if (subject == null || title == null || type == null)
-                            {
-                                tmp = "1";
-                            }
-
-                            Question question = new Question()
-                            {
-                                Subject = subject,
-                                QuestionTitle = title,
-                                Photo = photoQuestion,
-                                QuestionType = type == "QuestionHasOneAnswer" ? true : false,
-                            };
-
-                            if (tmp == "0")
-                            {
-                                questions.Add(question);
-                            }
-                            else
-                            {
-                                ViewBag.msg = "upload fail!";
-                                return View();
-                            }
-
-                            String firstAnswer = worksheet.Cells[row, 5].Value?.ToString();
-                            String photoFirstAnswer = worksheet.Cells[row, 6].Value?.ToString();
-                            String secondAnswer = worksheet.Cells[row, 7].Value?.ToString();
-                            String photoSecondAnswer = worksheet.Cells[row, 8].Value?.ToString();
-                            String thirdAnswer = worksheet.Cells[row, 9].Value?.ToString();
-                            String photoThirdAnswer = worksheet.Cells[row, 10].Value?.ToString();
-                            String fourthAnswer = worksheet.Cells[row, 11].Value?.ToString();
-                            String photoFourthAnswer = worksheet.Cells[row, 12].Value?.ToString();
-                            String answerCorrect = worksheet.Cells[row, 13].Value?.ToString();
-                            if (firstAnswer == null || secondAnswer == null || thirdAnswer == null || fourthAnswer == null || answerCorrect == null)
-                            {
-                                tmp = "1";
-                            }
-
-                            List<String> listQ = new List<string>()
-                            {
-                                photoFirstAnswer, photoSecondAnswer, photoThirdAnswer, photoFourthAnswer
-                            };
-                            List<String> listA = new List<string>()
-                            {
-                                photoQuestion, photoSecondAnswer, photoThirdAnswer, photoFourthAnswer
-                            };
-                            List<String> listB = new List<string>()
-                            {
-                                photoQuestion, photoFirstAnswer, photoThirdAnswer, photoFourthAnswer
-                            };
-                            List<String> listC = new List<string>()
-                            {
-                                photoQuestion, photoFirstAnswer, photoSecondAnswer, photoFourthAnswer
-                            };
-                            List<String> listD = new List<string>()
-                            {
-                                photoQuestion, photoFirstAnswer, photoThirdAnswer, photoSecondAnswer
-                            };
-                            for (int i = 0; i < 4; i++)
-                            {
-                                if (photoQuestion != null && photoQuestion == listQ[i] || 
-                                    photoFirstAnswer != null && photoFirstAnswer == listA[i] ||
-                                    photoSecondAnswer != null && photoSecondAnswer == listB[i] ||
-                                    photoThirdAnswer != null && photoThirdAnswer == listC[i] ||
-                                    photoFourthAnswer != null && photoFourthAnswer == listD[i])
+                                if (subject == null || title == null || type == null ||
+                                    subject != "General Knowledge" || subject != "Math" || subject != "Tech")
                                 {
-                                    ViewBag.msg = "Image must not duplicate!";
+                                    tmp = "1";
+                                }
+
+                                Question question = new Question()
+                                {
+                                    Subject = subject,
+                                    QuestionTitle = title,
+                                    Photo = photoQuestion,
+                                    QuestionType = type == "QuestionHasOneAnswer" ? true : false,
+                                };
+
+                                if (tmp == "0")
+                                {
+                                    questions.Add(question);
+                                }
+                                else
+                                {
+                                    ViewBag.msg = "upload fail!";
                                     return View();
                                 }
+
+                                String firstAnswer = worksheet.Cells[row, 6].Value?.ToString();
+                                String photoFirstAnswer = worksheet.Cells[row, 7].Value?.ToString();
+                                String secondAnswer = worksheet.Cells[row, 8].Value?.ToString();
+                                String photoSecondAnswer = worksheet.Cells[row, 9].Value?.ToString();
+                                String thirdAnswer = worksheet.Cells[row, 10].Value?.ToString();
+                                String photoThirdAnswer = worksheet.Cells[row, 11].Value?.ToString();
+                                String fourthAnswer = worksheet.Cells[row, 12].Value?.ToString();
+                                String photoFourthAnswer = worksheet.Cells[row, 13].Value?.ToString();
+                                String answerCorrect = worksheet.Cells[row, 14].Value?.ToString();
+                                if (firstAnswer == null || secondAnswer == null || thirdAnswer == null || fourthAnswer == null || answerCorrect == null)
+                                {
+                                    tmp = "1";
+                                }
+
+                                if (type == "QuestionHasOneAnswer")
+                                {
+                                    Answer answer1 = new Answer()
+                                    {
+                                        AnswerContent = firstAnswer,
+                                        Photo = photoFirstAnswer,
+                                        IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
+                                    };
+
+                                    Answer answer2 = new Answer()
+                                    {
+                                        AnswerContent = secondAnswer,
+                                        Photo = photoSecondAnswer,
+                                        IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
+                                    };
+
+                                    Answer answer3 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        Photo = photoThirdAnswer,
+                                        IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
+                                    };
+
+                                    Answer answer4 = new Answer()
+                                    {
+                                        AnswerContent = fourthAnswer,
+                                        Photo = photoFourthAnswer,
+                                        IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
+                                    };
+
+                                    if (tmp == "0")
+                                    {
+                                        answers.Add(answer1);
+                                        answers.Add(answer2);
+                                        answers.Add(answer3);
+                                        answers.Add(answer4);
+                                    }
+                                    else
+                                    {
+                                        ViewBag.msg = "upload fail!";
+                                    }
+                                }
+                                else
+                                {
+                                    Answer answer1 = new Answer()
+                                    {
+                                        AnswerContent = firstAnswer,
+                                        Photo = photoFirstAnswer,
+                                        IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
+                                    };
+
+                                    Answer answer2 = new Answer()
+                                    {
+                                        AnswerContent = secondAnswer,
+                                        Photo = photoSecondAnswer,
+                                        IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
+                                    };
+
+                                    Answer answer3 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        Photo = photoThirdAnswer,
+                                        IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
+                                    };
+
+                                    Answer answer4 = new Answer()
+                                    {
+                                        AnswerContent = thirdAnswer,
+                                        Photo = photoFourthAnswer,
+                                        IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
+                                    };
+
+                                    if (tmp == "0")
+                                    {
+                                        answers.Add(answer1);
+                                        answers.Add(answer2);
+                                        answers.Add(answer3);
+                                        answers.Add(answer4);
+                                    }
+                                    else
+                                    {
+                                        ViewBag.msg = "upload fail!";
+                                    }
+                                }
                             }
-                        
-                            if (type == "QuestionHasOneAnswer")
+                            else if (worksheet.Cells[row, 1].Value?.ToString() == "YesNo")
                             {
-                                Answer answer1 = new Answer()
-                                {
-                                    AnswerContent = firstAnswer,
-                                    Photo = photoFirstAnswer,
-                                    IsCorrectAnswer = answerCorrect == "firstAnswer" ? true : false,
-                                };
+                                tmp = "0";
+                                String subject = worksheet.Cells[row, 2].Value?.ToString();
+                                String title = worksheet.Cells[row, 3].Value?.ToString();
+                                String photoQuestion = worksheet.Cells[row, 4].Value?.ToString();
+                                String type = worksheet.Cells[row, 5].Value?.ToString();
 
-                                Answer answer2 = new Answer()
+                                if (subject == null || title == null || type == null 
+                                   || subject != "General Knowledge" || subject != "Math" || subject != "Tech")
                                 {
-                                    AnswerContent = secondAnswer,
-                                    Photo = photoSecondAnswer,
-                                    IsCorrectAnswer = answerCorrect == "secondAnswer" ? true : false,
-                                };
+                                    tmp = "1";
+                                }
 
-                                Answer answer3 = new Answer()
+                                Question question = new Question()
                                 {
-                                    AnswerContent = thirdAnswer,
-                                    Photo = photoThirdAnswer,
-                                    IsCorrectAnswer = answerCorrect == "thirdAnswer" ? true : false,
-                                };
-
-                                Answer answer4 = new Answer()
-                                {
-                                    AnswerContent = fourthAnswer,
-                                    Photo = photoFourthAnswer,
-                                    IsCorrectAnswer = answerCorrect == "fourthAnswer" ? true : false,
+                                    Subject = subject,
+                                    QuestionTitle = title,
+                                    Photo = photoQuestion,
+                                    QuestionType = type == "QuestionHasOneAnswer" ? true : false,
                                 };
 
                                 if (tmp == "0")
                                 {
-                                    answers.Add(answer1);
-                                    answers.Add(answer2);
-                                    answers.Add(answer3);
-                                    answers.Add(answer4);
+                                    _questions.Add(question);
                                 }
                                 else
                                 {
                                     ViewBag.msg = "upload fail!";
                                 }
-                            }
-                            else
-                            {
-                                Answer answer1 = new Answer()
-                                {
-                                    AnswerContent = firstAnswer,
-                                    Photo = photoFirstAnswer,
-                                    IsCorrectAnswer = answerCorrect.Contains("firstAnswer") ? true : false,
-                                };
 
-                                Answer answer2 = new Answer()
+                                if (question.QuestionType == true)
                                 {
-                                    AnswerContent = secondAnswer,
-                                    Photo = photoSecondAnswer,
-                                    IsCorrectAnswer = answerCorrect.Contains("secondAnswer") ? true : false,
-                                };
-
-                                Answer answer3 = new Answer()
-                                {
-                                    AnswerContent = thirdAnswer,
-                                    Photo = photoThirdAnswer,
-                                    IsCorrectAnswer = answerCorrect.Contains("thirdAnswer") ? true : false,
-                                };
-
-                                Answer answer4 = new Answer()
-                                {
-                                    AnswerContent = thirdAnswer,
-                                    Photo = photoFourthAnswer,
-                                    IsCorrectAnswer = answerCorrect.Contains("fourthAnswer") ? true : false,
-                                };
-
-                                if (tmp == "0")
-                                {
-                                    answers.Add(answer1);
-                                    answers.Add(answer2);
-                                    answers.Add(answer3);
-                                    answers.Add(answer4);
+                                    String answerCorrect = worksheet.Cells[row, 14].Value?.ToString();
+                                    Answer firstAnswer = new Answer
+                                    {
+                                        AnswerContent = "Yes",
+                                        IsCorrectAnswer = answerCorrect == "Yes" ? true : false,
+                                    };
+                                    Answer secondAnswer = new Answer
+                                    {
+                                        AnswerContent = "No",
+                                        IsCorrectAnswer = answerCorrect == "No" ? true : false,
+                                    };
+                                    _answers.Add(firstAnswer);
+                                    _answers.Add(secondAnswer);
                                 }
                                 else
                                 {
                                     ViewBag.msg = "upload fail!";
+
                                 }
                             }
                         }
-
                         if (tmp == "0")
                         {
                             int i = 0;
@@ -275,6 +301,22 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 }
                                 answers[j].QuestionId = questions[i].QuestionId;
                                 _db.Answers.Add(answers[j]);
+                                await _db.SaveChangesAsync();
+                            }
+
+                            i = 0;
+                            _db.Questions.Add(_questions[i]);
+                            await _db.SaveChangesAsync();
+                            for (int j = 0; j < _answers.Count; j++)
+                            {
+                                if (j != 0 && j % 2 == 0)
+                                {
+                                    i++;
+                                    _db.Questions.Add(_questions[i]);
+                                    await _db.SaveChangesAsync();
+                                }
+                                _answers[j].QuestionId = _questions[i].QuestionId;
+                                _db.Answers.Add(_answers[j]);
                                 await _db.SaveChangesAsync();
                             }
                             return RedirectToAction("Index");
@@ -295,7 +337,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
@@ -310,7 +352,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3, String CorrectAnswer4)
         {
             int count = 1;
-            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
@@ -593,7 +635,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         public IActionResult Edit(int id)
         {
-            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
@@ -643,7 +685,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         IFormFile photoFourthAnswer, String isCorrectAnswer, String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3,
         String CorrectAnswer4, String isCorrectAnswer2)
         {
-            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
