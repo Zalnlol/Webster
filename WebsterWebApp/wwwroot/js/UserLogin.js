@@ -45,7 +45,6 @@
                 }
                 else {
                     location.href = '/';
-
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
