@@ -17,12 +17,6 @@ namespace WebsterWebApp.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
-               
-
-           
-
-         
-
                 });
         }
     }
