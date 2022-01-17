@@ -1,4 +1,4 @@
-﻿@{
+﻿z@{
     ViewData["Title"] = "Statistique List";
 
     var data = ViewBag.res;
@@ -16,19 +16,54 @@
         <div class="col-sm-9">
             <div class="row">
                 <div class="col-sm-3" style="padding-top:1%">
+                    <span class="form-label"> From Day:</span>
+                </div>
+                <div class="col-sm-3">
+                    <input type="date" id="fromday"disabled class="form-control" onchange="binding('1')"  placeholder="Enter Exam Name.." />
+                </div>
+                <div class="col-sm-1">
+
+                </div>
+                <div class="col-sm-2" style="padding-top:1%">
+                    <span class="form-label"> To Day:</span>
+                </div>
+                <div class="col-sm-3">
+                    <input type="date" id="today" disabled class="form-control" onchange="binding('1')"placeholder="Enter Exam Name.." />
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-2">
+            <div class="row">
+
+                <div class="col">
+                    <input type="checkbox" checked id="checkbox" onclick="eventcheckbox()"/>
+                    All Day
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row" style="margin-bottom:2%">
+        <div class="col-sm-1">  </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-3" style="padding-top:1%">
                     <span class="form-label"> Search by Exam Name:</span>
                 </div>
                 <div class="col-sm-3">
                     <input type="text" id="searchname" class="form-control" onchange="binding('1')" onkeydown="binding('1')" placeholder="Enter Exam Name.." />
                 </div>
                 <div class="col-sm-1">
-                   
+
                 </div>
                 <div class="col-sm-2" style="padding-top:1%">
                     <span class="form-label"> Filter by Status:</span>
                 </div>
                 <div class="col-sm-3">
-                    <select  id="searchstatus" class="form-control" onchange="binding('1')">
+                    <select id="searchstatus" class="form-control" onchange="binding('1')">
                         <option value="0">-------Chose-------</option>
                         <option value="Activating">Activating</option>
                         <option value="Not Active">Not Active</option>
@@ -64,6 +99,16 @@
     var status = "";
 
     function binding(chuoi) {
+        vl = false;
+        if (document.getElementById("checkbox").checked == true) {
+            vl =  false;
+        } else {
+            vl = true;
+        }
+
+        var fromday = Date.parse(document.getElementById("fromday").valueAsDate);
+        var today = Date.parse(document.getElementById("today").valueAsDate);
+
         search = "";
         fillter = "0";
 
@@ -85,25 +130,29 @@
         te = "";
 
         if (search == "" && fillter == "0") {
+            
 
+            console.log(fromday);
             data.forEach(element => {
 
                 var starttime = Date.parse(element.StartDate);
                 var endtime = Date.parse(element.FinishTime);
                 var currenttime = Date.now();
+                //if ((((starttime >= fromday) && (starttime <= today)) || (endtime >= fromday) && ((starttime <= today))) || (vl == false)) {
+                    if (((starttime >= fromday) && (starttime <= today)) ||  (vl == false)) {
 
 
-                if ((currenttime < starttime) && (currenttime < endtime)) {
-                    te = `<span class="text-warning" style="font-weight:bold">Not Active</span>`;
-                }
-                if ((currenttime > starttime) && (currenttime > endtime)) {
-                    te = `<span class="text-success" style="font-weight:bold">Complete</span>`;
+                    if ((currenttime < starttime) && (currenttime < endtime)) {
+                        te = `<span class="text-warning" style="font-weight:bold">Not Active</span>`;
+                    }
+                    if ((currenttime > starttime) && (currenttime > endtime)) {
+                        te = `<span class="text-success" style="font-weight:bold">Complete</span>`;
 
-                }
+                    }
 
-                if ((currenttime >= starttime) && (currenttime <= endtime)) {
-                    te = `<span class="text-primary" style="font-weight:bold">Activating</span>`;
-                }
+                    if ((currenttime >= starttime) && (currenttime <= endtime)) {
+                        te = `<span class="text-primary" style="font-weight:bold">Activating</span>`;
+                    }
 
                     text += ` <tr>
                                          <td>`+ element.ExamId + `</td>
@@ -119,6 +168,9 @@
                                         </tr>`;
 
 
+
+                }
+
             });
 
 
@@ -128,13 +180,17 @@
 
         if (search != "" && fillter == "0") {
             data.forEach(element => {
-                if (element.ExamName.toLowerCase().includes(search)) {
+                if (element.ExamName.toLowerCase().includes(search.toLowerCase())) {
 
-                
-                        var starttime = Date.parse(element.StartDate);
-                        var endtime = Date.parse(element.FinishTime);
-                        var currenttime = Date.now();
+                    var starttime = Date.parse(element.StartDate);
+                    var endtime = Date.parse(element.FinishTime);
+                    var currenttime = Date.now();
 
+
+                    if (((starttime >= fromday) && (starttime <= today)) || (vl == false)) {
+
+                    
+        
 
                         if ((currenttime < starttime) && (currenttime < endtime)) {
                             te = `<span class="text-warning" style="font-weight:bold">Not Active</span>`;
@@ -161,6 +217,7 @@
                                                 </td>
                                                 </tr>`;
 
+                    }
                 }
             });
 
@@ -174,29 +231,30 @@
                 if (element.ExamName.toLowerCase().includes(search))  {
 
 
+                  
                     var starttime = Date.parse(element.StartDate);
                     var endtime = Date.parse(element.FinishTime);
                     var currenttime = Date.now();
 
+                    if (((starttime >= fromday) && (starttime <= today)) || (vl == false)) {
+                        if ((currenttime < starttime) && (currenttime < endtime)) {
+                            te = `<span class="text-warning" style="font-weight:bold">Not Active</span>`;
+                            status = "Not Active";
+                        }
+                        if ((currenttime > starttime) && (currenttime > endtime)) {
+                            te = `<span class="text-success" style="font-weight:bold">Complete</span>`;
+                            status = "Complete";
 
-                    if ((currenttime < starttime) && (currenttime < endtime)) {
-                        te = `<span class="text-warning" style="font-weight:bold">Not Active</span>`;
-                        status = "Not Active";
-                    }
-                    if ((currenttime > starttime) && (currenttime > endtime)) {
-                        te = `<span class="text-success" style="font-weight:bold">Complete</span>`;
-                        status = "Complete";
+                        }
 
-                    }
+                        if ((currenttime >= starttime) && (currenttime <= endtime)) {
+                            te = `<span class="text-primary" style="font-weight:bold">Activating</span>`;
+                            status = "Activating";
 
-                    if ((currenttime >= starttime) && (currenttime <= endtime)) {
-                        te = `<span class="text-primary" style="font-weight:bold">Activating</span>`;
-                        status = "Activating";
+                        }
+                        if (status == fillter) {
 
-                    }
-                    if (status == fillter) {
-
-                    text += ` <tr>
+                            text += ` <tr>
                                                  <td>`+ element.ExamId + `</td>
                                                 <td>`+ element.ExamName + `</td>
                                                 <td>`+ element.StartDate + `</td>
@@ -207,6 +265,7 @@
 
                                                 </td>
                                                 </tr>`;
+                        }
                     }
 
                 }
@@ -218,4 +277,25 @@
     }
 
 
+</script>
+<script>
+
+    function eventcheckbox() {
+        document.getElementById("fromday").valueAsDate = new Date();
+        document.getElementById("today").valueAsDate = new Date();
+
+        stt = document.getElementById("checkbox").checked;
+        document.getElementById("fromday").disabled = true;
+
+        document.getElementById("today").disabled = true;
+        if (stt == true) {
+            binding("0");
+        } else {
+            document.getElementById("fromday").disabled = false;
+
+            document.getElementById("today").disabled = false;
+            binding('1')
+        } 
+        
+    }
 </script>
