@@ -34,7 +34,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/UserList
-        public async Task<IActionResult> UserList()
+        public IActionResult UserList()
         {
             var userList = from r in _context.UserRoles
                            join u in _context.Users
@@ -45,7 +45,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminList
-        public async Task<IActionResult> AdminList()
+        public IActionResult AdminList()
         {
             var adminList = from r in _context.UserRoles
                             join u in _context.Users
@@ -65,7 +65,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegistrationModel registrationModel)
         {
-            return BadRequest("Hello User!");
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser
