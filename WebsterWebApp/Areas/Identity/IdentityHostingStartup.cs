@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebsterWebApp.Data;
+using WebsterWebApp.Areas.Identity.Pages;
 
 [assembly: HostingStartup(typeof(WebsterWebApp.Areas.Identity.IdentityHostingStartup))]
 namespace WebsterWebApp.Areas.Identity
@@ -16,7 +17,7 @@ namespace WebsterWebApp.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
-            });
+                });
         }
     }
 }
