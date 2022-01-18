@@ -82,7 +82,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 {
                     _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "de5167aa-1f3f-454d-b6ca-6407d8ab0dbb" });
                     _context.SaveChanges();
-                    await _mailService.SendMail(registrationModel.Email, "Welcome to Webster", "Your account's password is: " + registrationModel.Password);
+
+                    WebsterWebApp.TemplateMail.Template template = new TemplateMail.Template();
+                    string fullname = user.FirstName + user.LastName;
+                 
+                    await _mailService.SendMail(registrationModel.Email, "Welcome to Webster", template.sendaccount(fullname, user.Email, registrationModel.Password));
+                   
                     return RedirectToAction(nameof(Index));
                 }
                 return View(registrationModel);

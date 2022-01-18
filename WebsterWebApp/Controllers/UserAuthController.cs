@@ -91,6 +91,7 @@ namespace WebsterWebApp.Controllers
             else
             {
                 HttpContext.Session.Remove("Mail");
+                HttpContext.Session.Remove("count");
                 return RedirectToAction("Index", "Home");
             }
         }
