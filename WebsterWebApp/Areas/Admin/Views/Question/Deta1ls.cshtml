@@ -95,13 +95,13 @@
             <select name="isCorrectAnswer" disabled>
                 @foreach (var item in ViewBag.yesnoAnswer)
                 {
-                    if (ViewBag.CorrectAnswer1 == true)
+                    if (ViewBag.CorrectAnswer1 == true && item == "Yes")
                     {
-                        <option value="@item" selected>Answer A</option>
+                        <option value="@item" selected>@item</option>
                     }
-                    else if (ViewBag.CorrectAnswer2 == true)
+                    else if (ViewBag.CorrectAnswer2 == true && item == "No")
                     {
-                        <option value="@item" selected>Answer B</option>
+                        <option value="@item" selected>@item</option>
                     }
                     else
                     {

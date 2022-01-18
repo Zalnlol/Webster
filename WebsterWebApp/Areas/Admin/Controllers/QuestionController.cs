@@ -93,15 +93,13 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
                         int rowCount = worksheet.Dimension.Rows;
-                        List<Question> questions = new List<Question>();
-                        List<Answer> answers = new List<Answer>();
-                        List<Question> _questions = new List<Question>();
-                        List<Answer> _answers = new List<Answer>();
                         String tmp = "0";
                         for (int row = 2; row <= rowCount; row++)
                         {
                             if (worksheet.Cells[row, 1].Value?.ToString() == "Default")
                             {
+                                List<Question> questions = new List<Question>();
+                                List<Answer> answers = new List<Answer>();
                                 tmp = "0";
                                 String subject = worksheet.Cells[row, 2].Value?.ToString();
                                 String title = worksheet.Cells[row, 3].Value?.ToString();
@@ -110,7 +108,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 List<String> sub = new List<string> { "General Knowledge", "Math", "Tech" };
 
                                 if (subject == null || title == null || type == null ||
-                                    subject != "General Knowledge" || subject != "Math" || subject != "Tech")
+                                    subject != "General Knowledge" && subject != "Math" && subject != "Tech")
                                 {
                                     tmp = "1";
                                 }
@@ -231,17 +229,35 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                         ViewBag.msg = "upload fail!";
                                     }
                                 }
+                                if (tmp == "0")
+                                {
+                                    _db.Questions.Add(questions[int.Parse(tmp)]);
+                                    await _db.SaveChangesAsync();
+                                    for (int j = 0; j < answers.Count; j++)
+                                    {                                      
+                                        answers[j].QuestionId = questions[int.Parse(tmp)].QuestionId;
+                                        _db.Answers.Add(answers[j]);
+                                        await _db.SaveChangesAsync();
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.msg = "upload fail!";
+                                    return View();
+                                }
                             }
                             else if (worksheet.Cells[row, 1].Value?.ToString() == "YesNo")
                             {
+                                List<Question> _questions = new List<Question>();
+                                List<Answer> _answers = new List<Answer>();
                                 tmp = "0";
                                 String subject = worksheet.Cells[row, 2].Value?.ToString();
                                 String title = worksheet.Cells[row, 3].Value?.ToString();
                                 String photoQuestion = worksheet.Cells[row, 4].Value?.ToString();
                                 String type = worksheet.Cells[row, 5].Value?.ToString();
 
-                                if (subject == null || title == null || type == null 
-                                   || subject != "General Knowledge" || subject != "Math" || subject != "Tech")
+                                if (subject == null || title == null || type == null || subject != "General Knowledge" &&
+                                    subject != "Math" && subject != "Tech" || type != "QuestionHasOneAnswer")
                                 {
                                     tmp = "1";
                                 }
@@ -260,7 +276,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 }
                                 else
                                 {
-                                    ViewBag.msg = "upload fail!";
+                                    tmp = "1";
                                 }
 
                                 if (question.QuestionType == true)
@@ -281,46 +297,28 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 }
                                 else
                                 {
+                                    tmp = "1";
+
+                                }
+                                if (tmp == "0")
+                                {
+                                    _db.Questions.Add(_questions[int.Parse(tmp)]);
+                                    await _db.SaveChangesAsync();
+                                    for (int j = 0; j < _answers.Count; j++)
+                                    {
+                                        _answers[j].QuestionId = _questions[int.Parse(tmp)].QuestionId;
+                                        _db.Answers.Add(_answers[j]);
+                                        await _db.SaveChangesAsync();
+                                    }
+                                }
+                                else
+                                {
                                     ViewBag.msg = "upload fail!";
-
+                                    return View();
                                 }
                             }
                         }
-                        if (tmp == "0")
-                        {
-                            int i = 0;
-                            _db.Questions.Add(questions[i]);
-                            await _db.SaveChangesAsync();
-                            for (int j = 0; j < answers.Count; j++)
-                            {
-                                if (j != 0 && j % 4 == 0)
-                                {
-                                    i++;
-                                    _db.Questions.Add(questions[i]);
-                                    await _db.SaveChangesAsync();
-                                }
-                                answers[j].QuestionId = questions[i].QuestionId;
-                                _db.Answers.Add(answers[j]);
-                                await _db.SaveChangesAsync();
-                            }
-
-                            i = 0;
-                            _db.Questions.Add(_questions[i]);
-                            await _db.SaveChangesAsync();
-                            for (int j = 0; j < _answers.Count; j++)
-                            {
-                                if (j != 0 && j % 2 == 0)
-                                {
-                                    i++;
-                                    _db.Questions.Add(_questions[i]);
-                                    await _db.SaveChangesAsync();
-                                }
-                                _answers[j].QuestionId = _questions[i].QuestionId;
-                                _db.Answers.Add(_answers[j]);
-                                await _db.SaveChangesAsync();
-                            }
-                            return RedirectToAction("Index");
-                        }
+                        return RedirectToAction("Index");
                     }
                 }                
                 catch (Exception e)
