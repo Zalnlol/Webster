@@ -16,10 +16,12 @@ namespace WebsterWebApp.Controllers
     public class ExamController : Controller
     {
         private readonly Data.ApplicationDbContext db;
+        private readonly Repository.IMailService _mailService;
 
-        public ExamController(Data.ApplicationDbContext db)
+        public ExamController(Data.ApplicationDbContext db, Repository.IMailService _mailService)
         {
             this.db = db;
+            this._mailService = _mailService;
         }
         public IActionResult ExamList(string ?notification)
         {
@@ -396,7 +398,7 @@ namespace WebsterWebApp.Controllers
 
             int countnumber =int.Parse(HttpContext.Session.GetString("count"));
 
- 
+            
 
             if (res111 != null)
             {
@@ -419,22 +421,37 @@ namespace WebsterWebApp.Controllers
                     var examm = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(examid11));
 
                     var ispasss= Math.Round(examm.PassPercent * 1.5);
-
+                    var textpas = "";
               
 
                     if (pass>= ispasss)
                     {
                         res111.IsPass = true;
+                        textpas = "<span  style='font - size:17pt;color:green'>Pass</span>";
+
                     }
                     else
                     {
                         res111.IsPass = false;
+                        textpas = "<span  style='font - size:17pt;color:red'>Not Pass</span>";
+
 
                     }
 
                     res111.TechScore = mark;
                     res111.TimeTech = int.Parse(json["time"]);
                     db.SaveChanges();
+
+                    var inforuser = db.Users.SingleOrDefault(t => t.Id.Equals(ExamUserId11));
+                    var inforexam = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(examid11));
+                    string fullname = inforuser.FirstName + inforuser.LastName;
+
+                    WebsterWebApp.TemplateMail.Template template = new TemplateMail.Template();
+
+
+                  var str=  template.sendresult(fullname,inforuser.Email,inforexam.ExamName,res111.GKScore,res111.TimeGK,res111.MathScore,res111.TimeMath,res111.TechScore,res111.TimeTech,res111.ExamDate.ToString(), pass, textpas);
+
+                    _mailService.SendMail(inforuser.Email, "Result "+ inforexam.ExamName+" Test", str);
                 }
             }
 

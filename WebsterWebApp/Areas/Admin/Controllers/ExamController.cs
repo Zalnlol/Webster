@@ -14,13 +14,16 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class ExamController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly Repository.IMailService _mailService;
 
-        public ExamController(ApplicationDbContext context)
+        public ExamController(ApplicationDbContext context, Repository.IMailService _mailService)
         {
             _context = context;
+            this._mailService = _mailService;
         }
         public IActionResult Index()
         {
@@ -235,8 +238,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return View(es);
         }
         [HttpPost]
-        public IActionResult AddUser()
+        public async Task<IActionResult> AddUser()
         {
+            WebsterWebApp.TemplateMail.Template template = new TemplateMail.Template();
             var res = Request.Form;
             List<string> s = res["id"].ToList();
             foreach (var item in s)
@@ -246,6 +250,15 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 exu.UserId = item;
                 _context.ExamUsers.Add(exu);
                 _context.SaveChanges();
+
+                string fullname = _context.Users.SingleOrDefault(t => t.Id.Equals(item)).FirstName + _context.Users.SingleOrDefault(t => t.Id.Equals(item)).LastName;
+                string mail = _context.Users.SingleOrDefault(t => t.Id.Equals(item)).Email ;
+
+                var exam = _context.Exams.SingleOrDefault(t => t.ExamId == int.Parse(res["examid"]));
+
+                await _mailService.SendMail(mail, "Information Exam", template.sendexam(fullname, exam.ExamName, exam.ExamPass, exam.StartDate.ToString()));
+
+
             }
 
             return RedirectToAction("Index");
