@@ -81,7 +81,6 @@ namespace WebsterWebApp.Controllers
             //return BadRequest(HttpContext.Session.GetString("Mail"));
 
 
-
             await _signInManager.SignOutAsync();
 
             if (returnUrl != null)
@@ -95,43 +94,6 @@ namespace WebsterWebApp.Controllers
                 HttpContext.Session.Remove("count");
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel)
-        //public async Task<RegistrationModel> RegisterUser(RegistrationModel registrationModel)
-        {
-            registrationModel.RegistrationInValid = "true";
-            if (ModelState.IsValid) 
-            {
-                ApplicationUser user = new ApplicationUser
-                {
-                    UserName = registrationModel.Email,
-                    Email = registrationModel.Email,
-                    PhoneNumber = registrationModel.PhoneNumber,
-                    FirstName = registrationModel.FirstName,
-                    LastName = registrationModel.LastName,
-                };
-                //Create method built into UserManager as part of Identity framework
-                var result = await _userManager.CreateAsync(user, registrationModel.Password);
-                if (result.Succeeded)
-                {
-                    HttpContext.Session.SetString("Mail", registrationModel.Email);
-
-                    registrationModel.RegistrationInValid = "";
-                    //Auto Log in if registration is success 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return PartialView("_UserRegistrationPartial", registrationModel);
-                }
-                else 
-                {
-                    //code unreachable
-                    AddErrorsToModelState(result);
-                }
-            }
-            return PartialView("_UserRegistrationPartial", registrationModel);
         }
 
         [AllowAnonymous]

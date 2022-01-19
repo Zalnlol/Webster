@@ -1,13 +1,12 @@
 ﻿$(function () {
-//This line initialize when checkbox AcceptUserAgreement is click
+    //This line initialize when checkbox AcceptUserAgreement is click
     $("#UserRegistrationModal input[name='AcceptUserAgreement']").click(onAcceptUserAgreementClick);
 
     //This line set 'Register' button disabled by default
     $("#UserRegistrationModal button[name = 'register']").prop("disabled", true);
 
     //This function will let 'Register' button clickable when checkbox is ticked
-    function onAcceptUserAgreementClick()
-    {
+    function onAcceptUserAgreementClick() {
         if ($(this).is(":checked")) {
             $("#UserRegistrationModal button[name = 'register']").prop("disabled", false);
         }
@@ -24,7 +23,7 @@
             type: "GET",
             url: url,
             success: function (data) {
-                if (data == true) {   
+                if (data == true) {
                     PresentClosableBootstrapAlert("#alert_placeholder_register", "warning", "Invalid Email", "This email address has already been registered");
                 }
                 else {
@@ -69,8 +68,7 @@
             type: "POST",
             url: url,
             data: user,
-            success: function (data)
-            {
+            success: function (data) {
                 var parsed = $.parseHTML(data);
                 var hasError = $(parsed).find("input[name = 'RegistrationInValid']") == 'true';
 
@@ -85,13 +83,11 @@
                     $(form).removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse(form);
                 }
-                else
-                {
+                else {
                     location.href = '/';
                 }
             },
-            error: function (xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 var errorText = "Status:" + xhr.status + "-" + xhr.statusText;
                 PresentClosableBootstrapAlert("#alert_placeholder_register", "danger", "Error!", errorText);
                 console.error(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);

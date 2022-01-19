@@ -1,0 +1,38 @@
+﻿@model WebsterWebApp.Data.ApplicationUser
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Update country</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Admin" asp-action="Details" method="post">
+            <table cellpadding="2" cellspacing="2">
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="hidden" asp-for="Id" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(u => u.Email)</td>
+                    <td>
+                        <input type="text" asp-for="Email" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(u => u.PhoneNumber)</td>
+                    <td>
+                        <input type="text" asp-for="PhoneNumber" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Update" class="btn-warning" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

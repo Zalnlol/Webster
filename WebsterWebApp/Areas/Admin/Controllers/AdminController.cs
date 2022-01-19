@@ -76,7 +76,17 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     LastName = registrationModel.LastName,
                 };
                 //Create method built into UserManager as part of Identity framework
-                
+                List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z', '!', '@', '#', '$', '%' };
+                Random pass = new Random();
+                string pwd = "";
+                for (int i = 1; i <= 8; i++)
+                {
+                    int pas = pass.Next((abc.Count) - 1);
+                    char cha = abc.ElementAt(pas);
+                    pwd = pwd + cha.ToString();
+                }
+                pwd += "Ab@";
+                registrationModel.Password = pwd;
                 var result = await _userManager.CreateAsync(user, registrationModel.Password);
                 if (result.Succeeded) 
                 {
@@ -117,17 +127,56 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     LastName = registrationModel.LastName,
                 };
                 //Create method built into UserManager as part of Identity framework
-
+                List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z', '!', '@', '#', '$', '%' };
+                Random pass = new Random();
+                string pwd = "";
+                for (int i = 1; i <= 8; i++)
+                {
+                    int pas = pass.Next((abc.Count) - 1);
+                    char cha = abc.ElementAt(pas);
+                    pwd = pwd + cha.ToString();
+                }
+                pwd += "Ab@";
+                registrationModel.Password = pwd;
                 var result = await _userManager.CreateAsync(user, registrationModel.Password);
                 if (result.Succeeded)
                 {
                     _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "79c11e1c-38c2-4e6b-a375-96261d4d65d5" });
                     _context.SaveChanges();
+                    WebsterWebApp.TemplateMail.Template template = new TemplateMail.Template();
+                    string fullname = user.FirstName + user.LastName;
+                    await _mailService.SendMail(registrationModel.Email, "Welcome to Webster", template.sendaccount(fullname, user.Email, registrationModel.Password));
                     return RedirectToAction(nameof(Index));
                 }
                 return View(registrationModel);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Details(string id)
+        {
+            var user = from u in _context.Users
+                       where u.Id == id
+                       select u;
+            return View(user);
+        }
+
+
+        public IActionResult  resetPassword(string Id)
+        {
+
+            List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z' };
+            Random pass = new Random();
+            string pwd = "";
+            for (int i = 1; i <= 6; i++)
+            {
+                int pas = pass.Next((abc.Count) - 1);
+                char cha = abc.ElementAt(pas);
+                pwd = pwd + cha.ToString();
+            }
+
+            return BadRequest(Id);
+
         }
     }
 }
