@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-sm-2">
 
-                @if (@UserManager.GetUserAsync(User).Result?.Avatar == null)
+                @if (@UserManager.GetUserAsync(User).Result?.Avatar == null || @UserManager.GetUserAsync(User).Result?.Avatar == "")
                 {
                     <img src="~/images/system/usericon.png" class="rounded-circle" style="width: 200px; height: 200px; vertical-align:text-top" alt="">
                 }
@@ -64,7 +64,7 @@
                       
                     </div>
                     <div class="col">
-                        <a href="#"><button class="btn btn-primary">Change Information</button></a>
+                        <a href="/UserAuth/Changeinfor"><button class="btn btn-primary">Change Information</button></a>
                     </div>
                 </div>
             </div>
