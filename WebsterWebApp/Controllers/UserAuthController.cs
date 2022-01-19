@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebsterWebApp.Areas.Admin.Models;
+using System.IO;
 
 namespace WebsterWebApp.Controllers
 {
@@ -171,6 +172,7 @@ namespace WebsterWebApp.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult PersonalPage()
         {
 
@@ -213,37 +215,44 @@ namespace WebsterWebApp.Controllers
             return View();
         }
 
-
-        public IActionResult ChangePassword()
+        [Authorize(Roles = "User")]
+        public IActionResult Changeinfor()
         {
-
-
             return View();
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost]
-        public IActionResult ChangePassword(string currentpass, string newpass)
+        public IActionResult Changeinfor(RegistrationModel registrationModel, IFormFile Avatar)
         {
-            ApplicationUser user = new ApplicationUser
-            {
-                UserName = _userManager.GetUserAsync(User).Result?.Email,
-                Email = _userManager.GetUserAsync(User).Result?.Email,
-                PhoneNumber = _userManager.GetUserAsync(User).Result?.PhoneNumber,
-                FirstName = _userManager.GetUserAsync(User).Result?.FirstName,
-                LastName = _userManager.GetUserAsync(User).Result?.LastName,
-            };
+            string id = _userManager.GetUserAsync(User).Result?.Id;
+            var res = _context.Users.SingleOrDefault(t => t.Id.Equals(id));
+            var s = "";
 
-            var result =  _userManager.ChangePasswordAsync(user, currentpass,newpass);
 
-            if (result.Result.Succeeded)
+            if (Avatar != null)
             {
-                return RedirectToAction("PersonalPage");
+                var filePath = Path.Combine("wwwroot/images/user", Avatar.FileName);
+                var stream = new FileStream(filePath, FileMode.Create);
+                Avatar.CopyToAsync(stream);
+                s = "images/user/" + Avatar.FileName;
             }
             else
             {
-                ViewBag.msg = "We can't change the password, please check again";
-                return View();
+                s = res.Avatar;
             }
+   
+
+            res.LastName = registrationModel.LastName;
+            res.FirstName = registrationModel.FirstName;
+            res.PhoneNumber = registrationModel.PhoneNumber;
+            res.Avatar = s;
+
+            _context.SaveChanges();
+
+            
+
+
+            return RedirectToAction("PersonalPage");
         }
     }
 }
