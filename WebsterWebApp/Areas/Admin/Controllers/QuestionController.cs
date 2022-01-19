@@ -35,10 +35,20 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return  Json(new { JsonList = data });
         }
 
-        public IActionResult Index(String subject, String questionTitle)
+        public IActionResult Index(String subject, String questionTitle, int pg = 1)
         {
-            var model = _db.Questions.ToList();
             TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
+            var model = _db.Questions.ToList();
+            const int pageSize = 10;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int modelCount = model.Count;
+            var pager = new Pager(modelCount, pg, pageSize);
+            int modelSkip = (pg - 1) * pageSize;
+            model = model.Skip(modelSkip).Take(pager.PageSize).ToList();
+            ViewBag.Pager = pager; 
             if (String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
             {
                 return View(model);

@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    WebsterWebApp.Areas.Admin.Models.Pager pager = new WebsterWebApp.Areas.Admin.Models.Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h4>Question List</h4>
@@ -164,36 +172,68 @@
             {
                 title = item.QuestionTitle;
             }
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @title
-            </td>
-            <td>
-                @questionType
-            </td>
-            <td>
-                @if (item.Photo == null)
-                {
-                    <p>Empty</p>
-                }
-                else
-                {
-                    <img src="~/@item.Photo" width="120" />
-                }
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.QuestionId" class="btn btn-success">Edit</a> &nbsp;
-                <a asp-action="Details" asp-route-id="@item.QuestionId" class="btn btn-info">Details</a> &nbsp;
-                <a asp-action="Delete" onclick="ConfirmDelete()" asp-route-id="@item.QuestionId" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @title
+                </td>
+                <td>
+                    @questionType
+                </td>
+                <td>
+                    @if (item.Photo == null)
+                    {
+                        <p>Empty</p>
+                    }
+                    else
+                    {
+                        <img src="~/@item.Photo" width="120" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.QuestionId" class="btn btn-success">Edit</a> &nbsp;
+                    <a asp-action="Details" asp-route-id="@item.QuestionId" class="btn btn-info">Details</a> &nbsp;
+                    <a asp-action="Delete" onclick="ConfirmDelete()" asp-route-id="@item.QuestionId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+    <ul class="pagination justify-content-end"  style="margin-right:68px">
+        @if (pager.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-controller="Question" asp-action="Index" asp-route-pg="1">First</a>
+            </li>
+            <li>
+                <a class="page-link" asp-controller="Question" asp-action="Index"
+                   asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
+            </li>
+        }
+        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+        {
+            <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-controller="Question" asp-action="Index" asp-route-pg="@pge"> @pge </a>
+            </li>
+        }
+        @if (pager.CurrentPage < pager.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-controller="Question" asp-action="Index" asp-route-pg="(@pager.CurrentPage + 1)">Next</a>
+            </li>
+            <li>
+                <a class="page-link" asp-controller="Question" asp-action="Index"
+                   asp-route-pg="@(pager.TotalPages)" >Last</a>
+            </li>
+        }
+    </ul>
+    }
+</div>
 <script>
     function check() {
         document.getElementById("_Filter").click() = "true";
