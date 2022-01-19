@@ -346,7 +346,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Create()
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
-            TempData["form"] = new List<String> { "Default Form" };
+            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
             return View();
@@ -361,7 +361,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             int count = 1;
             TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
-            TempData["form"] = new List<String> { "Default Form" };
+            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
             List<Answer> answers = new List<Answer>();
@@ -562,6 +562,22 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         secondAnswer.IsCorrectAnswer = false;
                     }
                     answers.Add(secondAnswer);
+
+
+
+
+
+
+                    Answer threeAnswer = new Answer();
+                    threeAnswer.AnswerContent = "";
+                    threeAnswer.IsCorrectAnswer = false;
+                    answers.Add(threeAnswer);
+
+                    Answer fourAnswer = new Answer();
+                    fourAnswer.AnswerContent = "";
+                    fourAnswer.IsCorrectAnswer = false;
+                    answers.Add(fourAnswer);
+
                 }
                 if(questionType == "false" && CorrectAnswer1 == null && CorrectAnswer2 == null && CorrectAnswer3 == null && CorrectAnswer4 == null)
                 {
@@ -653,7 +669,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
-            TempData["form"] = new List<String> { "Default Form" };
+            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
@@ -703,7 +719,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         String CorrectAnswer4, String isCorrectAnswer2)
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
-            TempData["form"] = new List<String> { "Default Form" };
+            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
@@ -1152,18 +1168,23 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             answers[0].AnswerContent = "Yes";
                             answers[0].Photo = answers[0].Photo != null ? answers[0].Photo = null : null;
 
-                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[i].IsCorrectAnswer = true
-                                                                                             : answers[i].IsCorrectAnswer = false;
-
-
+                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[0].IsCorrectAnswer = true
+                                                                                             : answers[0].IsCorrectAnswer = false;
                             answers[1].AnswerContent = "No";
                             answers[1].Photo = answers[1].Photo != null ? answers[1].Photo = null : null;
 
-                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[i].IsCorrectAnswer = true
-                                                                                            : answers[i].IsCorrectAnswer = false;
+                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[1].IsCorrectAnswer = true
+                                                                                            : answers[1].IsCorrectAnswer = false;
                         }
-                        _db.Answers.Remove(answers[2]);
-                        _db.Answers.Remove(answers[3]);
+
+                        answers[2].AnswerContent = "";
+                        answers[2].Photo =null ;
+                        answers[2].IsCorrectAnswer = false;
+                        answers[3].AnswerContent = "";
+                        answers[3].Photo =  null;
+                        answers[3].IsCorrectAnswer = false;
+
+                        
                     }
                     else
                     {
@@ -1172,13 +1193,19 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         {
                             answers[0].AnswerContent = "Yes";
                             answers[0].Photo = answers[0].Photo != null ? answers[0].Photo = null : null;
-                            answers[i].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[i].IsCorrectAnswer = true
-                                                                                             : answers[i].IsCorrectAnswer = false;
+                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[0].IsCorrectAnswer = true
+                                                                                             : answers[0].IsCorrectAnswer = false;
 
                             answers[1].AnswerContent = "No";
                             answers[1].Photo = answers[1].Photo != null ? answers[1].Photo = null : null;
-                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[i].IsCorrectAnswer = true
-                                                                                            : answers[i].IsCorrectAnswer = false;
+                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[1].IsCorrectAnswer = true
+                                                                                            : answers[1].IsCorrectAnswer = false;
+                            answers[2].AnswerContent = "";
+                            answers[2].Photo = null;
+                            answers[2].IsCorrectAnswer = false;
+                            answers[3].AnswerContent = "";
+                            answers[3].Photo = null;
+                            answers[3].IsCorrectAnswer = false;
                         }
                     }
                     await _db.SaveChangesAsync();
