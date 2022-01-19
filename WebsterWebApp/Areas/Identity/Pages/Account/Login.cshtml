@@ -3,9 +3,13 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "";
 }
+<script>
+    location.href="/"
+</script>
 
-<h1>@ViewData["Title"]</h1>
+@*<h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
         <section>
@@ -47,8 +51,8 @@
                 </div>
             </form>
         </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
+    </div>*@
+    @*<div class="col-md-6 col-md-offset-2">
         <section>
             <h4>Use another service to log in.</h4>
             <hr />
@@ -82,4 +86,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+}*@

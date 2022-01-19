@@ -31,7 +31,9 @@
                 }
                 else
                 {
-                    <img src="~/@Url.Content(@UserManager.GetUserAsync(User).Result?.Avatar)"  class="rounded-circle" style="width: 200px; height: 200px; vertical-align:text-top" alt="">
+                    
+                        <img src="~/@Url.Content(@UserManager.GetUserAsync(User).Result?.Avatar)" width="200" height="200" class="rounded-circle" style="max-width: 200px; max-height: 200px; vertical-align: text-top" alt="">
+
 
                 }
 
