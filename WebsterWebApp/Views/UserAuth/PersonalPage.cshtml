@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Pesonal Page";
+
+    var res = ViewBag.ds1;
+
+
+    int i = 0;
+
+}
+@using WebsterWebApp.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+
+<div>
+    <div class="row">
+        <div class="col">
+            <img src="~/images/system/background.jpg" style="max-height:400px; min-width: 100%;" alt="">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+
+                @if (@UserManager.GetUserAsync(User).Result?.Avatar == null)
+                {
+                    <img src="~/images/system/usericon.png" class="rounded-circle" style="width: 200px; height: 200px; vertical-align:text-top" alt="">
+                }
+                else
+                {
+                    <img src="~/@Url.Content(@UserManager.GetUserAsync(User).Result?.Avatar)"  class="rounded-circle" style="width: 200px; height: 200px; vertical-align:text-top" alt="">
+
+                }
+
+
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-8" style="margin-top:3%">
+                <div class="row">
+                    <div class="col">
+                        <h4>@UserManager.GetUserAsync(User).Result?.FirstName @UserManager.GetUserAsync(User).Result?.LastName </h4>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:1%">
+                    <div class="col">
+                        <b>Mail: </b> @UserManager.GetUserAsync(User).Result?.Email
+                    </div>
+                </div>
+                <div class="row" style="margin-top:0.5%">
+                    <div class="col">
+                        <b>Phone: </b>
+                        @if (@UserManager.GetUserAsync(User).Result?.PhoneNumber == null)
+                        {<span>No Phone</span> }
+                        else
+                        { @UserManager.GetUserAsync(User).Result?.PhoneNumber}
+                    </div>
+                </div>
+                <div class="row" style="margin-top:0.5%">
+                    <div class="col-sm-3">
+                        <a  href="/Identity/Account/Manage/ChangePassword"><button class="btn btn-success">Change Password</button></a>
+                      
+                    </div>
+                    <div class="col">
+                        <a href="#"><button class="btn btn-primary">Change Information</button></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div class="container" style="margin-top:2%; min-height:400px">
+
+    <div class="row" style="margin-bottom:2%">
+        <div class="col"><h3 style="text-align:center">Exam History List</h3></div>
+    </div>
+
+    <table class="table table-striped ">
+        <tr>
+            <th>#</th>
+            <th>Exam Name</th>
+            <th>Exam Date</th>
+            <th>Total Mark</th>
+            <th>Is Pass</th>
+            <th>Action</th>
+        </tr>
+        @*@foreach (var item in ViewBag.ds)*@
+        @for (int j = 0; j < ViewBag.ds.Length; j++)
+
+        {
+
+
+            <tr>
+                @{i += 1;}
+                <td>@i</td>
+                <td>@ViewBag.ds[j].ExamName </td>
+                <td>  @String.Format("{0:dd/MM/yyyy HH : mm}", ViewBag.ds1[j].ExamDate)</td>
+                <td>
+                    @{
+                        var total = ViewBag.ds1[j].GKScore + ViewBag.ds1[j].MathScore + ViewBag.ds1[j].TechScore;
+                    }
+                    @total
+                </td>
+
+                <td>
+                    @if (ViewBag.ds1[j].IsPass)
+                    {
+                        <span style="font-size:15pt" class="text-success">Pass</span>
+                    }
+                    else
+                    {
+                        <span style="font-size:15pt" class="text-danger">Not Pass</span>
+
+                    }
+                </td>
+                <td>
+                    <a href="/Exam/ExamResult?idexam=@ViewBag.ds1[j].ExamId"><input type="button" class="btn btn-info" value="Detail" /></a>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

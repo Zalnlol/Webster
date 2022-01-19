@@ -170,5 +170,80 @@ namespace WebsterWebApp.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public IActionResult PersonalPage()
+        {
+
+
+            var exam = _context.Exams.ToList();
+
+            var ExamUserId = _context.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+
+            var list = _context.ExamUsers.Where(s => s.UserId.Equals(ExamUserId)).ToList();
+
+
+            var ds1 = (from s in list
+                       join t in exam
+                       on s.ExamId.ToString() equals t.ExamId.ToString()
+                       select t
+                      ).ToList();
+            List<Models.Exam> examuser = new List<Models.Exam>();
+            List<Models.ResultsModel> result = new List<Models.ResultsModel>();
+
+
+            foreach (var item in ds1)
+            {
+                var t = _context.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId) && t.TimeTech != 0);
+
+                if (t != null)
+                {
+                    examuser.Add(item);
+                    result.Add(t);
+                }
+                else
+                {
+                }
+
+            }
+
+            ViewBag.ds = examuser.ToArray();
+            ViewBag.ds1 = result.ToArray();
+
+
+            return View();
+        }
+
+
+        public IActionResult ChangePassword()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(string currentpass, string newpass)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = _userManager.GetUserAsync(User).Result?.Email,
+                Email = _userManager.GetUserAsync(User).Result?.Email,
+                PhoneNumber = _userManager.GetUserAsync(User).Result?.PhoneNumber,
+                FirstName = _userManager.GetUserAsync(User).Result?.FirstName,
+                LastName = _userManager.GetUserAsync(User).Result?.LastName,
+            };
+
+            var result =  _userManager.ChangePasswordAsync(user, currentpass,newpass);
+
+            if (result.Result.Succeeded)
+            {
+                return RedirectToAction("PersonalPage");
+            }
+            else
+            {
+                ViewBag.msg = "We can't change the password, please check again";
+                return View();
+            }
+        }
     }
 }
