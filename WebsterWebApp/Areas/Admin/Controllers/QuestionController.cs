@@ -38,7 +38,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Index(String subject, String questionTitle)
         {
             var model = _db.Questions.ToList();
-            TempData["optionSubject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
             if (String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
             {
                 return View(model);
@@ -336,7 +336,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Create()
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
-            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
+            TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
             return View();
@@ -351,7 +351,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             int count = 1;
             TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
-            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
+            TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
             List<Answer> answers = new List<Answer>();
@@ -643,7 +643,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
-            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
+            TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
@@ -693,7 +693,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         String CorrectAnswer4, String isCorrectAnswer2)
         {
             TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
-            TempData["form"] = new List<String> { "Default Form", "Yes & No" };
+            TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
