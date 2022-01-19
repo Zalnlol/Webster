@@ -192,7 +192,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 _context.ExamTypes.Add(ext);
                 _context.SaveChanges();
             }
-            return RedirectToAction("AddUser", "Exam", int.Parse(res["examid"]));
+            return RedirectToAction("AddUser", "Exam", new { id= int.Parse(res["examid"]) });
 
             return View();
         }
