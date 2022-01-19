@@ -108,9 +108,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         {
                             if (worksheet.Cells[row, 1].Value?.ToString() == "Default")
                             {
+                                tmp = "0";
                                 List<Question> questions = new List<Question>();
                                 List<Answer> answers = new List<Answer>();
-                                tmp = "0";
                                 String subject = worksheet.Cells[row, 2].Value?.ToString();
                                 String title = worksheet.Cells[row, 3].Value?.ToString();
                                 String photoQuestion = worksheet.Cells[row, 4].Value?.ToString();
@@ -302,8 +302,22 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                         AnswerContent = "No",
                                         IsCorrectAnswer = answerCorrect == "No" ? true : false,
                                     };
+                                    Answer thirdAnswer = new Answer
+                                    {
+                                        AnswerContent = "",
+                                        IsCorrectAnswer = false,
+                                    };
+
+                                    Answer fourthAnswer = new Answer
+                                    {
+                                        AnswerContent = "",
+                                        IsCorrectAnswer = false,
+                                    };
+
                                     _answers.Add(firstAnswer);
                                     _answers.Add(secondAnswer);
+                                    _answers.Add(thirdAnswer);
+                                    _answers.Add(fourthAnswer);
                                 }
                                 else
                                 {
@@ -563,11 +577,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     }
                     answers.Add(secondAnswer);
 
-
-
-
-
-
                     Answer threeAnswer = new Answer();
                     threeAnswer.AnswerContent = "";
                     threeAnswer.IsCorrectAnswer = false;
@@ -616,7 +625,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
-            if (answers.Count > 2)
+            if (answers[2].AnswerContent != "" && answers[3].AnswerContent != "")
             {
                 for (int i = 0; i < answers.Count; i++)
                 {
@@ -677,7 +686,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             ViewBag.questionTitle = question.QuestionTitle;
             ViewBag.photoQuestion = question.Photo;
             List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
-            if (answers.Count > 2)
+            if (answers[2].AnswerContent != "" && answers[3].AnswerContent != "")
             {
                 for (int i = 0; i < answers.Count; i++)
                 {
@@ -777,7 +786,36 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     await _db.SaveChangesAsync();
 
                     int cnt = 0;
-                    if (_form == "Default Form" && answers.Count == 4)
+                    if (_form != "Default Form")
+                    {
+                        _question.QuestionType = true;
+                        for (int i = 0; i < answers.Count; i++)
+                        {
+
+                            answers[0].AnswerContent = "Yes";
+                            answers[0].Photo = answers[0].Photo != null ? answers[0].Photo = null : null;
+                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" ? answers[0].IsCorrectAnswer = true
+                                                                                   : false;
+                            answers[1].AnswerContent = "No";
+                            answers[1].Photo = answers[1].Photo != null ? answers[1].Photo = null : null;
+                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" ? answers[1].IsCorrectAnswer = true
+                                                                                   : false;
+
+                            answers[2].AnswerContent = "";
+                            answers[2].Photo = answers[2].Photo != null ? answers[2].Photo = null : null;
+                            answers[2].IsCorrectAnswer = false;
+
+                            answers[3].AnswerContent = "";
+                            answers[3].Photo = answers[3].Photo != null ? answers[3].Photo = null : null;
+                            answers[3].IsCorrectAnswer = false;
+
+                            if (cnt != 0)
+                            {
+                                return View();
+                            }
+                        }
+                    }
+                    else if (_form == "Default Form")
                     {
                         for (int i = 0; i < answers.Count; i++)
                         {
@@ -847,7 +885,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             {
                                 answers[1].Photo = ViewBag.photoSecondAns;
                             }
-
                             if (questionType == "true")
                             {
                                 if (isCorrectAnswer == "Answer B")
@@ -864,190 +901,6 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             {
                                 answers[1].IsCorrectAnswer = CorrectAnswer2 == "true" ? true : false;
                             }
-
-                            if (thirdAnswerContent != null)
-                            {
-                                answers[2].AnswerContent = thirdAnswerContent;
-                            }
-                            else
-                            {
-                                ViewBag.AnswerCMsg = "Answer C is required!";
-                                ViewBag.firstAnswerContent = firstAnswerContent;
-                                ViewBag.secondAnswerContent = secondAnswerContent;
-                                ViewBag.fourthAnswerContent = fourthAnswerContent;
-                                cnt++;
-                            }
-                            if (photoThirdAnswer != null && i == 0)
-                            {
-                                var filePath = Path.Combine("wwwroot/images/QA", photoThirdAnswer.FileName);
-                                var stream = new FileStream(filePath, FileMode.Create);
-                                await photoThirdAnswer.CopyToAsync(stream);
-                                answers[2].Photo = $"images/QA/{photoThirdAnswer.FileName}";
-                                stream.Close();
-                            }
-                            else
-                            {
-                                answers[2].Photo = ViewBag.photoThirdAns;
-                            }
-                            if (questionType == "true")
-                            {
-                                if (isCorrectAnswer == "Answer C")
-                                {
-                                    answers[i].IsCorrectAnswer = i == 2 ? answers[i].IsCorrectAnswer = true
-                                                                        : answers[i].IsCorrectAnswer = false;
-                                }
-                                else
-                                {
-                                    answers[2].IsCorrectAnswer = false;
-                                }
-                            }
-                            else
-                            {
-                                answers[2].IsCorrectAnswer = CorrectAnswer3 == "true" ? true : false;
-                            }
-
-                            if (fourthAnswerContent != null)
-                            {
-                                answers[3].AnswerContent = fourthAnswerContent;
-                            }
-                            else
-                            {
-                                ViewBag.AnswerDMsg = "Answer D is required!";
-                                ViewBag.firstAnswerContent = firstAnswerContent;
-                                ViewBag.secondAnswerContent = secondAnswerContent;
-                                ViewBag.thirdAnswerContent = thirdAnswerContent;
-                                cnt++;
-                            }
-                            if (photoFourthAnswer != null && i == 0)
-                            {
-                                var filePath = Path.Combine("wwwroot/images/QA", photoFourthAnswer.FileName);
-                                var stream = new FileStream(filePath, FileMode.Create);
-                                await photoFourthAnswer.CopyToAsync(stream);
-                                answers[3].Photo = $"images/QA/{photoFourthAnswer.FileName}";
-                                stream.Close();
-                            }
-                            else
-                            {
-                                answers[3].Photo = ViewBag.photoFourthAns;
-                            }
-                            if (questionType == "true")
-                            {
-                                if (isCorrectAnswer == "Answer D")
-                                {
-                                    answers[i].IsCorrectAnswer = i == 3 ? answers[i].IsCorrectAnswer = true
-                                                                        : answers[i].IsCorrectAnswer = false;
-                                }
-                                else
-                                {
-                                    answers[3].IsCorrectAnswer = false;
-                                }
-                            }
-                            else
-                            {
-                                answers[3].IsCorrectAnswer = CorrectAnswer4 == "true" ? true : false;
-                            }
-                            if (questionType == "false" && CorrectAnswer1 == null && CorrectAnswer2 == null && CorrectAnswer3 == null &&
-                                CorrectAnswer4 == null)
-                            {
-                                ViewBag.correctAns = "Choose correct answer please!";
-                                ViewBag.firstAnswerContent = firstAnswerContent;
-                                ViewBag.secondAnswerContent = secondAnswerContent;
-                                ViewBag.thirdAnswerContent = thirdAnswerContent;
-                                ViewBag.fourthAnswerContent = fourthAnswerContent;
-                                cnt++;
-                            }
-                            if(cnt != 0)
-                            {
-                                return View();
-                            }
-                        }
-                    }
-                    else if (_form == "Default Form" && answers.Count == 2)
-                    {
-                        for (int i = 0; i < answers.Count; i++)
-                        {
-                            if(firstAnswerContent != null)
-                            {
-                                answers[0].AnswerContent = firstAnswerContent;
-                            }
-                            else
-                            {
-                                ViewBag.AnswerAMsg = "Answer A is required!";
-                                ViewBag.secondAnswerContent = secondAnswerContent;
-                                ViewBag.thirdAnswerContent = secondAnswerContent;
-                                ViewBag.fourthAnswerContent = fourthAnswerContent;
-                                cnt++;
-                            }
-                            if (photoFirstAnswer != null && i == 0)
-                            {
-                                var filePath = Path.Combine("wwwroot/images/QA", photoFirstAnswer.FileName);
-                                var stream = new FileStream(filePath, FileMode.Create);
-                                await photoFirstAnswer.CopyToAsync(stream);
-                                answers[0].Photo = $"images/QA/{photoFirstAnswer.FileName}";
-                                stream.Close();
-                            }
-                            else
-                            {
-                                answers[0].Photo = ViewBag.photoFirstAns;
-                            }
-                            if (questionType == "true")
-                            {
-                                if (isCorrectAnswer == "Answer A")
-                                {
-                                    answers[i].IsCorrectAnswer = i == 0 ? answers[i].IsCorrectAnswer = true
-                                                                        : answers[i].IsCorrectAnswer = false;
-                                }
-                                else
-                                {
-                                    answers[0].IsCorrectAnswer = false;
-                                }
-                            }
-                            else
-                            {
-                                answers[0].IsCorrectAnswer = CorrectAnswer1 == "true" ? true : false;
-                            }
-
-                            if (secondAnswerContent != null)
-                            {
-                                answers[1].AnswerContent = secondAnswerContent;
-                            }
-                            else
-                            {
-                                ViewBag.AnswerBMsg = "Answer B is required!";
-                                ViewBag.firstAnswerContent = firstAnswerContent;
-                                ViewBag.thirdAnswerContent = thirdAnswerContent;
-                                ViewBag.fourthAnswerContent = fourthAnswerContent;
-                                cnt++;
-                            }
-
-                            if (photoSecondAnswer != null && i == 0)
-                            {
-                                var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswer.FileName);
-                                var stream = new FileStream(filePath, FileMode.Create);
-                                await photoSecondAnswer.CopyToAsync(stream);
-                                answers[1].Photo = $"images/QA/{photoSecondAnswer.FileName}";
-                                stream.Close();
-                            }
-                            else
-                            {
-                                answers[1].Photo = ViewBag.photoSecondAns;
-                            }
-                            if (questionType == "true")
-                            {
-                                if (isCorrectAnswer == "Answer B")
-                                {
-                                    answers[i].IsCorrectAnswer = i == 1 ? answers[i].IsCorrectAnswer = true
-                                                                        : answers[i].IsCorrectAnswer = false;
-                                }
-                                else
-                                {
-                                    answers[1].IsCorrectAnswer = false;
-                                }
-                            }
-                            else
-                            {
-                                answers[1].IsCorrectAnswer = CorrectAnswer2 == "true" ? true : false;
-                            }               
                         }
                         Answer ans = new Answer()
                         {
@@ -1101,8 +954,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         {
                             ans.IsCorrectAnswer = CorrectAnswer3 == "true" ? true : false;
                         }
-     
-                        if(photoThirdAnswer != null)
+
+                        if (photoThirdAnswer != null)
                         {
                             var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswer.FileName);
                             var stream = new FileStream(filePath, FileMode.Create);
@@ -1110,7 +963,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             answers[1].Photo = $"images/QA/{photoSecondAnswer.FileName}";
                             stream.Close();
                         }
-                        
+
                         if (questionType == "true")
                         {
                             if (isCorrectAnswer == "Answer D")
@@ -1131,7 +984,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         {
                             _ans.IsCorrectAnswer = CorrectAnswer4 == "true" ? true : false;
                         }
-                        if(photoFourthAnswer != null)
+                        if (photoFourthAnswer != null)
                         {
                             var filePath = Path.Combine("wwwroot/images/QA", photoSecondAnswer.FileName);
                             var stream = new FileStream(filePath, FileMode.Create);
@@ -1154,60 +1007,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         {
                             return View();
                         }
-                        else
-                        {
-                            _db.Answers.Add(ans);
-                            _db.Answers.Add(_ans);
-                        }                  
                     }
-                    else if (_form != "Default Form" && answers.Count == 4)
-                    {
-                        question.QuestionType = true;
-                        for (int i = 0; i < answers.Count; i++)
-                        {
-                            answers[0].AnswerContent = "Yes";
-                            answers[0].Photo = answers[0].Photo != null ? answers[0].Photo = null : null;
 
-                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[0].IsCorrectAnswer = true
-                                                                                             : answers[0].IsCorrectAnswer = false;
-                            answers[1].AnswerContent = "No";
-                            answers[1].Photo = answers[1].Photo != null ? answers[1].Photo = null : null;
-
-                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[1].IsCorrectAnswer = true
-                                                                                            : answers[1].IsCorrectAnswer = false;
-                        }
-
-                        answers[2].AnswerContent = "";
-                        answers[2].Photo =null ;
-                        answers[2].IsCorrectAnswer = false;
-                        answers[3].AnswerContent = "";
-                        answers[3].Photo =  null;
-                        answers[3].IsCorrectAnswer = false;
-
-                        
-                    }
-                    else
-                    {
-                        question.QuestionType = true;
-                        for (int i = 0; i < answers.Count; i++)
-                        {
-                            answers[0].AnswerContent = "Yes";
-                            answers[0].Photo = answers[0].Photo != null ? answers[0].Photo = null : null;
-                            answers[0].IsCorrectAnswer = isCorrectAnswer2 == "Yes" && i == 0 ? answers[0].IsCorrectAnswer = true
-                                                                                             : answers[0].IsCorrectAnswer = false;
-
-                            answers[1].AnswerContent = "No";
-                            answers[1].Photo = answers[1].Photo != null ? answers[1].Photo = null : null;
-                            answers[1].IsCorrectAnswer = isCorrectAnswer2 == "No" && i == 1 ? answers[1].IsCorrectAnswer = true
-                                                                                            : answers[1].IsCorrectAnswer = false;
-                            answers[2].AnswerContent = "";
-                            answers[2].Photo = null;
-                            answers[2].IsCorrectAnswer = false;
-                            answers[3].AnswerContent = "";
-                            answers[3].Photo = null;
-                            answers[3].IsCorrectAnswer = false;
-                        }
-                    }
                     await _db.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
