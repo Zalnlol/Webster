@@ -357,7 +357,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             List<Answer> answers = new List<Answer>();
             if (ModelState.IsValid)
             {
-                foreach (var item in TempData["optionSubject"] as List<String>)
+                foreach (var item in TempData["subject"] as List<String>)
                 {
                     if(subject == item)
                     {
@@ -611,24 +611,33 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Deta1ls", "Question", new { _id = id });
+                HttpContext.Session.SetInt32("_id", id);
+                return RedirectToAction("Deta1ls", "Question");
             }
 
         }
 
-        public IActionResult Deta1ls(int _id)
+        public IActionResult Deta1ls(int? id)
         {
-            Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(_id));
-            List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(_id));
-            for (int i = 0; i < answers.Count; i++)
+            id = HttpContext.Session.GetInt32("_id");
+            if(id != null)
             {
-                ViewBag.firstAnswerContent = answers[0].AnswerContent;
-                ViewBag.CorrectAnswer1 = answers[0].IsCorrectAnswer;
-                ViewBag.secondAnswerContent = answers[1].AnswerContent;
-                ViewBag.CorrectAnswer2 = answers[1].IsCorrectAnswer;
+                Question question = _db.Questions.SingleOrDefault(q => q.QuestionId.Equals(id));
+                List<Answer> answers = _db.Answers.ToList().FindAll(a => a.QuestionId.Equals(id));
+                for (int i = 0; i < answers.Count; i++)
+                {
+                    ViewBag.firstAnswerContent = answers[0].AnswerContent;
+                    ViewBag.CorrectAnswer1 = answers[0].IsCorrectAnswer;
+                    ViewBag.secondAnswerContent = answers[1].AnswerContent;
+                    ViewBag.CorrectAnswer2 = answers[1].IsCorrectAnswer;
+                }
+                ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
+                return View(question);
             }
-            ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
-            return View(question);
+            else
+            {
+                return BadRequest("not found!");
+            }
         }
 
         public IActionResult Edit(int id)
