@@ -29,8 +29,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult IndexCharts()
         {
             int gkQuantity = _db.Questions.Where(q => q.Subject == "General Knowledge").Count();
-            int mathQuantity = _db.Questions.Where(q => q.Subject == "Math").Count();
-            int techQuantity = _db.Questions.Where(q => q.Subject == "Tech").Count();
+            int mathQuantity = _db.Questions.Where(q => q.Subject == "Mathematics").Count();
+            int techQuantity = _db.Questions.Where(q => q.Subject == "Technical").Count();
             List<int> data = new List<int> { gkQuantity, mathQuantity, techQuantity };
             return  Json(new { JsonList = data });
         }
