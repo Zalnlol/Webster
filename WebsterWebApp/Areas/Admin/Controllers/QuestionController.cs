@@ -38,7 +38,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         public IActionResult Index(String subject, String questionTitle)
         {
             var model = _db.Questions.ToList();
-            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
             if (String.IsNullOrEmpty(subject) && String.IsNullOrEmpty(questionTitle))
             {
                 return View(model);
@@ -105,7 +105,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 String title = worksheet.Cells[row, 3].Value?.ToString();
                                 String photoQuestion = worksheet.Cells[row, 4].Value?.ToString();
                                 String type = worksheet.Cells[row, 5].Value?.ToString();
-                                List<String> sub = new List<string> { "General Knowledge", "Math", "Tech" };
+                                List<String> sub = new List<string> { "General Knowledge", "Mathematics", "Technical" };
 
                                 if (subject == null || title == null || type == null ||
                                     subject != "General Knowledge" && subject != "Math" && subject != "Tech")
@@ -335,7 +335,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
             TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
@@ -350,7 +350,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3, String CorrectAnswer4)
         {
             int count = 1;
-            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
             TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A", "Answer B", "Answer C", "Answer D" };
@@ -642,7 +642,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         public IActionResult Edit(int id)
         {
-            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
             TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };
@@ -692,7 +692,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         IFormFile photoFourthAnswer, String isCorrectAnswer, String CorrectAnswer1, String CorrectAnswer2, String CorrectAnswer3,
         String CorrectAnswer4, String isCorrectAnswer2)
         {
-            TempData["subject"] = new List<String> { "General Knowledge", "Math", "Tech" };
+            TempData["subject"] = new List<String> { "General Knowledge", "Mathematics", "Technical" };
             TempData["form"] = new List<String> { "Default Form" };
             ViewBag.yesnoAnswer = new List<String> { "Yes", "No" };
             ViewBag.selectAnswer = new List<String> { "Answer A" , "Answer B" , "Answer C" , "Answer D" };

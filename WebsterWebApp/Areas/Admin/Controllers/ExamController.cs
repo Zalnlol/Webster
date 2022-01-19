@@ -171,8 +171,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         {
             ViewBag.index = (from c in _context.Questions where c.Subject.Equals("General Knowledge") select c).ToList();
-            ViewBag.index1 = (from c in _context.Questions where c.Subject.Equals("Math") select c).ToList();
-            ViewBag.index2 = (from c in _context.Questions where c.Subject.Equals("Tech") select c).ToList();
+            ViewBag.index1 = (from c in _context.Questions where c.Subject.Equals("Mathematics") select c).ToList();
+            ViewBag.index2 = (from c in _context.Questions where c.Subject.Equals("Technical") select c).ToList();
             var res = _context.Exams.SingleOrDefault(c => c.ExamId.Equals(id));
             ViewBag.idex = res.ExamId;
             ViewBag.nameex = res.ExamName;
