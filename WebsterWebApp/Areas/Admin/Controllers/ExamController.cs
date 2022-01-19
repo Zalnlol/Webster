@@ -9,6 +9,7 @@ using WebsterWebApp.Models;
 using Newtonsoft.Json;
 using WebsterWebApp.Areas.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace WebsterWebApp.Areas.Admin.Controllers
 {
@@ -27,6 +28,10 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+            if(HttpContext.Session.GetString("msg") != null)
+            {
+                ViewBag.msg = HttpContext.Session.GetString("msg");
+            }
             return View(_context.Exams.ToList());
         }
         public IActionResult Create()
@@ -104,10 +109,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                         List<Question> list2 = ques2;
                         List<Question> list3 = ques3;
                         Random random = new Random();
-                       
+
                         for (int i = 0; i < 5; i++)
-                        {
-                            
+                        {                         
                             int random1 = random.Next((list1.Count) - 1);
                             Question k1 = list1.ElementAt(random1);
                             ExamType _exam = new ExamType();
@@ -115,9 +119,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                             _exam.QuestionId = k1.QuestionId;
                             await _context.ExamTypes.AddAsync(_exam);
                             await _context.SaveChangesAsync();
-                            list1.Remove(k1);
-                           
+                            list1.Remove(k1);                      
                         }
+
                         for (int i = 0; i < 5; i++)
                         {
                             int random2 = random.Next((list2.Count) - 1);
@@ -263,6 +267,48 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Exam ex = _context.Exams.Find(id);
+            List<ExamType> examTypeList = _context.ExamTypes.Where(examType => examType.ExamId == ex.ExamId).ToList();
+            List<ExamUser> users = _context.ExamUsers.Where(user => user.ExamId.Equals(id)).ToList();
+            List<ResultsModel> results = _context.Results.Where(result => result.ExamId == id).ToList();
+            if (ex != null)
+            {
+                if(results.Count == 0)
+                {
+                    if(users.Count > 0)
+                    {
+                        for (int i = 0; i < users.Count; i++)
+                        {
+                            _context.ExamUsers.Remove(users[i]);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    if (examTypeList.Count > 0)
+                    {
+                        for (int i = 0; i < examTypeList.Count; i++)
+                        {
+                            _context.ExamTypes.Remove(examTypeList[i]);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    _context.Exams.Remove(ex);
+                    await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("msg", "Delete sucessfully!");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("msg", "Delete fail!");
+                }
+            }
+            else
+            {
+                return BadRequest("not found!");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

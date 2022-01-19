@@ -91,6 +91,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<p class="text-danger">@ViewBag.msg</p>
 <table class="table">
     <thead>
         <tr>
@@ -119,7 +120,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PassPercent)
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
@@ -127,17 +128,20 @@
                 @Html.DisplayFor(modelItem => item.FinishTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ExamId" class="A_1">Edit</a> 
-                
+                <a asp-action="Edit" asp-route-id="@item.ExamId" class="A_1">Edit</a>
+
             </td>
             <td>
-                
-                <a asp-action="UserList" asp-route-id="@item.ExamId" class="A_1" >UserList</a> 
-                
+
+                <a asp-action="UserList" asp-route-id="@item.ExamId" class="A_1">UserList</a>
+
             </td>
             <td>
-                
-                <a asp-action="Details" asp-route-id="@item.ExamId" class="A_1" >Details</a>
+
+                <a asp-action="Details" asp-route-id="@item.ExamId" class="A_1">Details</a>
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.ExamId" class="A_1">Delete</a>
             </td>
         </tr>
 }
