@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebsterWebApp.Areas.Admin.Models;
+using System.IO;
 
 namespace WebsterWebApp.Controllers
 {
@@ -131,6 +132,89 @@ namespace WebsterWebApp.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        [Authorize(Roles = "User")]
+        public IActionResult PersonalPage()
+        {
+
+
+            var exam = _context.Exams.ToList();
+
+            var ExamUserId = _context.Users.SingleOrDefault(t => t.UserName.Equals(HttpContext.Session.GetString("Mail"))).Id;
+
+            var list = _context.ExamUsers.Where(s => s.UserId.Equals(ExamUserId)).ToList();
+
+
+            var ds1 = (from s in list
+                       join t in exam
+                       on s.ExamId.ToString() equals t.ExamId.ToString()
+                       select t
+                      ).ToList();
+            List<Models.Exam> examuser = new List<Models.Exam>();
+            List<Models.ResultsModel> result = new List<Models.ResultsModel>();
+
+
+            foreach (var item in ds1)
+            {
+                var t = _context.Results.SingleOrDefault(t => t.ExamId == item.ExamId && t.IdUser.Equals(ExamUserId) && t.TimeTech != 0);
+
+                if (t != null)
+                {
+                    examuser.Add(item);
+                    result.Add(t);
+                }
+                else
+                {
+                }
+
+            }
+
+            ViewBag.ds = examuser.ToArray();
+            ViewBag.ds1 = result.ToArray();
+
+
+            return View();
+        }
+
+        [Authorize(Roles = "User")]
+        public IActionResult Changeinfor()
+        {
+            return View();
+        }
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public IActionResult Changeinfor(RegistrationModel registrationModel, IFormFile Avatar)
+        {
+            string id = _userManager.GetUserAsync(User).Result?.Id;
+            var res = _context.Users.SingleOrDefault(t => t.Id.Equals(id));
+            var s = "";
+
+
+            if (Avatar != null)
+            {
+                var filePath = Path.Combine("wwwroot/images/user", Avatar.FileName);
+                var stream = new FileStream(filePath, FileMode.Create);
+                Avatar.CopyToAsync(stream);
+                s = "images/user/" + Avatar.FileName;
+            }
+            else
+            {
+                s = res.Avatar;
+            }
+   
+
+            res.LastName = registrationModel.LastName;
+            res.FirstName = registrationModel.FirstName;
+            res.PhoneNumber = registrationModel.PhoneNumber;
+            res.Avatar = s;
+
+            _context.SaveChanges();
+
+            
+
+
+            return RedirectToAction("PersonalPage");
         }
     }
 }

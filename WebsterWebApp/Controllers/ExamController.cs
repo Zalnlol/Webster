@@ -56,7 +56,9 @@ namespace WebsterWebApp.Controllers
 
             }
 
-            ViewBag.ds = examuser;
+            
+
+            ViewBag.ds = examuser.OrderByDescending(t => t.StartDate).Where(t => t.FinishTime > DateTime.Now).ToList();
             return View();
         }
 

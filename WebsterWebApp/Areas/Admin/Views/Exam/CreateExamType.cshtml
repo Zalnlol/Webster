@@ -10,62 +10,104 @@
 <h1>CreateExamType</h1>
 <div>
  <form asp-action="CreateExamType" asp-controller="Exam" method="post">
-        <input type="text" name="examid" value="@ViewBag.idex"/>
+        <input type="text" name="examid" value="@ViewBag.idex" hidden/>
         <br />
         <label>General Knowledge</label>
             
-        <div>
-        <select class="form-control" name="ques1" id="ans11" onchange="binding('ans1')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques2" id="ans12" onchange="binding('ans1')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques3" id="ans13" onchange="binding('ans1')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques4" id="ans14" onchange="binding('ans1')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques5" id="ans15" onchange="binding('ans1')">
-            <option value="0">----- Choose -----</option>
-        </select>
+        <div class="form-group">
+            <label class="control-label">Question 1</label>
+            <br />
+            <select class="" name="ques1" id="ans11" onchange="binding('ans1')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 2</label>
+            <br />
+            <select class="" name="ques2" id="ans12" onchange="binding('ans1')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 3</label>
+            <br />
+            <select class="" name="ques3" id="ans13" onchange="binding('ans1')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 4</label>
+            <br />
+            <select class="" name="ques4" id="ans14" onchange="binding('ans1')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 5</label>
+            <br />
+            <select class="" name="ques5" id="ans15" onchange="binding('ans1')">
+                <option value="0">----- Choose -----</option>
+            </select>
         </div>
         <label>Math</label>
-        <div>
-        <select class="form-control" name="ques6" id="ans21" onchange="binding('ans2')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques7" id="ans22" onchange="binding('ans2')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques8" id="ans23" onchange="binding('ans2')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques9" id="ans24" onchange="binding('ans2')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques10" id="ans25" onchange="binding('ans2')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <div>
+        <div class="form-group">
+            <label class="control-label">Question 1</label>
+            <br />
+            <select class="" name="ques6" id="ans21" onchange="binding('ans2')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 2</label>
+            <br />
+            <select class="" name="ques7" id="ans22" onchange="binding('ans2')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 3</label>
+            <br />
+            <select class="" name="ques8" id="ans23" onchange="binding('ans2')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 4</label>
+            <br />
+            <select class="" name="ques9" id="ans24" onchange="binding('ans2')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 5</label>
+            <br />
+            <select class="" name="ques10" id="ans25" onchange="binding('ans2')">
+                <option value="0">----- Choose -----</option>
+            </select>
+        </div>
         <label>Tech</label>
-        <div>
-        <select class="form-control" name="ques11" id="ans31" onchange="binding('ans3')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques12" id="ans32" onchange="binding('ans3')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques13" id="ans33" onchange="binding('ans3')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques14" id="ans34" onchange="binding('ans3')">
-            <option value="0">----- Choose -----</option>
-        </select>
-        <select class="form-control" name="ques15" id="ans35" onchange="binding('ans3')">
-            <option value="0">----- Choose -----</option>
-        </select>
+        <div class="form-group">
+            <label class="control-label">Question 1</label>
+            <br />
+            <select class="" name="ques11" id="ans31" onchange="binding('ans3')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 2</label>
+            <br />
+            <select class="" name="ques12" id="ans32" onchange="binding('ans3')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 3</label>
+            <br />
+            <select class="" name="ques13" id="ans33" onchange="binding('ans3')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 4</label>
+            <br />
+            <select class="" name="ques14" id="ans34" onchange="binding('ans3')">
+                <option value="0">----- Choose -----</option>
+            </select>
+            <br />
+            <label class="control-label">Question 5</label>
+            <br />
+            <select class="" name="ques15" id="ans35" onchange="binding('ans3')">
+                <option value="0">----- Choose -----</option>
+            </select>
         </div>   
         <input type="submit"  value="Submit" />
  </form>

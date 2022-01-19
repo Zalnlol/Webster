@@ -423,7 +423,7 @@
 
     function timer() {
         time -= 1;
-        document.getElementById("time").innerText = time;
+        document.getElementById("time").innerText = time + "s";
         if (time == 0) {
             endexam("3");
             clearInterval(timeInterval);
