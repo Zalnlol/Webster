@@ -231,7 +231,7 @@ namespace WebsterWebApp.Controllers
                                  join question in db.Questions
                                  on x.QuestionId.ToString() equals question.QuestionId.ToString()
                                  select question
-                          ).Where(t => t.Subject.Equals("Math")).ToArray();
+                          ).Where(t => t.Subject.Equals("Mathematics")).ToArray();
 
                 ViewBag.Time = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(id)).SecondCountdown.TotalSeconds;
                 ViewBag.Question = questions;
@@ -254,10 +254,11 @@ namespace WebsterWebApp.Controllers
                                  join question in db.Questions
                                  on x.QuestionId.ToString() equals question.QuestionId.ToString()
                                  select question
-                          ).Where(t => t.Subject.Equals("Tech")).ToArray();
+                          ).Where(t => t.Subject.Equals("Technical")).ToArray();
 
                 ViewBag.Time = db.Exams.SingleOrDefault(t => t.ExamId == int.Parse(id)).FirstCountdown.TotalSeconds;
                 ViewBag.Question = questions;
+               
 
                 ViewBag.Anwser = (from x in questions
                                   join anwser in db.Answers
@@ -286,6 +287,7 @@ namespace WebsterWebApp.Controllers
 
             for (int i = 0; i <= 4; i++)
             {
+             
                 Models.QuestionData Ques = new Models.QuestionData();
                 Ques.QuesionID = quess[i].QuestionId;
                 Ques.QuestionTilte = quess[i].QuestionTitle;

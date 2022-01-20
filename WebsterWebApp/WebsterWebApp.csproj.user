@@ -19,6 +19,7 @@
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
     <WebStackScaffolding_DbContextDialogWidth>650</WebStackScaffolding_DbContextDialogWidth>
     <WebStackScaffolding_LayoutPageFile />
+    <NameOfLastUsedPublishProfile>D:\fpt\Sem 3\Project\project\WebsterWebApp\Properties\PublishProfiles\Webters - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

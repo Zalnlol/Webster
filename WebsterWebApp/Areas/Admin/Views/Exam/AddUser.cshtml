@@ -6,34 +6,44 @@
     
 }
 
-<h1>Add user</h1>
+<h1 style="text-align:center">Add user</h1>
 
+<div class="row" style="margin-top:5%">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <form asp-action="AddUser" asp-controller="Exam">
 
+            <input type="text" name="examid" hidden="hidden" readonly="readonly" value="@ViewBag.exam">
 
-<form asp-action="AddUser" asp-controller="Exam" >
-    <label>Exam Id</label>
-    <input type="text" name="examid" hidden="hidden" readonly="readonly" value ="@ViewBag.exam">
+            @{
+                int a = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <div style="margin-left:30%">
+                    <label>Name:</label>
+                    <a>@item.FirstName @item.LastName</a>
+                    <br>
+                    <label>Email:</label>
+                    <a>@item.Email</a>
+                    <br>
+                    <label>
+                        Check to add exam :
+                        <input type="checkbox" readonly="readonly" name='id' value="@item.Id">
+                    </label>
+                    <br>
+                </div>
 
-    @{
-        int a=1;
-    }
-    @foreach (var item in Model)
-   {    
-       <div>
-           <label>Name:</label>
-           <a>@item.FirstName @item.LastName</a>
-           <br>
-           <label>Email:</label>
-           <a>@item.Email</a>
-           <br>
-           <label>Check to add exam :
-               <input  type="checkbox" readonly="readonly" name='id' value="@item.Id">
-           </label>
-           <br> 
-       </div>
-       <hr />
-   
-   } 
-    <input type="submit" class="btn-primary" value="submit"/>
-</form>
-<a asp-action="UserList" asp-route-id="@ViewBag.exam">Back to UserList</a>
+                <hr />
+
+            }
+        <div class="form-group" style="text-align:center">
+            <input type="submit" class="btn btn-primary" value="submit" />
+
+        </div>
+        </form>
+        <a asp-action="UserList" asp-route-id="@ViewBag.exam">Back to UserList</a>
+    </div>
+
+</div>
+

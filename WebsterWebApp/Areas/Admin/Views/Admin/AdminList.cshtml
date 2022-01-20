@@ -4,12 +4,12 @@
     ViewData["Title"] = "UserList";
 }
 
-<h1>Admin List</h1>
+<h1 style="text-align:center">Admin List</h1>
 
 <p>
     <a asp-action="CreateAdminAccount">Create New Admin Account</a>
 </p>
-<table class="table">
+<table class="table table-striped ">
     <thead>
         <tr>
             <th>
@@ -54,7 +54,8 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <th>
-                    <img src="~/@item.Avatar" width="120" />
+                    <img src="~/@Url.Content(@item.Avatar)" width="100px" />
+
                 </th>
                 <td>
                     @*<a asp-action="Details" asp-route-id="@item.Email">Details</a>*@

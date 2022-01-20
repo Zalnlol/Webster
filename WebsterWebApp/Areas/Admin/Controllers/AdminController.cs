@@ -105,11 +105,11 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                  
                     await _mailService.SendMail(registrationModel.Email, "Welcome to Webster", template.sendaccount(fullname, user.Email, registrationModel.Password));
                    
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(UserList));
                 }
                 return View(registrationModel);
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserList));
         }
 
 
@@ -153,11 +153,11 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     TemplateMail.Template template = new TemplateMail.Template();
                     string fullname = user.FirstName + user.LastName;
                     await _mailService.SendMail(registrationModel.Email, "Welcome to Webster", template.sendaccount(fullname, user.Email, registrationModel.Password));
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(AdminList));
                 }
                 return View(registrationModel);
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AdminList));
         }
 
         public IActionResult Details(string id)
