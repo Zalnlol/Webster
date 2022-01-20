@@ -14,7 +14,7 @@ namespace WebsterWebApp.Models
         public string Id { get; set; }
 
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "The Email field is not a valid e-mail address.")]
         //Label relevant field on the front end as 'User Name' instead of default 'Email'
         [Display(Name = "User Name")]
         public string Email { get; set; }
@@ -39,7 +39,8 @@ namespace WebsterWebApp.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mobile no. is required")]
+        [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 

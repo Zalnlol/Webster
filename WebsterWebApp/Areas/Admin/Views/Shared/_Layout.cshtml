@@ -54,127 +54,126 @@
                 </form>
             </ul>
         </nav>
-  
-
-
-
-    <!-- Navbar Search -->
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:mediumpurple!important">
-        <!-- Brand Logo -->
-        <a href="/Admin/Admin/Index" class="brand-link">
-            <img src="~/images/system/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">Webster</span>
-        </a>
 
 
 
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link ">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Account
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a asp-action="UserList" asp-controller="Admin" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>User List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="AdminList" asp-controller="Admin" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Admin List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+        <!-- Navbar Search -->
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:mediumpurple!important">
+            <!-- Brand Logo -->
+            <a href="/Admin/Admin/Index" class="brand-link">
+                <img src="~/images/system/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Webster</span>
+            </a>
 
 
-                <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link ">
-                        <i class="nav-icon fas fa-question"></i>
-                        <p>
-                            Question
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Question" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Question Group</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Create" asp-controller="Question" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create Question</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="BatchQuestionUpload" asp-controller="Question" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Upload Question</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link ">
-                        <i class="nav-icon fas fa-diagnoses"></i>
-                        <p>
-                            Exam
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Exam" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Exam List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Create" asp-controller="Exam" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create Exam</p>
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="/Admin/Statistique/index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Statistical</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Account
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-action="UserList" asp-controller="Admin" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="AdminList" asp-controller="Admin" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Admin List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
-  
-        <!-- /.sidebar -->
+
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-question"></i>
+                            <p>
+                                Question
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Question" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Question Group</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Create" asp-controller="Question" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Question</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="BatchQuestionUpload" asp-controller="Question" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Upload Question</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-diagnoses"></i>
+                            <p>
+                                Exam
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Exam" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Exam List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Create" asp-controller="Exam" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Exam</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/Admin/Statistique/index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Statistical</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+            <!-- /.sidebar -->
         </aside>
 
-    
-    <div class="content-wrapper">
-        <div style="margin-left:30px; margin-top: 10px;">
-            @RenderBody()
+
+        <div class="content-wrapper">
+            <div style="margin-left:30px; margin-top: 10px;">
+                @RenderBody()
+            </div>
         </div>
-    </div>
 
         <footer class="main-footer">
             <strong>Copyright &copy; 2021-2022 <a href="https://Webster.tk">Webster</a>.</strong>
@@ -227,6 +226,7 @@
     <script src="~/dist/js/pages/dashboard.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.js"></script>
     <script src="~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js"></script>
+    <script src="~/js/UserRegistration.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

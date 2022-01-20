@@ -1,16 +1,14 @@
 ﻿@model WebsterWebApp.Models.RegistrationModel
 
 @{
-    ViewData["Title"] = "CreateAdminAccount";
+    ViewData["Title"] = "Create Admin";
 }
 
 <h1>Create Admin Account</h1>
-
-<h4>RegistrationModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form id="UserRegistrationForm" name="UserRegistrationForm" asp-action="CreateAdminAccount" asp-controller="Admin">
+        <form asp-action="CreateAdminAccount" asp-controller="Admin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -33,11 +31,6 @@
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AcceptUserAgreement" checked /> @Html.DisplayNameFor(model => model.AcceptUserAgreement)
-                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" name="register" id="register" class="btn btn-primary" />
