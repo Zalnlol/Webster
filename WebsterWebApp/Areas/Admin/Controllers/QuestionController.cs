@@ -118,7 +118,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                                 List<String> sub = new List<string> { "General Knowledge", "Mathematics", "Technical" };
 
                                 if (subject == null || title == null || type == null ||
-                                    subject != "General Knowledge" && subject != "Math" && subject != "Tech")
+                                    subject != "General Knowledge" && subject != "Mathematics" && subject != "Technical")
                                 {
                                     tmp = "1";
                                 }
