@@ -3,6 +3,15 @@
 @using WebsterWebApp.Data
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+@{       if (SignInManager.IsSignedIn(User)  && Context.Session.GetString("Mail")==null) {
+        Context.Session.SetString("Mail", @UserManager.GetUserAsync(User).Result?.Email);
+    }
+    if (!SignInManager.IsSignedIn(User))
+    {
+        Context.Session.Remove("Mail");
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
