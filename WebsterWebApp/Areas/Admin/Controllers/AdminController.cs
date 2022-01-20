@@ -67,10 +67,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO:Check for existing email 
-                //var emailCheck = from u in _context.Users where u.Email == registrationModel.Email select u;
-                //return BadRequest(emailCheck);
-                //TempData["MailErrorMessage"] = "Email is already exist!";
+                var emailCheck = _context.Users.SingleOrDefault(t => t.Email.ToLower().Equals(registrationModel.Email.ToLower()));
+                if (emailCheck != null) 
+                {
+                    TempData["MailErrorMessage"] = "Email is already exist!";
+                    return View();
+                }
 
 
                 ApplicationUser user = new ApplicationUser
@@ -80,6 +82,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     PhoneNumber = registrationModel.PhoneNumber,
                     FirstName = registrationModel.FirstName,
                     LastName = registrationModel.LastName,
+                    Avatar = "images/user/usericon.png"
                 };
                 //Create random password string before set the string as user's password
                 List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*' };
@@ -125,6 +128,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var emailCheck = _context.Users.SingleOrDefault(t => t.Email.ToLower().Equals(registrationModel.Email.ToLower()));
+                if (emailCheck != null)
+                {
+                    TempData["MailErrorMessage"] = "Email is already exist!";
+                    return View();
+                }
                 ApplicationUser user = new ApplicationUser
                 {
                     UserName = registrationModel.Email,
@@ -132,6 +141,7 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                     PhoneNumber = registrationModel.PhoneNumber,
                     FirstName = registrationModel.FirstName,
                     LastName = registrationModel.LastName,
+                    Avatar = "images/user/usericon.png"
                 };
                 //Create method built into UserManager as part of Identity framework
                 List<char> abc = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*' };

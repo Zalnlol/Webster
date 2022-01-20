@@ -134,7 +134,7 @@ namespace WebsterWebApp.Controllers
             return tokenHandler.WriteToken(token);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult PersonalPage()
         {
 
@@ -177,12 +177,12 @@ namespace WebsterWebApp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Changeinfor()
         {
             return View();
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public IActionResult Changeinfor(RegistrationModel registrationModel, IFormFile Avatar)
         {
