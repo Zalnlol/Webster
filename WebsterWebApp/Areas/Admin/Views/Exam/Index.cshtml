@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebsterWebApp.Models.Exam>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Exam List";
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center">Exam List</h1>
 <style>
 .A_1 {
     block-size: 20px;
@@ -89,7 +89,7 @@
 
 </style>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Exam</a>
 </p>
 <p class="text-danger">@ViewBag.msg</p>
 <table class="table">
@@ -108,7 +108,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.FinishTime)
             </th>
-            <th></th>
+            <th style="text-align:center" colspan="4">
+                Action
+            </th>
         </tr>
     </thead>
     <tbody>

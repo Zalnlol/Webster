@@ -110,6 +110,7 @@
 
         var fromday = Date.parse(document.getElementById("fromday").valueAsDate);
         var today = Date.parse(document.getElementById("today").valueAsDate);
+        today += 86400;
 
         search = "";
         fillter = "0";
@@ -141,7 +142,7 @@
                 var endtime = Date.parse(element.FinishTime);
                 var currenttime = Date.now();
                 //if ((((starttime >= fromday) && (starttime <= today)) || (endtime >= fromday) && ((starttime <= today))) || (vl == false)) {
-                    if (((starttime >= fromday) && (starttime <= today)) ||  (vl == false)) {
+                    if (((starttime >= fromday) && (starttime < today)) ||  (vl == false)) {
 
 
                     if ((currenttime < starttime) && (currenttime < endtime)) {

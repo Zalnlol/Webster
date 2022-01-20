@@ -23,6 +23,11 @@ namespace WebsterWebApp.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.user = _context.Users.ToList().Count;
+            ViewBag.question = _context.Questions.ToList().Count();
+            ViewBag.exam = _context.Exams.ToList().Count();
+            ViewBag.statistical = _context.Exams.Where(t => t.StartDate<=DateTime.Now && t.FinishTime>= DateTime.Now).ToList().Count();
+
             return View();
         }
 
