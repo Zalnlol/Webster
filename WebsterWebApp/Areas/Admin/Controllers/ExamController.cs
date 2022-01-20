@@ -238,8 +238,16 @@ namespace WebsterWebApp.Areas.Admin.Controllers
                 }
             }
             ViewBag.exam = r.ExamId;
+
+            var userlist = _context.UserRoles.Where(t => t.RoleId.Equals("de5167aa-1f3f-454d-b6ca-6407d8ab0dbb"));
+            var res = from e in es
+                      join us in userlist
+                      on e.Id equals us.UserId
+                      select e;
+                     
+
             //return BadRequest(r);
-            return View(es);
+            return View(res);
         }
         [HttpPost]
         public async Task<IActionResult> AddUser()

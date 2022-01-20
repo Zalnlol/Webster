@@ -96,6 +96,8 @@
     console.log(data);
     binding("0");
 
+ 
+
     var status = "";
 
     function binding(chuoi) {
@@ -132,14 +134,14 @@
         if (search == "" && fillter == "0") {
             
 
-            console.log(fromday);
+            
             data.forEach(element => {
 
                 var starttime = Date.parse(element.StartDate);
                 var endtime = Date.parse(element.FinishTime);
                 var currenttime = Date.now();
                 //if ((((starttime >= fromday) && (starttime <= today)) || (endtime >= fromday) && ((starttime <= today))) || (vl == false)) {
-                    if (z((starttime >= fromday) && (starttime <= today)) ||  (vl == false)) {
+                    if (((starttime >= fromday) && (starttime <= today)) ||  (vl == false)) {
 
 
                     if ((currenttime < starttime) && (currenttime < endtime)) {

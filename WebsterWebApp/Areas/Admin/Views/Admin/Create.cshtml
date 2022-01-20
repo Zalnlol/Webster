@@ -4,12 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 style="text-align:center">Create User</h1>
 
-<h4>RegistrationModel</h4>
-<hr />
+<h4 style="text-align:center">Registration Model</h4>
 <div class="row">
+    <div class="col-md-4"></div>
     <div class="col-md-4">
+        <hr />
         <form id="UserRegistrationForm" name="UserRegistrationForm" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -17,8 +18,8 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-                <input asp-for="Password" class="form-control" hidden value="123456789Ab$"/>
-                <input asp-for="ConfirmPassword" class="form-control" hidden value="123456789Ab$"/>
+            <input asp-for="Password" class="form-control" hidden value="123456789Ab$" />
+            <input asp-for="ConfirmPassword" class="form-control" hidden value="123456789Ab$" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -39,7 +40,7 @@
                     <input class="form-check-input" asp-for="AcceptUserAgreement" checked /> @Html.DisplayNameFor(model => model.AcceptUserAgreement)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="text-align:center">
                 <input type="submit" value="Create" name="register" id="register" class="btn btn-primary" />
             </div>
         </form>

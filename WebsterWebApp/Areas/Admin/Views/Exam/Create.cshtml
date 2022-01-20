@@ -5,30 +5,32 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 style="text-align:center">Create Exam</h1>
 
-<h4>Exam</h4>
-<hr />
+
+
 <a></a>
 <div class="row">
+    <div class="col-md-4"></div>
     <div class="col-md-4">
+        <hr />
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label  class="control-label">@Html.DisplayNameFor(model=>model.ExamName)</label>
+                <label class="control-label">@Html.DisplayNameFor(model => model.ExamName)</label>
                 <input asp-for="ExamName" class="form-control" />
                 <span asp-validation-for="ExamName" class="text-danger"></span>
             </div>
-             
+
             <div class="form-group">
                 <label asp-for="PassPercent" class="control-label"></label>
                 <input asp-for="PassPercent" class="form-control" />
                 <span asp-validation-for="PassPercent" class="text-danger"></span>
-                
+
             </div>
             <div class="form-group">
                 <label asp-for="FirstCountdown" class="control-label"></label>
-                <input type="text" asp-for="FirstCountdown" id="time1" onchange="validatetime(1)"  class="form-control" />
+                <input type="text" asp-for="FirstCountdown" id="time1" onchange="validatetime(1)" class="form-control" />
                 <span asp-validation-for="FirstCountdown" class="text-danger"></span>
                 <span id="t1"></span>
             </div>
@@ -36,22 +38,22 @@
                 <label asp-for="SecondCountdown" class="control-label"></label>
                 <input type="text" asp-for="SecondCountdown" id="time2" onchange="validatetime(2)" class="form-control" />
                 <span asp-validation-for="SecondCountdown" class="text-danger"></span>
-                <span  id="t2">  </span>
+                <span id="t2">  </span>
             </div>
             <div class="form-group">
                 <label asp-for="ThirdCountdown" class="control-label"></label>
                 <input type="text" asp-for="ThirdCountdown" id="time3" onchange="validatetime(3)" class="form-control" />
                 <span asp-validation-for="ThirdCountdown" class="text-danger"></span>
-                <span  id="t3">  </span>
+                <span id="t3">  </span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input type="datetime" type="datetime-local" asp-for="StartDate"  class="form-control" />
+                <input type="datetime" type="datetime-local" asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label  class="control-label">@Html.DisplayNameFor(s=>s.FinishTime)</label>
-                <input  asp-for="FinishTime" type="datetime-local" class="form-control" />
+                <label class="control-label">@Html.DisplayNameFor(s => s.FinishTime)</label>
+                <input asp-for="FinishTime" type="datetime-local" class="form-control" />
                 <span asp-validation-for="FinishTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,38 +64,38 @@
 
                 <span asp-validation-for="ExamType" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input id="sub" type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group" style="text-align:center">
+                <input id="sub" type="submit" value="Next Step" class="btn btn-primary" />
             </div>
-            
+
         </form>
         <div>
-    <a asp-action="Index">Back to List</a>
+            <a asp-action="Index">Back to List</a>
 
-</div>  
- </div>
- </div>
- <script>
-    validatetime(1);
-    validatetime(2);
-    validatetime(3);
+        </div>
+    </div>
+    </div>
+    <script>
+        validatetime(1);
+        validatetime(2);
+        validatetime(3);
 
-    function validatetime(i){
-    let text = document.getElementById("time"+i).value;
-    let pattern = /^00:[0-5]{1}[\d]{1}:[0-5]{1}[\d]{1}$/;
-    let result = text.match(pattern);
-    if(result == null){
-    document.getElementById("t"+i).innerHTML = "Time is format 00:mm:ss !!";
-    document.getElementById("t"+i).style.color = "red";
-    document.getElementById("t"+i).style.fontStyle = "oblique"
-    document.getElementById("time"+i).value = "";
-    }
-    else{
-    
-    document.getElementById("t"+i).innerHTML = "Is complete !";
-    document.getElementById("t"+i).style.color = "green";
-    document.getElementById("t"+i).style.fontStyle = "oblique"
-    
-    };
-   };
- </script>
+        function validatetime(i) {
+            let text = document.getElementById("time" + i).value;
+            let pattern = /^00:[0-5]{1}[\d]{1}:[0-5]{1}[\d]{1}$/;
+            let result = text.match(pattern);
+            if (result == null) {
+                document.getElementById("t" + i).innerHTML = "Time is format 00:mm:ss !!";
+                document.getElementById("t" + i).style.color = "red";
+                document.getElementById("t" + i).style.fontStyle = "oblique"
+                document.getElementById("time" + i).value = "";
+            }
+            else {
+
+                document.getElementById("t" + i).innerHTML = "Is complete !";
+                document.getElementById("t" + i).style.color = "green";
+                document.getElementById("t" + i).style.fontStyle = "oblique"
+
+            };
+        };
+    </script>
