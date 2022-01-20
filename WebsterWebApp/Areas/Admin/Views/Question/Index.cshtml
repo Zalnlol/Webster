@@ -144,6 +144,7 @@
 <table class="table" cellspacing="0" cellpadding="0">
     <thead>
         <tr>
+            <th>#</th>
             <th>
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
@@ -164,6 +165,7 @@
         {
             String questionType = item.QuestionType ? "One Answer" : "Many Answer";
             String title;
+
             @if (item.QuestionTitle.Length >= 22)
             {
                 title = item.QuestionTitle.Substring(0, 22) + "...";
@@ -173,7 +175,6 @@
                 title = item.QuestionTitle;
             }
             <tr>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
@@ -202,11 +203,13 @@
         }
     </tbody>
 </table>
+
 <hr />
-<div class="container" style="display: inline-block">
+
+<div class="container">
     @if (pager.TotalPages > 0)
     {
-        <ul class="pagination justify-content-end" style="float: right; margin-right: 60px">
+        <ul class="pagination justify-content-end" style="margin-right: 100px">
             @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">
@@ -225,8 +228,9 @@
             }
             @if (pager.CurrentPage < pager.TotalPages)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-controller="Question" asp-action="Index" asp-route-pg="(@pager.CurrentPage + 1)">Next</a>
+                <li>
+                    <a class="page-link" asp-controller="Question" asp-action="Index"
+                       asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
                 </li>
                 <li>
                     <a class="page-link" asp-controller="Question" asp-action="Index"
@@ -236,6 +240,7 @@
         </ul>
     }
 </div>
+
 <script>
     function check() {
         document.getElementById("_Filter").click() = "true";
