@@ -67,6 +67,12 @@ namespace WebsterWebApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO:Check for existing email 
+                //var emailCheck = from u in _context.Users where u.Email == registrationModel.Email select u;
+                //return BadRequest(emailCheck);
+                //TempData["MailErrorMessage"] = "Email is already exist!";
+
+
                 ApplicationUser user = new ApplicationUser
                 {
                     UserName = registrationModel.Email,
