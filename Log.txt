@@ -1,5 +1,0 @@
-Log làm dự án project HK3:
-
-- Tạo repo github -> clone về máy
-- Tạo Asp net core MVC
-- Phân vùng Area - Add > New Scaffolded rồi thêm Admin / 
