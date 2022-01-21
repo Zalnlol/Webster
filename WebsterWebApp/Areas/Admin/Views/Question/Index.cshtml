@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<WebsterWebApp.Areas.Admin.Models.Question>
 
 @{
-    ViewData["Title"] = "Question List";
 
+    ViewData["Title"] = "Question List";
+    Layout = "_LayoutQuestion";
     WebsterWebApp.Areas.Admin.Models.Pager pager = new WebsterWebApp.Areas.Admin.Models.Pager();
     int pageNo = 0;
     if (ViewBag.Pager != null)
@@ -14,6 +15,7 @@
 
 <h4>Question List</h4>
 
+<p class="text-danger">@ViewBag.msg</p>
 
 <a asp-action="Create"><b style="color:dodgerblue">Create New Question</b></a>
 &nbsp; or &nbsp;
@@ -141,75 +143,76 @@
 
 <br />
 
-<table class="table" cellspacing="0" cellpadding="0">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                Question title
-            </th>
-            <th>
-                Question type
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            String questionType = item.QuestionType ? "One Answer" : "Many Answer";
-            String title;
-
-            @if (item.QuestionTitle.Length >= 22)
-            {
-                title = item.QuestionTitle.Substring(0, 22) + "...";
-            }
-            else
-            {
-                title = item.QuestionTitle;
-            }
+<div>
+    <table class="table" cellspacing="0" cellpadding="0">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject)
-                </td>
-                <td>
-                    @title
-                </td>
-                <td>
-                    @questionType
-                </td>
-                <td>
-                    @if (item.Photo == null)
-                    {
-                        <p>Empty</p>
-                    }
-                    else
-                    {
-                        <img src="~/@item.Photo" width="120" />
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.QuestionId" class="btn btn-success">Edit</a> &nbsp;
-                    <a asp-action="Details" asp-route-id="@item.QuestionId" class="btn btn-info">Details</a> &nbsp;
-                    <a asp-action="Delete" onclick="ConfirmDelete()" asp-route-id="@item.QuestionId" class="btn btn-danger">Delete</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+                <th>
+                    Question title
+                </th>
+                <th>
+                    Question type
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Photo)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                String questionType = item.QuestionType ? "One Answer" : "Many Answer";
+                String title;
+
+                @if (item.QuestionTitle.Length >= 22)
+                {
+                    title = item.QuestionTitle.Substring(0, 22) + "...";
+                }
+                else
+                {
+                    title = item.QuestionTitle;
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @title
+                    </td>
+                    <td>
+                        @questionType
+                    </td>
+                    <td>
+                        @if (item.Photo == null)
+                        {
+                            <p>Empty</p>
+                        }
+                        else
+                        {
+                            <img src="~/@item.Photo" width="120" />
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.QuestionId" class="btn btn-success">Edit</a> &nbsp;
+                        <a asp-action="Details" asp-route-id="@item.QuestionId" class="btn btn-info">Details</a> &nbsp;
+                        <a asp-action="Delete" onclick="ConfirmDelete()" asp-route-id="@item.QuestionId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <hr />
 
-<div class="container">
+<div class="container" style="min-height: 50px;">
     @if (pager.TotalPages > 0)
     {
-        <ul class="pagination justify-content-end" style="margin-right: 100px">
+        <ul class="pagination justify-content-end" style="float: right;">
             @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">

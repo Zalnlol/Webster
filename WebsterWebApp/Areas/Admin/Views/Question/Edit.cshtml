@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit Question";
+    Layout = "_LayoutQuestion";
 }
 
 <h4>Edit Question</h4>
@@ -339,7 +340,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a style="cursor:pointer;color: deeppink;" onclick="history.back()">Back to List</a>
 </div>
 
 <script>
