@@ -197,9 +197,9 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             return View();
         }
         public IActionResult Details(int id)
-        {   var des = from c in _context.ExamTypes join o in _context.Questions on c.QuestionId equals o.QuestionId where (c.ExamId == id && o.Subject=="Math") select o.QuestionTitle;
+        {   var des = from c in _context.ExamTypes join o in _context.Questions on c.QuestionId equals o.QuestionId where (c.ExamId == id && o.Subject== "Mathematics") select o.QuestionTitle;
             var des2 = from c in _context.ExamTypes join o in _context.Questions on c.QuestionId equals o.QuestionId where (c.ExamId == id && o.Subject == "General Knowledge") select o.QuestionTitle;
-            var des3 = from c in _context.ExamTypes join o in _context.Questions on c.QuestionId equals o.QuestionId where (c.ExamId == id && o.Subject == "Tech") select o.QuestionTitle;
+            var des3 = from c in _context.ExamTypes join o in _context.Questions on c.QuestionId equals o.QuestionId where (c.ExamId == id && o.Subject == "Technical") select o.QuestionTitle;
             var res = _context.Exams.SingleOrDefault(s => s.ExamId.Equals(id));
             ViewBag.math = des.ToList();
             ViewBag.kn = des2.ToList();
