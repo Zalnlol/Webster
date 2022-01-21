@@ -82,8 +82,8 @@ namespace WebsterWebApp.Areas.Admin.Controllers
             
             var result = _context.Exams.SingleOrDefaultAsync(s => s.ExamName.Equals(exam.ExamName)).Result;
             var ques1 = (from c in _context.Questions where c.Subject.Equals("General Knowledge") select c).ToList();
-            var ques2 = (from c in _context.Questions where c.Subject.Equals("Math") select c).ToList();
-            var ques3 = (from c in _context.Questions where c.Subject.Equals("Tech") select c).ToList();
+            var ques2 = (from c in _context.Questions where c.Subject.Equals("Mathematics") select c).ToList();
+            var ques3 = (from c in _context.Questions where c.Subject.Equals("Technical") select c).ToList();
             
         
             try
